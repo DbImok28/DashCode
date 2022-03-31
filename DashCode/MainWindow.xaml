@@ -6,7 +6,38 @@
         xmlns:local="clr-namespace:DashCode"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <DockPanel>
+        <WrapPanel Orientation="Vertical" Margin="0,1,0,0">
+            <WrapPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="FontSize" Value="14"/>
+                </Style>
+            </WrapPanel.Resources>
+            <TextBlock>1</TextBlock>
+            <TextBlock>2</TextBlock>
+            <TextBlock>3</TextBlock>
+            <TextBlock>4</TextBlock>
+        </WrapPanel>
+        <RichTextBox Margin="0" Padding="0">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+                <Style TargetType="{x:Type Run}">
+                    <Setter Property="FontSize" Value="14" />
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="int" Foreground="Blue"/><Run Text=" "/><Run Text="a" Foreground="Crimson" /><Run Text=" = 5;"/>
+                </Paragraph>
+                <Paragraph>
+                    <Run Text="int b = 8;"/>
+                </Paragraph>
+                <Paragraph>
+                    <Run Text="int c = a + b;"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DockPanel>
 </Window>
