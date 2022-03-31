@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
+        xmlns:vm="clr-namespace:DashCode.ViewModules"
         xmlns:local="clr-namespace:DashCode"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <DockPanel>
-        <WrapPanel Orientation="Vertical" Margin="0,1,0,0">
+        <WrapPanel Orientation="Vertical" Margin="4,1,4,0">
             <WrapPanel.Resources>
                 <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontSize" Value="{Binding FontSize}"/>
                 </Style>
             </WrapPanel.Resources>
             <TextBlock>1</TextBlock>
@@ -24,7 +29,7 @@
                     <Setter Property="Margin" Value="0" />
                 </Style>
                 <Style TargetType="{x:Type Run}">
-                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontSize" Value="{Binding FontSize}" />
                 </Style>
             </RichTextBox.Resources>
             <FlowDocument>

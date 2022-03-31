@@ -10,7 +10,6 @@
     <Folder Include="Models\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="ViewModules\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
