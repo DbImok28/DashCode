@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DashCode.Models;
+using DashCode.Models.Parsers.CSharp;
 
 namespace DashCode.ViewModules
 {
@@ -40,14 +41,7 @@ namespace DashCode.ViewModules
             set => Set(ref _LastTextChange, value);
         }
         #endregion
-        #region EditorTexts
-        private ObservableCollection<FormattedString> _EditorTexts;
-        public ObservableCollection<FormattedString> EditorTexts
-        {
-            get => _EditorTexts;
-            set => Set(ref _EditorTexts, value);
-        }
-        #endregion
+        
         #region EditorDocument
         private FlowDocument _EditorDocument;
         public event EventHandler OnEditorDocumentChenged;
@@ -61,24 +55,30 @@ namespace DashCode.ViewModules
             }
         }
         #endregion
-
-        public string Document { get; set; }
+        #region Document
+        private EditorDocument _Document;
+        public EditorDocument Document
+        {
+            get => _Document;
+            set => Set(ref _Document, value);
+        }
+        #endregion
 
         public void AddText(int pos, string str)
         {
-            Document.Insert(pos, str);
+            Document.AddText(pos, str);
         }
         public void RemoveText(int pos, int length)
         {
-            //Document.Remove(pos, length);
+            Document.RemoveText(pos, length);
         }
 
 
-        public FlowDocument ConvertToDocument(IEnumerable<FormattedString> formattedString)
+        public FlowDocument ConvertToDocument(FormattedStrings formattedStrings)
         {
             FlowDocument document = new FlowDocument();
             Paragraph currentParagraph = new Paragraph();
-            foreach (var str in formattedString)
+            foreach (var str in formattedStrings.Strings)
             {
                 if (str.Text == "\n")
                 {
@@ -98,25 +98,9 @@ namespace DashCode.ViewModules
         }
         public MainWindowViewModel()
         {
-            Color keyNamesColor = Color.FromRgb(0,0,255);
-            Color variableColor = Color.FromRgb(191, 141, 80);
-            Color defaultColor = Color.FromRgb(0,0,0);
-
-            Document = "int Count;\n double Value;";
-            // _EditorTexts = Parser.GetFormattedStrings(Document);
-
-            _EditorTexts = new ObservableCollection<FormattedString>{
-                new FormattedString("int", keyNamesColor),
-                new FormattedString(" ", defaultColor),
-                new FormattedString("Count", variableColor),
-                new FormattedString(";", defaultColor),
-                new FormattedString("\n", defaultColor),
-                new FormattedString("double", keyNamesColor),
-                new FormattedString(" ", defaultColor),
-                new FormattedString("Value", variableColor),
-                new FormattedString(";", defaultColor)
-            };
-            EditorDocument = ConvertToDocument(_EditorTexts);
+            Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
+            Document.Parse();
+            EditorDocument = ConvertToDocument(Document.FormattedDocument);
         }
     }
 }
