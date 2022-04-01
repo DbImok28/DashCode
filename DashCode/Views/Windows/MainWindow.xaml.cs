@@ -29,7 +29,8 @@ namespace DashCode
             if (DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 this.mainWindowViewModel = mainWindowViewModel;
-                this.mainWindowViewModel.Document.OnDocumentUpdate += EditorDocumentChanged;
+                this.mainWindowViewModel.FormattedDocument.OnDocumentUpdate += EditorDocumentChanged;
+                flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
                 editorRTB.Document = flowDocument;
             }
             else
@@ -48,29 +49,37 @@ namespace DashCode
         {
             foreach (var change in e.Changes)
             {
-                mainWindowViewModel.LastTextChange = change;
-                if (change.AddedLength != 0)
-                {
-                    var str = CalculateChangedText(change);
-                    outDebug.Text = str;
-                    mainWindowViewModel.AddText(change.Offset, str);
-                }
-                else
-                {
-                    var str = CalculateChangedText(change);
-                    outDebug.Text = str;
-                    mainWindowViewModel.RemoveText(change.Offset, change.RemovedLength);
-                }
-                outDebug.UpdateLayout();
+                ApplyChange(change);
             }
         }
-        private string CalculateChangedText(TextChange change)
+        private void ApplyChange(TextChange change)
+        {
+            mainWindowViewModel.LastTextChange = change;
+            if (change.AddedLength != 0)
+            {
+                var str = CalculateChangedText(change.Offset, change.AddedLength);
+                outDebug.Text = str;
+                mainWindowViewModel.AddText(change.Offset, str);
+            }
+            else
+            {
+                var str = CalculateChangedText(change.Offset, change.RemovedLength);
+                outDebug.Text = str;
+                mainWindowViewModel.RemoveText(change.Offset, change.RemovedLength);
+            }
+            outDebug.UpdateLayout();
+        }
+        private string CalculateChangedText(int pos, int length)
         {
             // TODO: MultiEdit
-            var ptr1 = flowDocument.ContentStart.GetPositionAtOffset(change.Offset);
-            char[] buff = new char[change.Offset + change.RemovedLength];
-            var count = ptr1.GetTextInRun(LogicalDirection.Backward, buff, change.Offset, change.RemovedLength);
-            var str = new string(buff);
+            var ptr1 = flowDocument.ContentStart.GetPositionAtOffset(pos);
+            char[] buff = new char[pos + length];
+            var count = ptr1.GetTextInRun(LogicalDirection.Forward, buff, pos, length);
+            string str = "";
+            for (int i = 0; i < count; i++)
+            {
+                str += buff[pos + length - count + i];
+            }
             return str;
         }
         public FlowDocument ConvertToFlowDocument(FormattedEditorDocument formattedDoc)
@@ -98,5 +107,11 @@ namespace DashCode
         // TODO: Store only document
         private MainWindowViewModel mainWindowViewModel;
         private FlowDocument flowDocument;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //mainWindowViewModel.AddText(Convert.ToInt32(stIndex.Text), CalculateChangedText(Convert.ToInt32(stIndex.Text), Convert.ToInt32(stLength.Text)));
+            mainWindowViewModel.AddText(4, "hello");
+        }
     }
 }

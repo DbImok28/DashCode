@@ -38,9 +38,9 @@
         <TextBlock Text="{Binding LastTextChange.Offset}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
         <TextBlock Text="{Binding LastTextChange.AddedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
         <TextBlock Text="{Binding LastTextChange.RemovedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
-        <TextBox Text="12" Width="50" Height="20"></TextBox>
-        <TextBox Text="2" Width="50" Height="20"></TextBox>
-        <Button Height="20"></Button>
+        <TextBox Text="12" Width="50" Height="20" x:Name="stIndex"></TextBox>
+        <TextBox Text="2" Width="50" Height="20" x:Name="stLength"></TextBox>
+        <Button Height="20" Width="50" Click="Button_Click"></Button>
         <TextBlock x:Name="outDebug"></TextBlock>
     </DockPanel>
 </Window>

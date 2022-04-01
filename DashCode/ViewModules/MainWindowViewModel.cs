@@ -75,7 +75,7 @@ namespace DashCode.ViewModules
             FormattedDocument = new FormattedEditorDocument(Document);
             //Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
             //Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpDocumentParser());
-            Document.Parse();
+            //Document.Parse();
         }
     }
 }

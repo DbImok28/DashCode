@@ -25,12 +25,12 @@ namespace DashCode.Models
         public event EventHandler OnDocumentUpdate;
         public void AddText(int pos, string str)
         {
-            RawDocument.Insert(pos, str);
+            RawDocument = RawDocument.Insert(pos, str);
             OnDocumentUpdate?.Invoke(this, null);
         }
         public void RemoveText(int pos, int length)
         {
-            RawDocument.Remove(pos, length);
+            RawDocument = RawDocument.Remove(pos, length);
             OnDocumentUpdate?.Invoke(this, null);
         }
         public void SetText(string document)
