@@ -12,37 +12,35 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
-        <WrapPanel Orientation="Vertical" Margin="4,1,4,0">
-            <WrapPanel.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="FontSize" Value="{Binding FontSize}"/>
-                </Style>
-            </WrapPanel.Resources>
-            <TextBlock>1</TextBlock>
-            <TextBlock>2</TextBlock>
-            <TextBlock>3</TextBlock>
-            <TextBlock>4</TextBlock>
-        </WrapPanel>
-        <RichTextBox Margin="0" Padding="0">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0" />
-                </Style>
-                <Style TargetType="{x:Type Run}">
-                    <Setter Property="FontSize" Value="{Binding FontSize}" />
-                </Style>
-            </RichTextBox.Resources>
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="int" Foreground="Blue"/><Run Text=" "/><Run Text="a" Foreground="Crimson" /><Run Text=" = 5;"/>
-                </Paragraph>
-                <Paragraph>
-                    <Run Text="int b = 8;"/>
-                </Paragraph>
-                <Paragraph>
-                    <Run Text="int c = a + b;"/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+        <DockPanel DockPanel.Dock="Top">
+            <WrapPanel Orientation="Vertical" Margin="4,1,4,0" DockPanel.Dock="Left">
+                <WrapPanel.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontSize" Value="{Binding FontSize}"/>
+                    </Style>
+                </WrapPanel.Resources>
+                <TextBlock>1</TextBlock>
+                <TextBlock>2</TextBlock>
+                <TextBlock>3</TextBlock>
+                <TextBlock>4</TextBlock>
+            </WrapPanel>
+            <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                    <Style TargetType="{x:Type Run}">
+                        <Setter Property="FontSize" Value="{Binding FontSize}" />
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </DockPanel>
+        <TextBlock Text="{Binding LastTextChange.Offset}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
+        <TextBlock Text="{Binding LastTextChange.AddedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
+        <TextBlock Text="{Binding LastTextChange.RemovedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
+        <TextBox Text="12" Width="50" Height="20"></TextBox>
+        <TextBox Text="2" Width="50" Height="20"></TextBox>
+        <Button Height="20"></Button>
+        <TextBlock x:Name="outDebug"></TextBlock>
     </DockPanel>
 </Window>
