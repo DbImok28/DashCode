@@ -6,9 +6,8 @@ namespace DashCode.Models.DocumentParser
 {
     public interface IDocumentParser
     {
-        public void ParseDocument(string document);
-        public void AddSymbolToDocument(string document, int editPos, string newSymbols);
-        public void RemoveSymbolFromDocument(string document, int editPos, int editLength);
-        public IConstruction ParsedDocument { get; set; }
+        IConstruction ParseDocument(string document);
+        IConstruction AddSymbolToDocument(string document, IConstruction parsedDoc, int editPos, string newSymbols);
+        IConstruction RemoveSymbolFromDocument(string document, IConstruction parsedDoc, int editPos, int editLength);
     }
 }

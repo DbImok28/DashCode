@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace DashCode.Models
 {
-    public class FormattedStrings
+    public class FormattedStrings : IEnumerable<FormattedString>
     {
         public List<FormattedString> Strings { get; set; }
         public FormattedStrings(IEnumerable<FormattedString> strings)
@@ -28,6 +29,16 @@ namespace DashCode.Models
                 return true;
             }
             return false;
+        }
+
+        public IEnumerator<FormattedString> GetEnumerator()
+        {
+            return Strings.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Strings.GetEnumerator();
         }
     }
 }

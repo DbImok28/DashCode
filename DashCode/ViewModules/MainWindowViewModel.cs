@@ -41,26 +41,20 @@ namespace DashCode.ViewModules
             set => Set(ref _LastTextChange, value);
         }
         #endregion
-        
-        #region EditorDocument
-        private FlowDocument _EditorDocument;
-        public event EventHandler OnEditorDocumentChenged;
-        public FlowDocument EditorDocument
-        {
-            get => _EditorDocument;
-            set
-            {
-                _EditorDocument = value;
-                Set(ref _EditorDocument, value);
-            }
-        }
-        #endregion
         #region Document
         private EditorDocument _Document;
         public EditorDocument Document
         {
             get => _Document;
             set => Set(ref _Document, value);
+        }
+        #endregion
+        #region FormattedDocument
+        private FormattedEditorDocument _FormattedDocument;
+        public FormattedEditorDocument FormattedDocument
+        {
+            get => _FormattedDocument;
+            set => Set(ref _FormattedDocument, value);
         }
         #endregion
 
@@ -74,33 +68,14 @@ namespace DashCode.ViewModules
         }
 
 
-        public FlowDocument ConvertToDocument(FormattedStrings formattedStrings)
-        {
-            FlowDocument document = new FlowDocument();
-            Paragraph currentParagraph = new Paragraph();
-            foreach (var str in formattedStrings.Strings)
-            {
-                if (str.Text == "\n")
-                {
-                    document.Blocks.Add(currentParagraph);
-                    currentParagraph = new Paragraph();
-                }
-                else
-                {
-                    var brush = new SolidColorBrush(str.TextColor);
-                    var run = new Run(str.Text);
-                    run.Foreground = brush;
-                    currentParagraph.Inlines.Add(run);
-                }
-            }
-            document.Blocks.Add(currentParagraph);
-            return document;
-        }
+       
         public MainWindowViewModel()
         {
-            Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
+            Document = new EditorDocument("namespace Hay{public class   Hello{}}}", new CSharpDocumentParser());
+            FormattedDocument = new FormattedEditorDocument(Document);
+            //Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
+            //Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpDocumentParser());
             Document.Parse();
-            EditorDocument = ConvertToDocument(Document.FormattedDocument);
         }
     }
 }

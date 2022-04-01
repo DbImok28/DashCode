@@ -24,13 +24,13 @@ namespace DashCode
     {
         public MainWindow()
         {
+            // TODO: Change to INotify
             InitializeComponent();
-
             if (DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 this.mainWindowViewModel = mainWindowViewModel;
-                this.mainWindowViewModel.OnEditorDocumentChenged += EditorDocumentChanged;
-                editorRTB.Document = this.mainWindowViewModel.EditorDocument;
+                this.mainWindowViewModel.Document.OnDocumentUpdate += EditorDocumentChanged;
+                editorRTB.Document = flowDocument;
             }
             else
             {
@@ -40,6 +40,7 @@ namespace DashCode
         
         public void EditorDocumentChanged(object o, EventArgs args)
         {
+            flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
             editorRTB.UpdateLayout();
         }
 
@@ -65,33 +66,37 @@ namespace DashCode
         }
         private string CalculateChangedText(TextChange change)
         {
-            //string result = null;
-            //int currentPos = 0;
-            //foreach (var item in mainWindowViewModel.EditorTexts)
-            //{
-            //    currentPos += item.TextLength;
-            //    if (currentPos > change.Offset)
-            //    {
-            //        result = item.Text[currentPos - change.Offset - 1].ToString();             
-            //    }
-            //}
-            //if(result == null)
-            //{
-            //    throw new IndexOutOfRangeException("Invalid edit");
-            //}
-            //return result;
-
             // TODO: MultiEdit
-            var ptr1 = mainWindowViewModel.EditorDocument.ContentStart.GetPositionAtOffset(change.Offset);
-            //var ptr2 = mainWindowViewModel.EditorDocument.ContentStart.GetPositionAtOffset(change.Offset + change.RemovedLength);
-            //var ptr2 = mainWindowViewModel.EditorDocument.ContentStart.GetPositionAtOffset(change.Offset + 1);
-            //var pos = new TextRange(ptr2, ptr1);
+            var ptr1 = flowDocument.ContentStart.GetPositionAtOffset(change.Offset);
             char[] buff = new char[change.Offset + change.RemovedLength];
             var count = ptr1.GetTextInRun(LogicalDirection.Backward, buff, change.Offset, change.RemovedLength);
             var str = new string(buff);
             return str;
         }
+        public FlowDocument ConvertToFlowDocument(FormattedEditorDocument formattedDoc)
+        {
+            FlowDocument document = new FlowDocument();
+            Paragraph currentParagraph = new Paragraph();
+            foreach (var str in formattedDoc.Document)
+            {
+                if (str.Text == "\n")
+                {
+                    document.Blocks.Add(currentParagraph);
+                    currentParagraph = new Paragraph();
+                }
+                else
+                {
+                    var brush = new SolidColorBrush(str.TextColor);
+                    var run = new Run(str.Text);
+                    run.Foreground = brush;
+                    currentParagraph.Inlines.Add(run);
+                }
+            }
+            document.Blocks.Add(currentParagraph);
+            return document;
+        }
+        // TODO: Store only document
         private MainWindowViewModel mainWindowViewModel;
-
+        private FlowDocument flowDocument;
     }
 }

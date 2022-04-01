@@ -7,6 +7,6 @@ namespace DashCode.Models.DocumentParser
     public interface IConstruction
     {
         public bool ParseBody(string text);
-        public FormattedStrings GetFormattedStrings(string document);
+        public FormattedStrings GetFormattedStrings();
     }
 }
