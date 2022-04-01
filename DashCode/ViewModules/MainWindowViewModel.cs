@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DashCode.Models;
-using DashCode.Models.Parsers.CSharp;
+using DashCode.Models.DocumentReaders.CSharp;
 
 namespace DashCode.ViewModules
 {
@@ -71,11 +71,11 @@ namespace DashCode.ViewModules
        
         public MainWindowViewModel()
         {
-            Document = new EditorDocument("namespace Hay{public class   Hello{}}}", new CSharpDocumentParser());
-            FormattedDocument = new FormattedEditorDocument(Document);
+            //Document = new EditorDocument("namespace Hay{public class   Hello{}}}", new CSharpReader());
             //Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
-            //Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpDocumentParser());
-            //Document.Parse();
+            Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpReader());
+            FormattedDocument = new FormattedEditorDocument(Document);
+            Document.Read();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DashCode.Models.DocumentParser;
+﻿using DashCode.Models.DocumentReaders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ namespace DashCode.Models
 {
     public class EditorDocument
     {
-        public EditorDocument(string rawDocument, IDocumentParser parser)
+        public EditorDocument(string rawDocument, IDocumentReader reader)
         {
             if (string.IsNullOrWhiteSpace(rawDocument))
             {
@@ -16,12 +16,11 @@ namespace DashCode.Models
             }
 
             RawDocument = rawDocument;
-            Parser = parser ?? throw new ArgumentNullException(nameof(parser));
+            Reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
-            
+        public IConstruction ReadedDocument { get; private set; }
         public string RawDocument { get; private set; }
-        public IConstruction ParsedDocument { get; set; }
-        public IDocumentParser Parser { get; private set; }
+        public IDocumentReader Reader { get; set; }
         public event EventHandler OnDocumentUpdate;
         public void AddText(int pos, string str)
         {
@@ -38,9 +37,9 @@ namespace DashCode.Models
             RawDocument = document;
             OnDocumentUpdate?.Invoke(this, null);
         }
-        public void Parse()
+        public void Read()
         {
-            Parser.ParseDocument(RawDocument);
+            ReadedDocument = Reader.Read(this);
         }
     }
 }

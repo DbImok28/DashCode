@@ -34,7 +34,7 @@ namespace DashCode.Models
         }
         public void Update()
         {
-            Document = EditorDocument.ParsedDocument.GetFormattedStrings();
+            //Document = EditorDocument.ReadedDocument.GetFormattedStrings();
         }
         public event EventHandler OnDocumentUpdate;
         public FormattedStrings Document { get; private set; }
