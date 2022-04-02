@@ -3,19 +3,15 @@
     public enum CSharpTokenType
     {
         None,
-        Modifier,
+        AccessModifier,
         KeyName,
         Separator,
         ScopeStart,
         ScopeEnd,
+        ParamsStart,
+        ParamsEnd,
         Name,
-        ClassName,
-        MethodName,
-        PropertyName,
-        VarName,
         TypeName,
-
-
     }
     public class CSharpToken : Token
     {
@@ -27,7 +23,8 @@
         {
             return true;
         }
-        public CSharpTokenType TokenType { get; }
+        public CSharpTokenType TokenType { get; set; }
+
         public override string ToString()
         {
             return $"{TokenType}: {Text}";

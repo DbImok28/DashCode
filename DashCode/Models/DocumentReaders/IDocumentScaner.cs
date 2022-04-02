@@ -6,6 +6,6 @@ namespace DashCode.Models.DocumentReaders
 {
     public interface IDocumentScaner
     {
-        public Stack<Token> Scane(string rawDocument);
+        public List<Token> Scane(string rawDocument);
     }
 }

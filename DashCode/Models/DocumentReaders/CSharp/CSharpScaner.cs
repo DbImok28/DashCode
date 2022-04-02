@@ -1,40 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace DashCode.Models.DocumentReaders.CSharp
 {
+    /// <summary>
+    /// Разбивает текст на токены
+    /// </summary>
     public class CSharpScaner : IDocumentScaner
     {
-        public Dictionary<string, CSharpTokenType> TokenTypeDictionary { get; set; }
-        public List<char> Separators { get; set; }
-        public CSharpScaner()
+        /*
+         * [a-zA-Z_]\w* // Name 
+         * [$|@]?\"[\w\s]*\" // strings
+         * [1-9][0-9]* // Number
+         * [1-9]\d*(?:\.\d+)? // Float
+         */
+        public List<Token> Scane(string rawDocument)
         {
-            TokenTypeDictionary = new Dictionary<string, CSharpTokenType>()
-            {
-                { "class", CSharpTokenType.KeyName },
-                { "public", CSharpTokenType.Modifier },
-                { "private", CSharpTokenType.Modifier },
-                { "protected", CSharpTokenType.Modifier },
-                { "internal", CSharpTokenType.Modifier },
-                { "namespace", CSharpTokenType.KeyName },
-                { "using", CSharpTokenType.KeyName },
-                { "interface", CSharpTokenType.KeyName },
-                { "event", CSharpTokenType.KeyName },
-                { ";", CSharpTokenType.Separator },
-                { "(", CSharpTokenType.ScopeStart },
-                { ")", CSharpTokenType.ScopeEnd },
-                { "{", CSharpTokenType.ScopeStart },
-                { "}", CSharpTokenType.ScopeEnd },
-            };
-            Separators = new List<char>()
-            {
-                ';', '(', ')', '{', '}'
-            };
-        }
-        public Stack<Token> Scane(string rawDocument)
-        {
-            Stack<Token> tokens = new Stack<Token>();
+            List<Token> tokens = new List<Token>();
 
             var builder = new StringBuilder();
             for (int i = 0; i < rawDocument.Length; i++)
@@ -46,10 +30,10 @@ namespace DashCode.Models.DocumentReaders.CSharp
                     {
                         if (builder.Length > 0)
                         {
-                            tokens.Push(MakeToken(builder.ToString()));
+                            tokens.Add(MakeToken(builder.ToString()));
                             builder.Clear();
                         }
-                        tokens.Push(MakeToken(symbol.ToString()));
+                        tokens.Add(MakeToken(symbol.ToString()));
                     }
                     else
                     {
@@ -60,7 +44,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 {
                     if (builder.Length > 0)
                     {
-                        tokens.Push(MakeToken(builder.ToString()));
+                        tokens.Add(MakeToken(builder.ToString()));
                         builder.Clear();
                     }
                 }
@@ -73,7 +57,43 @@ namespace DashCode.Models.DocumentReaders.CSharp
             {
                 return new CSharpToken(str, type);
             }
+            foreach (var regex in TokenTypeRegices)
+            {
+                if (regex.Regex.IsMatch(str))
+                    return new CSharpToken(str, regex.tokenType);
+            }
             return new CSharpToken(str, CSharpTokenType.None);
+        }
+        public static Dictionary<string, CSharpTokenType> TokenTypeDictionary { get; set; }
+        public static List<char> Separators { get; set; }
+        public static List<(Regex Regex, CSharpTokenType tokenType)> TokenTypeRegices { get; set; }
+        static CSharpScaner()
+        {
+            TokenTypeDictionary = new Dictionary<string, CSharpTokenType>()
+            {
+                { "public",     CSharpTokenType.AccessModifier },
+                { "private",    CSharpTokenType.AccessModifier },
+                { "protected",  CSharpTokenType.AccessModifier },
+                { "internal",   CSharpTokenType.AccessModifier },
+                { "class",      CSharpTokenType.KeyName },
+                { "namespace",  CSharpTokenType.KeyName },
+                { "using",      CSharpTokenType.KeyName },
+                { "interface",  CSharpTokenType.KeyName },
+                { "event",      CSharpTokenType.KeyName },
+                { ";",          CSharpTokenType.Separator },
+                { "(",          CSharpTokenType.ParamsStart },
+                { ")",          CSharpTokenType.ParamsEnd },
+                { "{",          CSharpTokenType.ScopeStart },
+                { "}",          CSharpTokenType.ScopeEnd },
+            };
+            Separators = new List<char>()
+            {
+                ';', '(', ')', '{', '}'
+            };
+            TokenTypeRegices = new List<(Regex Regex, CSharpTokenType tokenType)>()
+            {
+                (new Regex(@"[a-zA-Z_]\w*"), CSharpTokenType.Name)
+            };
         }
     }
 }

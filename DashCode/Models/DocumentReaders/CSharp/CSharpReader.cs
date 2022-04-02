@@ -14,7 +14,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
         public IDocumentParser Parser { get; private set; }
         public IDocumentScaner Scaner { get; private set; }
         public EditorDocument Document { get; private set; } = null;
-        public Stack<Token> ScaneOnly(EditorDocument document)
+        public List<Token> ScaneOnly(EditorDocument document)
         {
             Document = document;
             return Scaner.Scane(Document.RawDocument);

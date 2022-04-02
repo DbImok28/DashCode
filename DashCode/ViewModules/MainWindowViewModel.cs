@@ -73,9 +73,68 @@ namespace DashCode.ViewModules
         {
             //Document = new EditorDocument("namespace Hay{public class   Hello{}}}", new CSharpReader());
             //Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
-            Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpReader());
+            //Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpReader());
+            Document = new EditorDocument(@"
+                using DashCode.Models.DocumentParser;
+                using System;
+                using System.Collections.Generic;
+                using System.Collections.ObjectModel;
+                using System.Text;
+
+                namespace DashCode.Models
+                { 
+                    public class EditorDocument
+                    {
+                        public EditorDocument(string rawDocument, IDocumentParser parser)
+                        {
+                            if (string.IsNullOrWhiteSpace(rawDocument))
+                            {
+                
+                            }
+
+                        RawDocument = rawDocument;
+                            Parser = parser ?? throw new ArgumentNullException(nameof(parser));
+                    }
+
+                    public string _Raw.Document { get; private set; }
+                    public IConstruction ParsedDocument;
+                    public IDocumentParser Parser { get; private set; }
+                    public event EventHandler OnDocumentUpdate;
+                    public FormattedEditorDocument FormattedDocument
+                    {
+                        get => _FormattedDocument;
+                        set => Set(ref _FormattedDocument, value);
+                    }
+                    public FormattedEditorDocument FormattedDocument
+                    {
+                        get => { _FormattedDocument; }
+                        set => Set(ref _FormattedDocument, value);
+                    }
+                    public void AddText(int pos, string str)
+                    {
+                        RawDocument = RawDocument.Insert(pos, str);
+                        OnDocumentUpdate?.Invoke(this, null);
+                    }
+                    public void RemoveText(int pos, int length)
+                    {
+                        RawDocument = RawDocument.Remove(pos, length);
+                        OnDocumentUpdate?.Invoke(this, null);
+                    }
+                    public void SetText(string document)
+                    {
+                        RawDocument = document;
+                        OnDocumentUpdate?.Invoke(this, null);
+                    }
+                    public void Parse()
+                    {
+                        Parser.ParseDocument(RawDocument);
+                    }
+                }
+                }
+                ", new CSharpReader());
             FormattedDocument = new FormattedEditorDocument(Document);
             Document.Read();
+            OnPropertyChanged("Document");
         }
     }
 }

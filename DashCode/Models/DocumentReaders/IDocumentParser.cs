@@ -6,7 +6,7 @@ namespace DashCode.Models.DocumentReaders
 {
     public interface IDocumentParser
     {
-        IConstruction Parse(Stack<Token> tokens);
+        IConstruction Parse(List<Token> tokens);
         //IConstruction AddSymbolToDocument(string document, IConstruction parsedDoc, int editPos, string newSymbols);
         //IConstruction RemoveSymbolFromDocument(string document, IConstruction parsedDoc, int editPos, int editLength);
     }
