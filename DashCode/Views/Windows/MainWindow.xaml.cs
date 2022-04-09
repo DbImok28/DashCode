@@ -58,17 +58,24 @@ namespace DashCode
                 foreach (var change in e.Changes)
                 {
                     EditsCount += change.AddedLength + change.RemovedLength;
-                }
-                if (EditsCount > 10)
-                {
-                    EditsCount = 0;
-                    var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-                    mainWindowViewModel.FormattedDocument.EditorDocument.SetText(range.Text);
-                    mainWindowViewModel.FormattedDocument.EditorDocument.Read();
-                    mainWindowViewModel.FormattedDocument.Format();
-                    ConvertAndSet(mainWindowViewModel.FormattedDocument);
+                    if (EditsCount > 20)
+                    {
+                        Update(change.Offset, change.AddedLength - change.RemovedLength);
+                        EditsCount = 0;
+                    }
                 }
             }
+        }
+        public void Update(int offset, int len)
+        {
+            var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
+            mainWindowViewModel.FormattedDocument.EditorDocument.SetText(range.Text);
+            mainWindowViewModel.FormattedDocument.EditorDocument.Read();
+            mainWindowViewModel.FormattedDocument.Format();
+            //var pos = editorRTB.Document.ContentStart.GetOffsetToPosition(editorRTB.CaretPosition);
+            ConvertAndSet(mainWindowViewModel.FormattedDocument);
+            //editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(change.Offset);
+            editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
         }
         public List<Block> ConvertToBlocks(FormattedEditorDocument formattedDoc)
         {
@@ -104,11 +111,17 @@ namespace DashCode
         }
         private void SetBlocks(List<Block> blocks)
         {
+            
             IgnoreChange = true;
             editorRTB.Document.Blocks.Clear();
             editorRTB.Document.Blocks.AddRange(blocks);
             editorRTB.UpdateLayout();
             IgnoreChange = false;
+        }
+        private void Button_UpdateClick(object sender, RoutedEventArgs e)
+        {
+            Update(0, 0);
+            EditsCount = 0;
         }
         // TODO: Store only document
         private MainWindowViewModel mainWindowViewModel;

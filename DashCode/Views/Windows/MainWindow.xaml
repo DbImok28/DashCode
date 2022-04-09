@@ -12,37 +12,46 @@
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Height="20" HorizontalAlignment="Right">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="20"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Click="Button_UpdateClick"/>
+        </StackPanel>
         <DockPanel DockPanel.Dock="Top">
-            <WrapPanel Orientation="Vertical" Margin="4,1,4,0" DockPanel.Dock="Left">
-                <WrapPanel.Resources>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="FontSize" Value="{Binding FontSize}"/>
-                    </Style>
-                </WrapPanel.Resources>
-                <TextBlock>1</TextBlock>
-                <TextBlock>2</TextBlock>
-                <TextBlock>3</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-                <TextBlock>4</TextBlock>
-            </WrapPanel>
-            <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged">
-                <RichTextBox.Resources>
-                    <!--<DataTemplate>
+                <WrapPanel Orientation="Vertical" Margin="4,1,4,0" DockPanel.Dock="Left">
+                    <WrapPanel.Resources>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="FontSize" Value="{Binding FontSize}"/>
+                        </Style>
+                    </WrapPanel.Resources>
+                    <TextBlock>1</TextBlock>
+                    <TextBlock>2</TextBlock>
+                    <TextBlock>3</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                    <TextBlock>4</TextBlock>
+                </WrapPanel>
+                <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged">
+                    <RichTextBox.Resources>
+                        <!--<DataTemplate>
                         
                     </DataTemplate>-->
-                    <Style TargetType="{x:Type Paragraph}">
-                        <Setter Property="Margin" Value="0" />
-                    </Style>
-                    <Style TargetType="{x:Type Run}">
-                        <Setter Property="FontSize" Value="{Binding FontSize}" />
-                    </Style>
-                </RichTextBox.Resources>
-            </RichTextBox>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                        <Style TargetType="{x:Type Run}">
+                            <Setter Property="FontSize" Value="{Binding FontSize}" />
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </DockPanel>
         </DockPanel>
-    </DockPanel>
 </Window>
