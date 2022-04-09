@@ -174,6 +174,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
                             CSharpToken typeNameToken = Tokens[NameIndex] as CSharpToken;
                             if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName)
                             {
+                                typeNameToken.TokenType = CSharpTokenType.TypeName;
                                 Name = typeNameToken.Text;
                             }
                             else
@@ -191,8 +192,9 @@ namespace DashCode.Models.DocumentReaders.CSharp
                         {
                             CSharpToken typeNameToken = Tokens[NameIndex] as CSharpToken;
                             CSharpToken nameToken = Tokens[NameIndex + 1] as CSharpToken;
-                            if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName && nameToken.TokenType == CSharpTokenType.Name)
+                            if ((typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName) && nameToken.TokenType == CSharpTokenType.Name)
                             {
+                                typeNameToken.TokenType = CSharpTokenType.TypeName;
                                 TypeName = typeNameToken.Text;
                                 if (nameToken.TokenType == CSharpTokenType.Name)
                                 {
