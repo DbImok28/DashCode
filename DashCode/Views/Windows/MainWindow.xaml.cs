@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,9 +30,10 @@ namespace DashCode
             if (DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 this.mainWindowViewModel = mainWindowViewModel;
-                this.mainWindowViewModel.FormattedDocument.OnDocumentUpdate += EditorDocumentChanged;
-                flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
-                editorRTB.Document = flowDocument;
+                //this.mainWindowViewModel.FormattedDocument.OnDocumentUpdate += EditorDocumentChanged;
+                //flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
+                ConvertAndSet(mainWindowViewModel.FormattedDocument);
+                //editorRTB.Document = flowDocument;
             }
             else
             {
@@ -39,98 +41,79 @@ namespace DashCode
             }
         }
         
-        public void EditorDocumentChanged(object o, EventArgs args)
-        {
-            flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
-            editorRTB.UpdateLayout();
-        }
+        //public void EditorDocumentChanged(object o, EventArgs args)
+        //{
+        //    //var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
+        //    //range.Changed
+
+        //    //flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
+        //    ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
+        //    editorRTB.UpdateLayout();
+        //}
 
         private void editorRTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //foreach (var change in e.Changes)
-            //{
-            //    ApplyChange(change);
-            //}
+            if (!IgnoreChange)
+            {
+                foreach (var change in e.Changes)
+                {
+                    EditsCount += change.AddedLength + change.RemovedLength;
+                }
+                if (EditsCount > 10)
+                {
+                    EditsCount = 0;
+                    var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
+                    mainWindowViewModel.FormattedDocument.EditorDocument.SetText(range.Text);
+                    mainWindowViewModel.FormattedDocument.EditorDocument.Read();
+                    mainWindowViewModel.FormattedDocument.Format();
+                    ConvertAndSet(mainWindowViewModel.FormattedDocument);
+                }
+            }
         }
-        //private void ApplyChange(TextChange change)
-        //{
-        //    mainWindowViewModel.LastTextChange = change;
-        //    if (change.AddedLength != 0)
-        //    {
-        //        var str = CalculateChangedText(change.Offset, change.AddedLength);
-        //        outDebug.Text = str;
-        //        mainWindowViewModel.AddText(change.Offset, str);
-        //    }
-        //    else
-        //    {
-        //        var str = CalculateChangedText(change.Offset, change.RemovedLength);
-        //        outDebug.Text = str;
-        //        mainWindowViewModel.RemoveText(change.Offset, change.RemovedLength);
-        //    }
-        //    outDebug.UpdateLayout();
-        //}
-        //private string CalculateChangedText(int pos, int length)
-        //{
-        //    // TODO: MultiEdit
-        //    var ptr1 = flowDocument.ContentStart.GetPositionAtOffset(pos);
-        //    char[] buff = new char[pos + length];
-        //    var count = ptr1.GetTextInRun(LogicalDirection.Forward, buff, pos, length);
-        //    string str = "";
-        //    for (int i = 0; i < count; i++)
-        //    {
-        //        str += buff[pos + length - count + i];
-        //    }
-        //    return str;
-        //}
-        public FlowDocument ConvertToFlowDocument(FormattedEditorDocument formattedDoc)
+        public List<Block> ConvertToBlocks(FormattedEditorDocument formattedDoc)
         {
-            FlowDocument document = new FlowDocument();
+            var blocks = new List<Block>();
             Paragraph currentParagraph = new Paragraph();
-            //foreach (var str in formattedDoc.Document)
-            //{
-            //    string outstr = "";
-            //    var brush = new SolidColorBrush(str.TextColor);
-            //    foreach (var symbol in str.Text)
-            //    {
-            //        if (symbol == '\n')
-            //        {
-            //            document.Blocks.Add(currentParagraph);
-            //            currentParagraph = new Paragraph();
-            //            var run = new Run(outstr);
-            //            run.Foreground = brush;
-            //            currentParagraph.Inlines.Add(run);
-            //            outstr = "";
-            //        }
-            //        else
-            //        {
-            //            outstr += symbol;
-            //        }
-            //    }
-            //    if (outstr.Length > 0)
-            //    {
-            //        var run = new Run(outstr);
-            //        run.Foreground = brush;
-            //        currentParagraph.Inlines.Add(run);
-            //    }
-            //}
             foreach (var str in formattedDoc.Document)
             {
+                var splited = Regex.Split(str.Text, @"\r?\n");
                 var brush = new SolidColorBrush(str.TextColor);
-                var run = new Run(str.Text);
-                run.Foreground = brush;
+                var run = new Run(splited[0])
+                {
+                    Foreground = brush
+                };
                 currentParagraph.Inlines.Add(run);
+
+                for (int i = 1; i < splited.Length; i++)
+                {
+                    blocks.Add(currentParagraph);
+                    currentParagraph = new Paragraph();
+                    var nextRun = new Run(splited[i])
+                    {
+                        Foreground = brush
+                    };
+                    currentParagraph.Inlines.Add(nextRun);
+                }
             }
-            document.Blocks.Add(currentParagraph);
-            return document;
+            blocks.Add(currentParagraph);
+            return blocks;
+        }
+        private void ConvertAndSet(FormattedEditorDocument formattedDoc)
+        {
+            SetBlocks(ConvertToBlocks(formattedDoc));
+        }
+        private void SetBlocks(List<Block> blocks)
+        {
+            IgnoreChange = true;
+            editorRTB.Document.Blocks.Clear();
+            editorRTB.Document.Blocks.AddRange(blocks);
+            editorRTB.UpdateLayout();
+            IgnoreChange = false;
         }
         // TODO: Store only document
         private MainWindowViewModel mainWindowViewModel;
-        private FlowDocument flowDocument;
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //mainWindowViewModel.AddText(Convert.ToInt32(stIndex.Text), CalculateChangedText(Convert.ToInt32(stIndex.Text), Convert.ToInt32(stLength.Text)));
-            //mainWindowViewModel.AddText(4, "hello");
-        }
+        private bool IgnoreChange = false;
+        private int EditsCount = 0;
+        private int LastUpdateSeconds = 0;
     }
 }

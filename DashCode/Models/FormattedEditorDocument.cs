@@ -10,30 +10,15 @@ namespace DashCode.Models
         public FormattedEditorDocument(EditorDocument editorDocument)
         {
             EditorDocument = editorDocument ?? throw new ArgumentNullException(nameof(editorDocument));
-            //Test
-            Document = Document = new FormattedStrings(new List<FormattedString>
+            Document = new FormattedStrings(new List<FormattedString>
             {
                 new FormattedString("int", Color.FromRgb(0,255,0))
             });
-            //Color keyNamesColor = Color.FromRgb(0, 0, 255);
-            //Color variableColor = Color.FromRgb(191, 141, 80);
-            //Color defaultColor = Color.FromRgb(0, 0, 0);
-            //Document = new FormattedStrings(new List<FormattedString>{
-            //            new FormattedString("int", keyNamesColor),
-            //            new FormattedString(" ", defaultColor),
-            //            new FormattedString("Count", variableColor),
-            //            new FormattedString(";", defaultColor),
-            //            new FormattedString("\n", defaultColor),
-            //            new FormattedString("double", keyNamesColor),
-            //            new FormattedString(" ", defaultColor),
-            //            new FormattedString("Value", variableColor),
-            //            new FormattedString(";", defaultColor)
-            //        }
-            //) ;
         }
         public abstract void Format();
         public event EventHandler OnDocumentUpdate;
-        public FormattedStrings Document { get; protected set; }
+        private FormattedStrings _Document;
+        public FormattedStrings Document { get => _Document; protected set { _Document = value; OnDocumentUpdate?.Invoke(this, null); } }
         public EditorDocument EditorDocument { get; protected set; }
     }
 }

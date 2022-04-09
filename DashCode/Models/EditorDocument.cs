@@ -21,7 +21,7 @@ namespace DashCode.Models
         public IConstruction ReadedDocument { get; private set; }
         public string RawDocument { get; private set; }
         public IDocumentReader Reader { get; set; }
-        public event EventHandler OnDocumentUpdate;
+        //public event EventHandler OnDocumentUpdate;
         //public void AddText(int pos, string str)
         //{
         //    RawDocument = RawDocument.Insert(pos, str);
@@ -35,7 +35,7 @@ namespace DashCode.Models
         public void SetText(string document)
         {
             RawDocument = document;
-            OnDocumentUpdate?.Invoke(this, null);
+            //OnDocumentUpdate?.Invoke(this, null);
         }
         public void Read()
         {

@@ -107,7 +107,7 @@ namespace DashCode.Models
         public static Dictionary<CSharpTokenType, Color> ColorsDictionary = new Dictionary<CSharpTokenType, Color>(){
             {CSharpTokenType.AccessModifier, Color.FromRgb(10,10,250)},
             {CSharpTokenType.KeyName, Color.FromRgb(10,10,250)},
-            {CSharpTokenType.Name, Color.FromRgb(4, 205, 224)},
+            {CSharpTokenType.Name, Color.FromRgb(9, 176, 222)},
             {CSharpTokenType.TypeName, Color.FromRgb(9, 222, 133)},
             {CSharpTokenType.None, Color.FromRgb(255,0,0)},
         };
