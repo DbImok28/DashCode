@@ -22,8 +22,8 @@ namespace DashCode.Models.DocumentReaders.CSharp
     public enum AccessModificators
     {
         None,
-        Public,  
-        Private, 
+        Public,
+        Private,
         Protected,
         Internal,
         PrivateProtected,
@@ -54,7 +54,6 @@ namespace DashCode.Models.DocumentReaders.CSharp
         public NodeType NodeType { get; set; }
         public List<BaseNode> SubNodes { get; set; }
         public string ErrorMessage { get; protected set; }
-
         public BaseNode(NodeType nodeType = NodeType.None)
         {
             NodeType = nodeType;
@@ -67,10 +66,12 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 var builder = new StringBuilder();
                 builder.Append(NodeType);
                 builder.Append(" (");
-                foreach (var node in SubNodes)
+                for (int i = 0, n = SubNodes.Count; i < n; i++)
                 {
+                    var node = SubNodes[i];
                     builder.Append(node);
-                    builder.Append(", ");
+                    if (i < n - 1) 
+                        builder.Append(", ");
                 }
                 builder.Append(")");
                 return builder.ToString();
@@ -80,11 +81,6 @@ namespace DashCode.Models.DocumentReaders.CSharp
     }
     public class DeductionNode : BaseNode
     {
-        public DeductionNode(List<Token> tokens, NodeType nodeType = NodeType.None) : base(nodeType)
-        {
-            Tokens = tokens ?? throw new ArgumentNullException(nameof(tokens));
-            AccessModificator = AccessModificators.None;
-        }
         static DeductionNode()
         {
             KeyNameDictionary = new Dictionary<string, NodeType>()
@@ -95,6 +91,11 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 { "interface",  NodeType.Interface },
                 { "event",      NodeType.Event },
             };
+        }
+        public DeductionNode(List<Token> tokens, NodeType nodeType = NodeType.None) : base(nodeType)
+        {
+            Tokens = tokens ?? throw new ArgumentNullException(nameof(tokens));
+            AccessModificator = AccessModificators.None;
         }
         public bool DetermineNodeType()
         {
@@ -129,35 +130,8 @@ namespace DashCode.Models.DocumentReaders.CSharp
                             {
                                 NameIndex = i;
                             }
-                            //if (NameIndex == 0 && TypeName == null)
-                            //{
-                            //    token.TokenType = CSharpTokenType.TypeName;
-                            //    TypeName = token.Text;
-                            //    NameIndex++;
-                            //}
-                            //else if (NameIndex == 1 && Name == null)
-                            //{
-                            //    token.TokenType = CSharpTokenType.TypeName;
-                            //    TypeName = token.Text;
-                            //    NameIndex++;
-                            //}
-                            //else
-                            //{
-                            //    ErrorMessage = "Unknown expression";
-                            //}
                             break;
                         case CSharpTokenType.TypeName:
-                            //if (NameIndex == 0 && TypeName == null)
-                            //{
-                            //    token.TokenType = CSharpTokenType.TypeName;
-                            //    TypeName = token.Text;
-                            //    NameIndex++;
-                            //}
-                            //else
-                            //{
-                            //    ErrorMessage = "Unknown expression";
-                            //}
-                            //break;
                             if (NameIndex == -1)
                             {
                                 NameIndex = i;
@@ -169,34 +143,22 @@ namespace DashCode.Models.DocumentReaders.CSharp
                             break;
                     }
                 }
-                //if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
-                //{
-                //    NodeType = NodeType.Method;
-                //}
-                //else if (TypeName != null && Name != null)
-                //{
-                //    if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
-                //    {
-                //        NodeType = NodeType.Property;
-                //    }
-                //    else if (SubNodes.Count == 0)
-                //    {
-                //        NodeType = NodeType.Var;
-                //    }
-                //}
-                if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
+                if (NodeType == NodeType.None)
                 {
-                    NodeType = NodeType.Method;
-                }
-                else if (NameCount == 2)
-                {
-                    if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
+                    if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
                     {
-                        NodeType = NodeType.Property;
+                        NodeType = NodeType.Method;
                     }
-                    else if (SubNodes.Count == 0)
+                    else if (NameCount == 2)
                     {
-                        NodeType = NodeType.Var;
+                        if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
+                        {
+                            NodeType = NodeType.Property;
+                        }
+                        else if (SubNodes.Count == 0)
+                        {
+                            NodeType = NodeType.Var;
+                        }
                     }
                 }
                 switch (NodeType)
@@ -210,7 +172,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
                         if(NameCount == 1)
                         {
                             CSharpToken typeNameToken = Tokens[NameIndex] as CSharpToken;
-                            if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.KeyName)
+                            if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName)
                             {
                                 Name = typeNameToken.Text;
                             }
@@ -229,7 +191,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
                         {
                             CSharpToken typeNameToken = Tokens[NameIndex] as CSharpToken;
                             CSharpToken nameToken = Tokens[NameIndex + 1] as CSharpToken;
-                            if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.KeyName && nameToken.TokenType == CSharpTokenType.Name)
+                            if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName && nameToken.TokenType == CSharpTokenType.Name)
                             {
                                 TypeName = typeNameToken.Text;
                                 if (nameToken.TokenType == CSharpTokenType.Name)
@@ -301,34 +263,40 @@ namespace DashCode.Models.DocumentReaders.CSharp
             }
             return NodeType.None;
         }
+        public static Dictionary<string, NodeType> KeyNameDictionary { get; set; }
+        public AccessModificators AccessModificator { get; set; }
         public override string ToString()
         {
-            if (SubNodes.Count > 0)
+            var builder = new StringBuilder();
+            builder.Append(NodeType);
+            if (Tokens.Count > 0)
             {
-                var builder = new StringBuilder();
-                builder.Append(NodeType);
                 builder.Append(" [");
-                foreach (var token in Tokens)
+                for (int i = 0, n = Tokens.Count; i < n; i++)
                 {
+                    var token = Tokens[i];
                     builder.Append(token);
-                    builder.Append(", ");
+                    if (i < n - 1)
+                        builder.Append(", ");
                 }
                 builder.Append("]");
-                foreach (var node in SubNodes)
-                {
-                    builder.Append(node);
-                    builder.Append(", ");
-                }
-                return builder.ToString();
             }
-            return NodeType.ToString();
+            if (SubNodes.Count > 0)
+            {
+                for (int i = 0, n = SubNodes.Count; i < n; i++)
+                {
+                    var node = SubNodes[i];
+                    builder.Append(node);
+                    if (i < n - 1)
+                        builder.Append(", \n");
+                }
+            }
+            return builder.ToString();
         }
         public override bool Check()
         {
             return DetermineNodeType();
         }
-        public static Dictionary<string, NodeType> KeyNameDictionary { get; set; }
-        public AccessModificators AccessModificator { get; set; }
         public string Name { get; set; }
         public string TypeName { get; set; }
         public List<Token> Tokens { get; set; }
@@ -350,10 +318,12 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 var builder = new StringBuilder();
                 builder.Append(NodeType);
                 builder.Append(' ');
-                foreach (var node in SubNodes)
+                for (int i = 0, n = SubNodes.Count; i < n; i++)
                 {
+                    var node = SubNodes[i];
                     builder.Append(node);
-                    builder.Append(";");
+                    if (i < n - 1)
+                        builder.Append(", \n");
                 }
                 return builder.ToString();
             }
@@ -376,10 +346,12 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 var builder = new StringBuilder();
                 builder.Append(NodeType);
                 builder.Append(" {");
-                foreach (var node in SubNodes)
+                for (int i = 0, n = SubNodes.Count; i < n; i++)
                 {
+                    var node = SubNodes[i];
                     builder.Append(node);
-                    builder.Append(", ");
+                    if (i < n - 1)
+                        builder.Append(", \n");
                 }
                 builder.Append("}");
                 return builder.ToString();
@@ -404,10 +376,12 @@ namespace DashCode.Models.DocumentReaders.CSharp
                 var builder = new StringBuilder();
                 builder.Append(NodeType);
                 builder.Append(" (");
-                foreach (var node in SubNodes)
+                for (int i = 0, n = SubNodes.Count; i < n; i++)
                 {
+                    var node = SubNodes[i];
                     builder.Append(node);
-                    builder.Append(", ");
+                    if (i < n - 1)
+                        builder.Append(", ");
                 }
                 builder.Append(")");
                 return builder.ToString();
@@ -415,17 +389,7 @@ namespace DashCode.Models.DocumentReaders.CSharp
             return NodeType.ToString();
         }
     }
-    //public class DocumentConstruction : IConstruction
-    //{
-    //    public IEnumerable<ILexeme> Lexemes { get; private set; }
-
-    //    public FormattedStrings GetFormattedStrings()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public bool ParseBody(string text)
-    //    {
+   
     //        //// (\w|\.|_)+ 
     //        //// (public|private|protected|internal|private\sprotected|protected\sinternal)(\s)+
     //        //// CtorDeduction (public|private|protected|internal|private\sprotected|protected\sinternal)\s+(\w)+\s*    Brek
@@ -439,27 +403,5 @@ namespace DashCode.Models.DocumentReaders.CSharp
     //        //var varRegex = new Regex(@"");
     //        //var callRegex = new Regex(@"");
     //        //var ctorRegex = new Regex(@"");
-    //        ///*
-    //        // * (public|private|protected|internal|private\sprotected|protected\sinternal)\s+(\w|\.|_)+\s+(\w|\.|_)+\s*(?:;|\{\s*(public|private|protected|internal|private\sprotected|protected\sinternal)?\s+(get|set)\s*(?:;|=>\s*(.|\s)+;))
-    //        // */
-    //        //foreach (var item in collection)
-    //        //{
-    //        //}
-    //        return false;
-    //    }
-    //}
-    //public class NamespaceConstruction : IConstruction
-    //{
-    //    public IEnumerable<ILexeme> Lexemes { get; private set; }
-
-    //    public FormattedStrings GetFormattedStrings()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public bool ParseBody(string text)
-    //    {
-    //        return false;
-    //    }
-    //}
+ 
 }

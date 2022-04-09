@@ -22,16 +22,16 @@ namespace DashCode.Models
         public string RawDocument { get; private set; }
         public IDocumentReader Reader { get; set; }
         public event EventHandler OnDocumentUpdate;
-        public void AddText(int pos, string str)
-        {
-            RawDocument = RawDocument.Insert(pos, str);
-            OnDocumentUpdate?.Invoke(this, null);
-        }
-        public void RemoveText(int pos, int length)
-        {
-            RawDocument = RawDocument.Remove(pos, length);
-            OnDocumentUpdate?.Invoke(this, null);
-        }
+        //public void AddText(int pos, string str)
+        //{
+        //    RawDocument = RawDocument.Insert(pos, str);
+        //    OnDocumentUpdate?.Invoke(this, null);
+        //}
+        //public void RemoveText(int pos, int length)
+        //{
+        //    RawDocument = RawDocument.Remove(pos, length);
+        //    OnDocumentUpdate?.Invoke(this, null);
+        //}
         public void SetText(string document)
         {
             RawDocument = document;

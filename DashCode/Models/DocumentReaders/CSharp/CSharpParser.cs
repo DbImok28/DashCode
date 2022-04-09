@@ -6,14 +6,6 @@ namespace DashCode.Models.DocumentReaders.CSharp
 {
     public class CSharpParser : IDocumentParser
     {
-        private enum ParseState
-        {
-            None,
-            ParseConstruction,
-            ParseExpression,
-            ParseDeduction,
-            FindConstruction
-        }
         /*switch (token.TokenType)
                 {
                     case CSharpTokenType.Separator:
@@ -104,7 +96,5 @@ namespace DashCode.Models.DocumentReaders.CSharp
             RootNode root = MakeTree(tokens, new RootNode(), ref pos) as RootNode;
             return root;
         }
-        
-
     }
 }

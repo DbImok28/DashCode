@@ -16,6 +16,10 @@ namespace DashCode.Models
         {
             Strings.Add(str);
         }
+        public void Add(FormattedStrings str)
+        {
+            Strings.AddRange(str);
+        }
         public bool Remove(FormattedString str)
         {
             return Strings.Remove(str);

@@ -92,7 +92,8 @@ namespace DashCode.Models.DocumentReaders.CSharp
             };
             TokenTypeRegices = new List<(Regex Regex, CSharpTokenType tokenType)>()
             {
-                (new Regex(@"[a-zA-Z_]\w*"), CSharpTokenType.Name)
+                //(new Regex(@"[a-zA-Z_][\w.]*"), CSharpTokenType.TypeName),
+                (new Regex(@"[a-zA-Z_]\w*"), CSharpTokenType.Name),
             };
         }
     }

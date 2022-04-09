@@ -23,9 +23,18 @@
                 <TextBlock>2</TextBlock>
                 <TextBlock>3</TextBlock>
                 <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
+                <TextBlock>4</TextBlock>
             </WrapPanel>
             <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged">
                 <RichTextBox.Resources>
+                    <!--<DataTemplate>
+                        
+                    </DataTemplate>-->
                     <Style TargetType="{x:Type Paragraph}">
                         <Setter Property="Margin" Value="0" />
                     </Style>
@@ -35,13 +44,13 @@
                 </RichTextBox.Resources>
             </RichTextBox>
         </DockPanel>
-        <TextBlock Text="{Binding LastTextChange.Offset}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
+        <!--<TextBlock Text="{Binding LastTextChange.Offset}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
         <TextBlock Text="{Binding LastTextChange.AddedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
-        <TextBlock Text="{Binding LastTextChange.RemovedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>
+        <TextBlock Text="{Binding LastTextChange.RemovedLength}" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="100" DockPanel.Dock="Bottom"/>-->
         <TextBox Text="12" Width="50" Height="20" x:Name="stIndex"></TextBox>
         <TextBox Text="2" Width="50" Height="20" x:Name="stLength"></TextBox>
         <Button Height="20" Width="50" Click="Button_Click"></Button>
         <TextBlock x:Name="outDebug" Width="100"></TextBlock>
-        <TextBlock Text="{Binding Document.ReadedDocument}" DockPanel.Dock="Bottom"></TextBlock>
+        <TextBlock Text="{Binding Document.ReadedDocument.}" TextWrapping="Wrap" DockPanel.Dock="Bottom"></TextBlock>
     </DockPanel>
 </Window>
