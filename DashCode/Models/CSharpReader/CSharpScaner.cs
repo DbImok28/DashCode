@@ -1,9 +1,9 @@
-﻿using System;
+﻿using DashCode.Models.DocumentReaders;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DashCode.Models.DocumentReaders.CSharp
+namespace DashCode.Models.CSharpReader
 {
     /// <summary>
     /// Разбивает текст на токены

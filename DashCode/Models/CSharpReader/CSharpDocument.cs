@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DashCode.Models
+namespace DashCode.Models.CSharpReader
 {
     public class CSharpDocument : EditorDocument
     {

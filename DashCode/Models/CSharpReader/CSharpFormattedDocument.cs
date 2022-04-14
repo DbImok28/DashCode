@@ -1,10 +1,9 @@
-﻿using DashCode.Models.DocumentReaders.CSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
 
-namespace DashCode.Models
+namespace DashCode.Models.CSharpReader
 {
     public class CSharpFormattedDocument : FormattedEditorDocument
     {

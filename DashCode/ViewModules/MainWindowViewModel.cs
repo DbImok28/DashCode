@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DashCode.Models;
-using DashCode.Models.DocumentReaders.CSharp;
+using DashCode.Models.CSharpReader;
 
 namespace DashCode.ViewModules
 {

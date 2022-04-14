@@ -1,4 +1,6 @@
-﻿namespace DashCode.Models.DocumentReaders.CSharp
+﻿using DashCode.Models.DocumentReaders;
+
+namespace DashCode.Models.CSharpReader
 {
     public enum CSharpTokenType
     {

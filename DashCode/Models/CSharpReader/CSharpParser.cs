@@ -1,51 +1,12 @@
-﻿using System;
+﻿using DashCode.Models.DocumentReaders;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DashCode.Models.DocumentReaders.CSharp
+namespace DashCode.Models.CSharpReader
 {
     public class CSharpParser : IDocumentParser
     {
-        /*switch (token.TokenType)
-                {
-                    case CSharpTokenType.Separator:
-                        node.AddNode(new DeductionNode(curentTokenSet));
-                        curentTokenSet = new List<Token>();
-                        break;
-                    case CSharpTokenType.ScopeStart:
-                        if (curentTokenSet.Count != 0)
-                        {
-                            node.AddNode(new DeductionNode(curentTokenSet));
-                            curentTokenSet = new List<Token>();
-                        }
-                        i++;
-                        node.AddNode(MakeTree(tokens, new ScopeNode(), ref i));
-                        break;
-                    case CSharpTokenType.ScopeEnd:
-                        if (curentTokenSet.Count != 0)
-                            node.AddNode(new DeductionNode(curentTokenSet));
-                        pos = i;
-                        node.Check();
-                        return node;
-                    case CSharpTokenType.ParamsStart:
-                        if (curentTokenSet.Count != 0)
-                        {
-                            node.AddNode(new DeductionNode(curentTokenSet));
-                            curentTokenSet = new List<Token>();
-                        }
-                        i++;
-                        node.AddNode(MakeTree(tokens, new ParamsNode(), ref i));
-                        break;
-                    case CSharpTokenType.ParamsEnd:
-                        if (curentTokenSet.Count != 0)
-                            node.AddNode(new DeductionNode(curentTokenSet));
-                        pos = i;
-                        node.Check();
-                        return node;
-                    default:
-                        curentTokenSet.Add(token);
-                        break;
-                }*/
         public BaseNode MakeTree(List<Token> tokens, BaseNode node, ref int pos)
         {
             DeductionNode currentdeductionNode = new DeductionNode(new List<Token>());
