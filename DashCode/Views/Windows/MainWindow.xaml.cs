@@ -109,9 +109,33 @@ namespace DashCode
         {
             SetBlocks(ConvertToBlocks(formattedDoc));
         }
+        private ScrollViewer FindScrollViewer(DependencyObject d)
+        {
+            if (d is ScrollViewer)
+                return d as ScrollViewer;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(d); i++)
+            {
+                var sw = FindScrollViewer(VisualTreeHelper.GetChild(d, i));
+                if (sw != null) return sw;
+            }
+            return null;
+        }
         private void SetBlocks(List<Block> blocks)
         {
+            TextPointer tp1 = editorRTB.Selection.Start.GetLineStartPosition(0);
+            TextPointer tp2 = editorRTB.Selection.Start;
+
+            int column = tp1.GetOffsetToPosition(tp2);
+
+            int someBigNumber = int.MaxValue;
+            int lineMoved, currentLineNumber;
+            editorRTB.Selection.Start.GetLineStartPosition(-someBigNumber, out lineMoved);
+            currentLineNumber = -lineMoved;
+
+            Title = "Line: " + currentLineNumber.ToString() + " Column: " + column.ToString();
             
+            rowCount = blocks.Count();
             IgnoreChange = true;
             editorRTB.Document.Blocks.Clear();
             editorRTB.Document.Blocks.AddRange(blocks);
@@ -127,6 +151,12 @@ namespace DashCode
         private MainWindowViewModel mainWindowViewModel;
         private bool IgnoreChange = false;
         private int EditsCount = 0;
-        private int LastUpdateSeconds = 0;
+        private int rowCount = 0;
+
+        private void editorRTB_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            int startRow = (int)(e.VerticalOffset / 48) + 1;
+            rowList.ItemsSource = Enumerable.Range(startRow, rowCount - startRow).ToArray();
+        }
     }
 }
