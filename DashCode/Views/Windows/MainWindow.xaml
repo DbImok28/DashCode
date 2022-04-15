@@ -7,21 +7,34 @@
         xmlns:vm="clr-namespace:DashCode.ViewModules"
         xmlns:local="clr-namespace:DashCode"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800">
+        Title="{Binding Title}" Height="720" Width="1080">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Height="20" HorizontalAlignment="Right">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Width" Value="20"/>
-                    <Setter Property="Height" Value="20"/>
-                </Style>
-            </StackPanel.Resources>
-            <Button Click="Button_UpdateClick"/>
-        </StackPanel>
-        <DockPanel DockPanel.Dock="Top">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <DockPanel DockPanel.Dock="Top" Grid.RowSpan="3" Grid.Row="1">
+            <StackPanel DockPanel.Dock="Top" Height="20" HorizontalAlignment="Right">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="20"/>
+                        <Setter Property="Height" Value="20"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Click="Button_UpdateClick"/>
+            </StackPanel>
             <WrapPanel Orientation="Vertical" Margin="4,0" DockPanel.Dock="Left">
                 <WrapPanel.Resources>
                     <Style TargetType="{x:Type TextBlock}">
@@ -56,5 +69,27 @@
                 </RichTextBox.Resources>
             </RichTextBox>
         </DockPanel>
-    </DockPanel>
+        <ListBox Grid.Row="5">
+            <TextBlock>Error1</TextBlock>
+            <TextBlock>Error1</TextBlock>
+            <TextBlock>Error1</TextBlock>
+            <TextBlock>Error1</TextBlock>
+        </ListBox>
+        <GridSplitter Grid.Row="4" Grid.Column="0" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Row="2" Grid.Column="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <ListBox Grid.Row="3" Grid.RowSpan="3" Grid.Column="3">
+            <TextBlock>Message 1</TextBlock>
+            <TextBlock>Message 2</TextBlock>
+            <TextBlock>Message 3</TextBlock>
+            <TextBlock>Message 4</TextBlock>
+            <TextBlock>Message 5</TextBlock>
+            <TextBlock>Message 6</TextBlock>
+            <TextBlock>Message 7</TextBlock>
+            <TextBlock>Message 8</TextBlock>
+            <TextBlock>Message 9</TextBlock>
+            <TextBlock>Message 10</TextBlock>
+            <TextBlock>Message 11</TextBlock>
+        </ListBox>
+    </Grid>
 </Window>

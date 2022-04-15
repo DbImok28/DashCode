@@ -30,27 +30,13 @@ namespace DashCode
             if (DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 this.mainWindowViewModel = mainWindowViewModel;
-                //this.mainWindowViewModel.FormattedDocument.OnDocumentUpdate += EditorDocumentChanged;
-                //flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
                 ConvertAndSet(mainWindowViewModel.FormattedDocument);
-                //editorRTB.Document = flowDocument;
             }
             else
             {
                 throw new InvalidCastException("Window DataContext is not MainWindowViewModel");
             }
         }
-        
-        //public void EditorDocumentChanged(object o, EventArgs args)
-        //{
-        //    //var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-        //    //range.Changed
-
-        //    //flowDocument = ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
-        //    ConvertToFlowDocument(mainWindowViewModel.FormattedDocument);
-        //    editorRTB.UpdateLayout();
-        //}
-
         private void editorRTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!IgnoreChange)
@@ -155,8 +141,9 @@ namespace DashCode
 
         private void editorRTB_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            int startRow = (int)(e.VerticalOffset / 48) + 1;
-            rowList.ItemsSource = Enumerable.Range(startRow, rowCount - startRow).ToArray();
+            //int startRow = (int)(e.VerticalOffset / 48) + 1;
+            int startRow = (int)(e.VerticalOffset / 24);
+            rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
         }
     }
 }
