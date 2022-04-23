@@ -181,5 +181,6 @@
                 <TextBlock>Message 11</TextBlock>
             </ListBox>
         </Grid>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
