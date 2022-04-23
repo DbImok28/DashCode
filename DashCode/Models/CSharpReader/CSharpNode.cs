@@ -85,9 +85,17 @@ namespace DashCode.Models.CSharpReader
             var currentScope = DetermineNodeType(scopeType);
             if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 messages.Add(ErrorMessage);
-            foreach (CSharpNode node in SubNodes)
+            if (currentScope == ScopeType.Method && SubNodes.Count == 2)
             {
-                messages.AddRange(node.DetermineAll(currentScope));
+                messages.AddRange(SubNodes[0].DetermineAll(ScopeType.Params));
+                messages.AddRange(SubNodes[1].DetermineAll(ScopeType.Method));
+            }
+            else
+            {
+                foreach (CSharpNode node in SubNodes)
+                {
+                    messages.AddRange(node.DetermineAll(currentScope));
+                }
             }
             return messages;
         }
@@ -98,6 +106,26 @@ namespace DashCode.Models.CSharpReader
                 Invalidate();
                 return ScopeType.None;
             }
+            // none supported
+            //if (scopeType == ScopeType.None)
+            //{
+            //    Invalidate();
+            //    return ScopeType.None;
+            //}
+            //switch (scopeType)
+            //{
+            //    case ScopeType.Event:
+            //        Invalidate("Event none support");
+            //        return ScopeType.None;
+            //    case ScopeType.Property:
+            //        Invalidate("Property none support");
+            //        return ScopeType.None;
+            //    case ScopeType.Method:
+            //        Invalidate("Method none support");
+            //        return ScopeType.None;
+            //    default:
+            //        break;
+            //}
             if (NodeType == NodeType.None)
             {
                 // Before determine
