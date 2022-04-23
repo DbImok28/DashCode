@@ -101,12 +101,12 @@ namespace DashCode.Models.CSharpReader
             }
             return result;
         }
-        public static Color NoFormattedTextColor = Color.FromRgb(0, 0, 0);
+        public static Color NoFormattedTextColor = Color.FromRgb(250, 250, 250);
         public static Color ErrorTextColor = Color.FromRgb(255, 0, 0);
         public static Dictionary<CSharpTokenType, Color> ColorsDictionary = new Dictionary<CSharpTokenType, Color>(){
-            {CSharpTokenType.AccessModifier, Color.FromRgb(10,10,250)},
-            {CSharpTokenType.KeyName, Color.FromRgb(10,10,250)},
-            {CSharpTokenType.Name, Color.FromRgb(9, 176, 222)},
+            {CSharpTokenType.AccessModifier, Color.FromRgb( 102,153,204)},
+            {CSharpTokenType.KeyName, Color.FromRgb(51,153,255)},
+            {CSharpTokenType.Name, Color.FromRgb(51, 255, 255)},
             {CSharpTokenType.TypeName, Color.FromRgb(9, 222, 133)},
             {CSharpTokenType.None, Color.FromRgb(255,0,0)},
         };

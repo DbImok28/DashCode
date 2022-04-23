@@ -164,8 +164,6 @@ namespace DashCode.Models.CSharpReader
                 }
                 switch (NodeType)
                 {
-                    case NodeType.None:
-                        break;
                     case NodeType.Using:
                     case NodeType.Namespace:
                     case NodeType.Interface:
@@ -184,7 +182,7 @@ namespace DashCode.Models.CSharpReader
                                 return false;
                             }
                         }
-                        break;
+                        return true;
                     case NodeType.Property:
                     case NodeType.Event:
                     case NodeType.Method:
@@ -213,11 +211,18 @@ namespace DashCode.Models.CSharpReader
                                 return false;
                             }
                         }
+                        return true;
+                    case NodeType.None:
                         break;
                     default:
-                        ErrorMessage = "Unknown error";
-                        return false;
+                        break;
                 }
+                foreach (CSharpToken token in Tokens)
+                {
+                    token.TokenType = CSharpTokenType.None;
+                }
+                ErrorMessage = "Unknown expression";
+                return false;
             }
             return true;
         }

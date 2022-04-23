@@ -6,8 +6,9 @@
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
         xmlns:local="clr-namespace:DashCode"
+        xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080">
+        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -99,47 +100,48 @@
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+            <StackPanel Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="3">
+                <Button Click="Button_UpdateClick" Width="40" Margin="2">
+                    <TextBlock Text="save" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+            </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
-            <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            <DockPanel DockPanel.Dock="Top">
-                <StackPanel DockPanel.Dock="Top" Height="20" HorizontalAlignment="Right">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Width" Value="20"/>
-                            <Setter Property="Height" Value="20"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button Click="Button_UpdateClick"/>
+            <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            <DockPanel Background="{StaticResource ElementForegroundColor}">
+                <StackPanel DockPanel.Dock="Top" Height="24" HorizontalAlignment="Right">
+                    <Button Click="Button_UpdateClick" Width="20" Height="20" Margin="2">
+                        <TextBlock Text="r" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
                 </StackPanel>
-                <WrapPanel Orientation="Vertical" Margin="4,0" DockPanel.Dock="Left">
-                    <WrapPanel.Resources>
+                <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}">
+                    <ListBox.Resources>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="FontSize" Value="{Binding FontSize}"/>
                         </Style>
-                    </WrapPanel.Resources>
-                    <ListBox x:Name="rowList" Margin="0" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" FontSize="{Binding FontSize}" Margin="0" Padding="0" Height="14.35"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Margin="0"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                    </ListBox>
-                </WrapPanel>
-                <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged" 
-                             ScrollViewer.ScrollChanged="editorRTB_ScrollChanged">
+                    </ListBox.Resources>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="{Binding FontSize}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Background="{StaticResource ElementForegroundColor}" Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                <RichTextBox Background="{StaticResource ElementBackgroundColor}" BorderBrush="{StaticResource ElementBorderColor}" x:Name="editorRTB" 
+                             Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged" 
+                             ScrollViewer.ScrollChanged="editorRTB_ScrollChanged" BorderThickness="0">
                     <RichTextBox.Resources>
                         <!--<DataTemplate>
                         
@@ -153,34 +155,48 @@
                     </RichTextBox.Resources>
                 </RichTextBox>
             </DockPanel>
-            <ListBox Grid.Row="2">
-                <TextBlock>Error1</TextBlock>
-                <TextBlock>Error1</TextBlock>
-                <TextBlock>Error1</TextBlock>
-                <TextBlock>Error1</TextBlock>
-            </ListBox>
+            <controls:Explorer NameText="Output" Grid.Row="2">
+                <controls:Explorer.Items>
+                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{StaticResource TextColor}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </controls:Explorer.Items>
+            </controls:Explorer>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="300"/>
             </Grid.RowDefinitions>
-            <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            <ListBox Grid.Row="3" Grid.RowSpan="3" Grid.Column="3">
-                <TextBlock>Message 1</TextBlock>
-                <TextBlock>Message 2</TextBlock>
-                <TextBlock>Message 3</TextBlock>
-                <TextBlock>Message 4</TextBlock>
-                <TextBlock>Message 5</TextBlock>
-                <TextBlock>Message 6</TextBlock>
-                <TextBlock>Message 7</TextBlock>
-                <TextBlock>Message 8</TextBlock>
-                <TextBlock>Message 9</TextBlock>
-                <TextBlock>Message 10</TextBlock>
-                <TextBlock>Message 11</TextBlock>
-            </ListBox>
+            <controls:Explorer NameText="Folders">
+                <controls:Explorer.Items>
+                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{StaticResource TextColor}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </controls:Explorer.Items>
+            </controls:Explorer>
+            <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            <controls:Explorer NameText="Messages" Grid.Row="2" Grid.Column="2">
+                <controls:Explorer.Items>
+                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{StaticResource TextColor}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </controls:Explorer.Items>
+            </controls:Explorer>
         </Grid>
-        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
