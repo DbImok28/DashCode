@@ -29,7 +29,7 @@ namespace DashCode.Models.CSharpReader
 
         public override string ToString()
         {
-            return $"{TokenType}: {Text}";
+            return $"[{TokenType}: {Text}]";
         }
     }
 }

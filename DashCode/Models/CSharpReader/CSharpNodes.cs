@@ -30,58 +30,36 @@ namespace DashCode.Models.CSharpReader
         PrivateProtected,
         ProtectedInternal
     }
-    public class BaseNode : IConstruction
+    public enum ScopeType
     {
+        None,
+        Root,
+        Namespace,
+        Class,
+        Interface,
+        Property,
+        Event,
+        Method,
+        Params
+    }
+    public class DeductionNode : IConstruction
+    {
+        public NodeType NodeType { get; set; }
+        public List<DeductionNode> SubNodes { get; set; }
+        public string ErrorMessage { get; protected set; }
+        public static Dictionary<string, NodeType> KeyNameDictionary { get; set; }
+        public AccessModificators AccessModificator { get; set; }
+        public string Name { get; set; }
+        public string TypeName { get; set; }
+        public List<Token> Tokens { get; set; }
         public bool CheckInterval(int pos, int len, int iterPos)
         {
             return false;
         }
-        public FormattedStrings ApplyFormat(FormattedStrings strings)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual bool Check()
-        {
-            return false;
-        }
-        public virtual string GetErrorMessage()
-        {
-            return ErrorMessage;
-        }
-        public void AddNode(BaseNode node)
+        public void AddNode(DeductionNode node)
         {
             SubNodes.Add(node);
         }
-        public NodeType NodeType { get; set; }
-        public List<BaseNode> SubNodes { get; set; }
-        public string ErrorMessage { get; protected set; }
-        public BaseNode(NodeType nodeType = NodeType.None)
-        {
-            NodeType = nodeType;
-            SubNodes = new List<BaseNode>();
-        }
-        public override string ToString()
-        {
-            if (SubNodes.Count > 0)
-            {
-                var builder = new StringBuilder();
-                builder.Append(NodeType);
-                builder.Append(" (");
-                for (int i = 0, n = SubNodes.Count; i < n; i++)
-                {
-                    var node = SubNodes[i];
-                    builder.Append(node);
-                    if (i < n - 1) 
-                        builder.Append(", ");
-                }
-                builder.Append(")");
-                return builder.ToString();
-            }
-            return NodeType.ToString();
-        }
-    }
-    public class DeductionNode : BaseNode
-    {
         static DeductionNode()
         {
             KeyNameDictionary = new Dictionary<string, NodeType>()
@@ -93,15 +71,36 @@ namespace DashCode.Models.CSharpReader
                 { "event",      NodeType.Event },
             };
         }
-        public DeductionNode(List<Token> tokens, NodeType nodeType = NodeType.None) : base(nodeType)
+        public DeductionNode(List<Token> tokens, NodeType nodeType = NodeType.None)
         {
-            Tokens = tokens ?? throw new ArgumentNullException(nameof(tokens));
+            Tokens = tokens;
+            NodeType = nodeType;
             AccessModificator = AccessModificators.None;
+            SubNodes = new List<DeductionNode>();
         }
-        public bool DetermineNodeType()
+        public DeductionNode(NodeType nodeType = NodeType.None) : this(new List<Token>(), nodeType) { }
+        public List<string> DetermineAll(ScopeType scopeType)
         {
+            var messages = new List<string>();
+            var currentScope = DetermineNodeType(scopeType);
+            if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                messages.Add(ErrorMessage);
+            foreach (DeductionNode node in SubNodes)
+            {
+                messages.AddRange(node.DetermineAll(currentScope));
+            }
+            return messages;
+        }
+        public ScopeType DetermineNodeType(ScopeType scopeType)
+        {
+            if (scopeType == ScopeType.None)
+            {
+                Invalidate();
+                return ScopeType.None;
+            }
             if (NodeType == NodeType.None)
             {
+                // Before determine
                 int startIndex = DetermineAccessModificator();
                 int NameCount = 0;
                 int NameIndex = -1;
@@ -111,22 +110,18 @@ namespace DashCode.Models.CSharpReader
                     switch (token.TokenType)
                     {
                         case CSharpTokenType.None:
-                            ErrorMessage = "Unknown expression";
-                            for (int j = 0; j < i; j++)
-                            {
-                                (Tokens[j] as CSharpToken).TokenType = CSharpTokenType.None;
-                            }
-                            return false;
+                            Invalidate($"Unknown expression: {token}");
+                            return ScopeType.None;
                         case CSharpTokenType.AccessModifier:
-                            ErrorMessage = "Incorrect access modifier declaration";
-                            return false;
+                            Invalidate($"Incorrect access modifier declaration: {token}");
+                            return ScopeType.None;
                         case CSharpTokenType.KeyName:
                             if (NodeType == NodeType.None)
                                 NodeType = GetNodeType(token);
                             else
                             {
-                                ErrorMessage = "Keyword declared twice";
-                                return false;
+                                Invalidate($"Keyword declared twice: {token}");
+                                return ScopeType.None;
                             }
                             break;
                         case CSharpTokenType.Name:
@@ -142,28 +137,88 @@ namespace DashCode.Models.CSharpReader
                             }
                             break;
                         default:
-                            ErrorMessage = "Unknown error";
-                            break;
+                            Invalidate($"Unknown token: {token}");
+                            return ScopeType.None;
                     }
                 }
-                if (NodeType == NodeType.None)
+
+                // Check scope
+                switch (scopeType)
                 {
-                    if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
-                    {
-                        NodeType = NodeType.Method;
-                    }
-                    else if (NameCount == 2 && Tokens.Count - startIndex == 2)
-                    {
-                        if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
+                    case ScopeType.Root:
+                        if (NodeType != NodeType.None)
                         {
-                            NodeType = NodeType.Property;
+                            if (!CheckRange(new List<NodeType> {
+                                NodeType.Using,
+                                NodeType.Namespace,
+                            })) return ScopeType.None;
                         }
-                        else if (SubNodes.Count == 0)
+                        break;
+                    case ScopeType.Namespace:
+                        if (NodeType != NodeType.None)
+                        {
+                            if (!CheckRange(new List<NodeType> {
+                                NodeType.Class,
+                                NodeType.Interface,
+                            })) return ScopeType.None;
+                        }
+                        break;
+                    case ScopeType.Interface:
+                    case ScopeType.Class:
+                        // Method, Property, Var
+                        if (NodeType == NodeType.None)
+                        {
+                            if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
+                            {
+                                NodeType = NodeType.Method;
+                            }
+                            else if (NameCount == 2 && Tokens.Count - startIndex == 2)
+                            {
+                                if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
+                                {
+                                    NodeType = NodeType.Property;
+                                }
+                                else if (SubNodes.Count == 0)
+                                {
+                                    NodeType = NodeType.Var;
+                                }
+                            }
+                        }
+                        if (NodeType != NodeType.None)
+                        {
+                            if (!CheckRange(new List<NodeType> {
+                                NodeType.Class,
+                                NodeType.Property,
+                                NodeType.Interface,
+                                NodeType.Method,
+                                NodeType.Var,
+                                NodeType.Event
+                            })) return ScopeType.None;
+                        }
+                        break;
+                    case ScopeType.Params:
+                        if (NodeType == NodeType.None && NameCount == 2 && Tokens.Count - startIndex == 2 && SubNodes.Count == 0)
                         {
                             NodeType = NodeType.Var;
                         }
-                    }
+                        break;
+                    case ScopeType.Event:
+                        Invalidate("Event none support");
+                        return ScopeType.None;
+                    case ScopeType.Property:
+                        Invalidate("Property none support");
+                        return ScopeType.None;
+                    case ScopeType.Method:
+                        Invalidate("Method none support");
+                        return ScopeType.None;
+                    case ScopeType.None:
+                        Invalidate("Unknown expression");
+                        return ScopeType.None;
+                    default:
+                        break;
                 }
+
+                // Set properties
                 switch (NodeType)
                 {
                     case NodeType.Using:
@@ -180,11 +235,11 @@ namespace DashCode.Models.CSharpReader
                             }
                             else
                             {
-                                ErrorMessage = "Unknown error";
-                                return false;
+                                Invalidate("Unknown error");
+                                return ScopeType.None;
                             }
                         }
-                        return true;
+                        break;
                     case NodeType.Property:
                     case NodeType.Event:
                     case NodeType.Method:
@@ -203,35 +258,92 @@ namespace DashCode.Models.CSharpReader
                                 }
                                 else
                                 {
-                                    ErrorMessage = "No name specified";
-                                    return false;
+                                    Invalidate("No name specified");
+                                    return ScopeType.None;
                                 }
                             }
                             else
                             {
-                                ErrorMessage = "Type not specified";
-                                return false;
+                                Invalidate("Type not specified");
+                                return ScopeType.None;
                             }
                         }
-                        return true;
+                        break;
+                    case NodeType.Root:
+                    case NodeType.Scope:
+                    case NodeType.Params:
+                        break;
                     case NodeType.None:
-                        break;
                     default:
-                        break;
+                        Invalidate("Unknown expression");
+                        return ScopeType.None;
                 }
-                foreach (CSharpToken token in Tokens)
-                {
-                    token.TokenType = CSharpTokenType.None;
-                }
-                NodeType = NodeType.None;
-                ErrorMessage = "Unknown expression";
-                return false;
             }
-            return true;
+            /*switch (NodeType)
+            {
+                case NodeType.None: return ScopeType.None;
+                case NodeType.Root: return ScopeType.Root;
+                case NodeType.Scope: return scopeType;
+                case NodeType.Params: return ScopeType.Params;
+                case NodeType.Using: return ScopeType.None;
+                case NodeType.Namespace: return ScopeType.Namespace;
+                case NodeType.Class: return ScopeType.Class;
+                case NodeType.Property: return ScopeType.Property;
+                case NodeType.Interface: return ScopeType.Interface;
+                case NodeType.Event: return ScopeType.Event;
+                case NodeType.Method: return ScopeType.Method;
+                case NodeType.Var: return ScopeType.None;
+                default: return ScopeType.None;
+            }*/
+            return NodeType switch
+            {
+                NodeType.None => ScopeType.None,
+                NodeType.Root => ScopeType.Root,
+                NodeType.Scope => scopeType,
+                NodeType.Params => ScopeType.Params,
+                NodeType.Using => ScopeType.None,
+                NodeType.Namespace => ScopeType.Namespace,
+                NodeType.Class => ScopeType.Class,
+                NodeType.Property => ScopeType.Property,
+                NodeType.Interface => ScopeType.Interface,
+                NodeType.Event => ScopeType.Event,
+                NodeType.Method => ScopeType.Method,
+                NodeType.Var => ScopeType.None,
+                _ => ScopeType.None,
+            };
+        }
+        private void Invalidate()
+        {
+            foreach (CSharpToken token in Tokens)
+            {
+                token.TokenType = CSharpTokenType.None;
+            }
+            NodeType = NodeType.None;
+        }
+        private void Invalidate(string message)
+        {
+            foreach (CSharpToken token in Tokens)
+            {
+                token.TokenType = CSharpTokenType.None;
+            }
+            NodeType = NodeType.None;
+            ErrorMessage = message;
+        }
+        private bool CheckRange(List<NodeType> nodeTypes)
+        {
+            foreach (var node in nodeTypes)
+            {
+                if (NodeType == node)
+                {
+                    return true;
+                }
+            }
+            Invalidate($"{NodeType} cannot be declared here");
+            return false;
         }
         private int DetermineAccessModificator()
         {
-            if((Tokens[0] as CSharpToken).TokenType == CSharpTokenType.AccessModifier)
+            if ((Tokens[0] as CSharpToken).TokenType == CSharpTokenType.AccessModifier)
             {
                 switch (Tokens[0].Text)
                 {
@@ -274,15 +386,13 @@ namespace DashCode.Models.CSharpReader
             }
             return NodeType.None;
         }
-        public static Dictionary<string, NodeType> KeyNameDictionary { get; set; }
-        public AccessModificators AccessModificator { get; set; }
         public override string ToString()
         {
             var builder = new StringBuilder();
             builder.Append(NodeType);
             if (Tokens.Count > 0)
             {
-                builder.Append(" [");
+                builder.Append(" ");
                 for (int i = 0, n = Tokens.Count; i < n; i++)
                 {
                     var token = Tokens[i];
@@ -290,73 +400,10 @@ namespace DashCode.Models.CSharpReader
                     if (i < n - 1)
                         builder.Append(", ");
                 }
-                builder.Append("]");
             }
             if (SubNodes.Count > 0)
             {
-                for (int i = 0, n = SubNodes.Count; i < n; i++)
-                {
-                    var node = SubNodes[i];
-                    builder.Append(node);
-                    if (i < n - 1)
-                        builder.Append(", \n");
-                }
-            }
-            return builder.ToString();
-        }
-        public override bool Check()
-        {
-            return DetermineNodeType();
-        }
-        public string Name { get; set; }
-        public string TypeName { get; set; }
-        public List<Token> Tokens { get; set; }
-    }
-    public class RootNode : BaseNode
-    {
-        public RootNode() : base(NodeType.Root)
-        {
-            SubNodes = new List<BaseNode>();
-        }
-        public override bool Check()
-        {
-            return true;
-        }
-        public override string ToString()
-        {
-            if (SubNodes.Count > 0)
-            {
-                var builder = new StringBuilder();
-                builder.Append(NodeType);
-                builder.Append(' ');
-                for (int i = 0, n = SubNodes.Count; i < n; i++)
-                {
-                    var node = SubNodes[i];
-                    builder.Append(node);
-                    if (i < n - 1)
-                        builder.Append(", \n");
-                }
-                return builder.ToString();
-            }
-            return NodeType.ToString();
-        }
-    }
-    public class ScopeNode : BaseNode 
-    {
-        public ScopeNode() : base(NodeType.Scope)
-        {
-        }
-        public override bool Check()
-        {
-            return true;
-        }
-        public override string ToString()
-        {
-            if (SubNodes.Count > 0)
-            {
-                var builder = new StringBuilder();
-                builder.Append(NodeType);
-                builder.Append(" {");
+                builder.Append("{");
                 for (int i = 0, n = SubNodes.Count; i < n; i++)
                 {
                     var node = SubNodes[i];
@@ -365,54 +412,8 @@ namespace DashCode.Models.CSharpReader
                         builder.Append(", \n");
                 }
                 builder.Append("}");
-                return builder.ToString();
             }
-            return NodeType.ToString();
+            return builder.ToString();
         }
     }
-    public class ParamsNode : BaseNode
-    {
-        public ParamsNode() : base(NodeType.Params)
-        {
-           
-        }
-        public override bool Check()
-        {
-            return true;
-        }
-        public override string ToString()
-        {
-            if (SubNodes.Count > 0)
-            {
-                var builder = new StringBuilder();
-                builder.Append(NodeType);
-                builder.Append(" (");
-                for (int i = 0, n = SubNodes.Count; i < n; i++)
-                {
-                    var node = SubNodes[i];
-                    builder.Append(node);
-                    if (i < n - 1)
-                        builder.Append(", ");
-                }
-                builder.Append(")");
-                return builder.ToString();
-            }
-            return NodeType.ToString();
-        }
-    }
-   
-    //        //// (\w|\.|_)+ 
-    //        //// (public|private|protected|internal|private\sprotected|protected\sinternal)(\s)+
-    //        //// CtorDeduction (public|private|protected|internal|private\sprotected|protected\sinternal)\s+(\w)+\s*    Brek
-    //        //// TypeOrMethodDeduction (public|private|protected|internal|private\sprotected|protected\sinternal)\s+(\w|\.|_)+\s+(\w|\.|_)+\s*    Brek
-    //        //var usingRegex = new Regex(@"using(\s)(\w|\.|_)+;");
-    //        //var namespaceRegex = new Regex(@"namespace\s+(\w|\.|_)+\s*\{(.|\s)*\}"); // {}
-    //        //var classRegex = new Regex(@"((public|private|protected|internal|private\sprotected|protected\sinternal)+\s+class\s+(\w|\.|_)+\s*\{(.|\s)*\}"); //abstract ...
-    //        //var propertyRegex = new Regex(@"(public|private|protected|internal|private\sprotected|protected\sinternal)\s+(\w|\.|_)+\s+(\w|\.|_)+\s*(?:;|\{(.|\s)*\})"); // hard mod chesc
-    //        //var getSetAddRemove = new Regex(@"(public|private|protected|internal|private\sprotected|protected\sinternal)?\s*(get|set|add|remove)\s*(;|=>\s*(?:\{(.|\s)*\})|(.|\s)*?;)");
-    //        //var methodInputRegex = new Regex(@"\s*(\w+)\s+(\w+)\s*(\w+\s*)?(,|=\s(\w)+|)");
-    //        //var varRegex = new Regex(@"");
-    //        //var callRegex = new Regex(@"");
-    //        //var ctorRegex = new Regex(@"");
- 
 }

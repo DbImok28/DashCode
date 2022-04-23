@@ -16,7 +16,7 @@ namespace DashCode.Models.CSharpReader
             var rawDocument = EditorDocument.RawDocument;
             int pos = 0;
             FormattedStrings result = new FormattedStrings(new List<FormattedString>());
-            foreach(DeductionNode node in (EditorDocument.ReadedDocument as RootNode).SubNodes)
+            foreach(DeductionNode node in (EditorDocument.ReadedDocument as DeductionNode).SubNodes)
             {
                 result.Add(Format(rawDocument, ref pos, node));
             }
@@ -83,20 +83,6 @@ namespace DashCode.Models.CSharpReader
                 if (subNode is DeductionNode deductionNode)
                 {
                     result.Add(Format(doc, ref pos, deductionNode));
-                }
-                else if (subNode is ScopeNode scopeNode)
-                {
-                    foreach (DeductionNode scopeSubNode in scopeNode.SubNodes)
-                    {
-                        result.Add(Format(doc, ref pos, scopeSubNode));
-                    }
-                }
-                else if (subNode is ParamsNode paramNode)
-                {
-                    foreach (DeductionNode paramSubNode in paramNode.SubNodes)
-                    {
-                        result.Add(Format(doc, ref pos, paramSubNode));
-                    }
                 }
             }
             return result;

@@ -123,14 +123,9 @@
                 </StackPanel>
                 <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
                              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}">
-                    <ListBox.Resources>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="FontSize" Value="{Binding FontSize}"/>
-                        </Style>
-                    </ListBox.Resources>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" FontSize="{Binding FontSize}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35"/>
+                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>

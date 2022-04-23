@@ -12,7 +12,7 @@ namespace DashCode.Models.CSharpReader
             OutputLog = new List<string>();
         }
 
-        public BaseNode MakeTree(List<Token> tokens, BaseNode node, ref int pos)
+        public DeductionNode MakeTree(List<Token> tokens, DeductionNode node, ref int pos)
         {
             DeductionNode currentdeductionNode = new DeductionNode(new List<Token>());
             for (int i = pos; i < tokens.Count; i++)
@@ -21,17 +21,13 @@ namespace DashCode.Models.CSharpReader
                 switch (token.TokenType)
                 {
                     case CSharpTokenType.Separator:
-                        if (!currentdeductionNode.Check())
-                            OutputLog.Add(currentdeductionNode.ErrorMessage);
                         node.AddNode(currentdeductionNode);
                         currentdeductionNode = new DeductionNode(new List<Token>());
                         break;
                     case CSharpTokenType.ScopeStart:
                         {
                             i++;
-                            currentdeductionNode.AddNode(MakeTree(tokens, new ScopeNode(), ref i));
-                            if (!currentdeductionNode.Check())
-                                OutputLog.Add(currentdeductionNode.ErrorMessage);
+                            currentdeductionNode.AddNode(MakeTree(tokens, new DeductionNode(NodeType.Scope), ref i));
                             node.AddNode(currentdeductionNode);
                             currentdeductionNode = new DeductionNode(new List<Token>());
                         }
@@ -39,7 +35,7 @@ namespace DashCode.Models.CSharpReader
                     case CSharpTokenType.ParamsStart:
                         {
                             i++;
-                            currentdeductionNode.AddNode(MakeTree(tokens, new ParamsNode(), ref i));
+                            currentdeductionNode.AddNode(MakeTree(tokens, new DeductionNode(NodeType.Params), ref i));
                             //node.AddNode(currentdeductionNode);
                         }
                         break;
@@ -47,8 +43,6 @@ namespace DashCode.Models.CSharpReader
                     case CSharpTokenType.ScopeEnd:
                         if (currentdeductionNode.Tokens.Count != 0 || currentdeductionNode.SubNodes.Count != 0)
                         {
-                            if (!currentdeductionNode.Check())
-                                OutputLog.Add(currentdeductionNode.ErrorMessage);
                             node.AddNode(currentdeductionNode);
                         }
                         pos = i;
@@ -62,9 +56,9 @@ namespace DashCode.Models.CSharpReader
         }
         public override IConstruction Parse(List<Token> tokens)
         {
-            OutputLog.Clear();
             int pos = 0;
-            RootNode root = MakeTree(tokens, new RootNode(), ref pos) as RootNode;
+            var root = MakeTree(tokens, new DeductionNode(NodeType.Root), ref pos);
+            OutputLog = root.DetermineAll(ScopeType.Root);
             return root;
         }
     }
