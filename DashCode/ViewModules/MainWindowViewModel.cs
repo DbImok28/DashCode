@@ -41,14 +41,6 @@ namespace DashCode.ViewModules
             set => Set(ref _LastTextChange, value);
         }
         #endregion
-        //#region Document
-        //private EditorDocument _Document;
-        //public EditorDocument Document
-        //{
-        //    get => _Document;
-        //    set => Set(ref _Document, value);
-        //}
-        //#endregion
         #region FormattedDocument
         private FormattedEditorDocument _FormattedDocument;
         public FormattedEditorDocument FormattedDocument
@@ -58,22 +50,9 @@ namespace DashCode.ViewModules
         }
         #endregion
 
-        //public void AddText(int pos, string str)
-        //{
-        //    Document.AddText(pos, str);
-        //}
-        //public void RemoveText(int pos, int length)
-        //{
-        //    Document.RemoveText(pos, length);
-        //}
-
-
        
         public MainWindowViewModel()
         {
-            //Document = new EditorDocument("namespace Hay{public class   Hello{}}}", new CSharpReader());
-            //Document = new EditorDocument("int Count;\n double Value;", new CSharpDocumentParser());
-            //Document = new EditorDocument("namespace Hay{public class Hello    {public string msg{get; set;} public void Say(){}}}", new CSharpReader());
             EditorDocument Document = new EditorDocument(@"using DashCode.Models.DocumentParser;
 using System;
 using System.Collections.Generic;
@@ -126,15 +105,5 @@ namespace DashCode.Models
             OnPropertyChanged("Document");
         }
     }
-    //            EditorDocument Document = new EditorDocument(@"public void AddText(int pos, string str)
-    //        {
-    //        }
-
-    //", new CSharpReader());
-    //            FormattedDocument = new CSharpFormattedDocument(Document);
-    //            Document.Read();
-    //            FormattedDocument.Format();
-    //            OnPropertyChanged("Document");
-    //        }
 }
 

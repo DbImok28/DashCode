@@ -42,10 +42,10 @@ namespace DashCode.Models.CSharpReader
         Method,
         Params
     }
-    public class DeductionNode : IConstruction
+    public class CSharpNode : IConstruction
     {
         public NodeType NodeType { get; set; }
-        public List<DeductionNode> SubNodes { get; set; }
+        public List<CSharpNode> SubNodes { get; set; }
         public string ErrorMessage { get; protected set; }
         public static Dictionary<string, NodeType> KeyNameDictionary { get; set; }
         public AccessModificators AccessModificator { get; set; }
@@ -56,11 +56,11 @@ namespace DashCode.Models.CSharpReader
         {
             return false;
         }
-        public void AddNode(DeductionNode node)
+        public void AddNode(CSharpNode node)
         {
             SubNodes.Add(node);
         }
-        static DeductionNode()
+        static CSharpNode()
         {
             KeyNameDictionary = new Dictionary<string, NodeType>()
             {
@@ -71,21 +71,21 @@ namespace DashCode.Models.CSharpReader
                 { "event",      NodeType.Event },
             };
         }
-        public DeductionNode(List<Token> tokens, NodeType nodeType = NodeType.None)
+        public CSharpNode(List<Token> tokens, NodeType nodeType = NodeType.None)
         {
             Tokens = tokens;
             NodeType = nodeType;
             AccessModificator = AccessModificators.None;
-            SubNodes = new List<DeductionNode>();
+            SubNodes = new List<CSharpNode>();
         }
-        public DeductionNode(NodeType nodeType = NodeType.None) : this(new List<Token>(), nodeType) { }
+        public CSharpNode(NodeType nodeType = NodeType.None) : this(new List<Token>(), nodeType) { }
         public List<string> DetermineAll(ScopeType scopeType)
         {
             var messages = new List<string>();
             var currentScope = DetermineNodeType(scopeType);
             if (!string.IsNullOrWhiteSpace(ErrorMessage))
                 messages.Add(ErrorMessage);
-            foreach (DeductionNode node in SubNodes)
+            foreach (CSharpNode node in SubNodes)
             {
                 messages.AddRange(node.DetermineAll(currentScope));
             }
@@ -93,7 +93,7 @@ namespace DashCode.Models.CSharpReader
         }
         public ScopeType DetermineNodeType(ScopeType scopeType)
         {
-            if (scopeType == ScopeType.None)
+            if (scopeType == ScopeType.None || scopeType == ScopeType.Property || scopeType == ScopeType.Method || scopeType == ScopeType.Event)
             {
                 Invalidate();
                 return ScopeType.None;
@@ -141,7 +141,25 @@ namespace DashCode.Models.CSharpReader
                             return ScopeType.None;
                     }
                 }
-
+                // Method, Property, Var
+                if (NodeType == NodeType.None)
+                {
+                    if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
+                    {
+                        NodeType = NodeType.Method;
+                    }
+                    else if (NameCount == 2 && Tokens.Count - startIndex == 2)
+                    {
+                        if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
+                        {
+                            NodeType = NodeType.Property;
+                        }
+                        else if (SubNodes.Count == 0)
+                        {
+                            NodeType = NodeType.Var;
+                        }
+                    }
+                }
                 // Check scope
                 switch (scopeType)
                 {
@@ -165,25 +183,6 @@ namespace DashCode.Models.CSharpReader
                         break;
                     case ScopeType.Interface:
                     case ScopeType.Class:
-                        // Method, Property, Var
-                        if (NodeType == NodeType.None)
-                        {
-                            if (SubNodes.Count == 2 && SubNodes[0].NodeType == NodeType.Params && SubNodes[1].NodeType == NodeType.Scope)
-                            {
-                                NodeType = NodeType.Method;
-                            }
-                            else if (NameCount == 2 && Tokens.Count - startIndex == 2)
-                            {
-                                if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
-                                {
-                                    NodeType = NodeType.Property;
-                                }
-                                else if (SubNodes.Count == 0)
-                                {
-                                    NodeType = NodeType.Var;
-                                }
-                            }
-                        }
                         if (NodeType != NodeType.None)
                         {
                             if (!CheckRange(new List<NodeType> {
@@ -279,22 +278,6 @@ namespace DashCode.Models.CSharpReader
                         return ScopeType.None;
                 }
             }
-            /*switch (NodeType)
-            {
-                case NodeType.None: return ScopeType.None;
-                case NodeType.Root: return ScopeType.Root;
-                case NodeType.Scope: return scopeType;
-                case NodeType.Params: return ScopeType.Params;
-                case NodeType.Using: return ScopeType.None;
-                case NodeType.Namespace: return ScopeType.Namespace;
-                case NodeType.Class: return ScopeType.Class;
-                case NodeType.Property: return ScopeType.Property;
-                case NodeType.Interface: return ScopeType.Interface;
-                case NodeType.Event: return ScopeType.Event;
-                case NodeType.Method: return ScopeType.Method;
-                case NodeType.Var: return ScopeType.None;
-                default: return ScopeType.None;
-            }*/
             return NodeType switch
             {
                 NodeType.None => ScopeType.None,

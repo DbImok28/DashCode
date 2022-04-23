@@ -58,9 +58,8 @@ namespace DashCode
             mainWindowViewModel.FormattedDocument.EditorDocument.SetText(range.Text);
             mainWindowViewModel.FormattedDocument.EditorDocument.Read();
             mainWindowViewModel.FormattedDocument.Format();
-            //var pos = editorRTB.Document.ContentStart.GetOffsetToPosition(editorRTB.CaretPosition);
             ConvertAndSet(mainWindowViewModel.FormattedDocument);
-            //editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(change.Offset);
+            mainWindowViewModel.OnPropertyChanged("FormattedDocument");
             try
             {
                 editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);

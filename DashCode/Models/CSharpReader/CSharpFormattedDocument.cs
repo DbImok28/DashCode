@@ -16,7 +16,7 @@ namespace DashCode.Models.CSharpReader
             var rawDocument = EditorDocument.RawDocument;
             int pos = 0;
             FormattedStrings result = new FormattedStrings(new List<FormattedString>());
-            foreach(DeductionNode node in (EditorDocument.ReadedDocument as DeductionNode).SubNodes)
+            foreach(CSharpNode node in (EditorDocument.ReadedDocument as CSharpNode).SubNodes)
             {
                 result.Add(Format(rawDocument, ref pos, node));
             }
@@ -28,7 +28,7 @@ namespace DashCode.Models.CSharpReader
             result.Add(new FormattedString(noFormattedText, NoFormattedTextColor));
             Document = result;
         }
-        public FormattedStrings Format(string doc, ref int pos, DeductionNode node)
+        public FormattedStrings Format(string doc, ref int pos, CSharpNode node)
         {
             FormattedStrings result = new FormattedStrings(new List<FormattedString>());
             foreach (CSharpToken token in node.Tokens)
@@ -48,7 +48,6 @@ namespace DashCode.Models.CSharpReader
                         int nextPos = pos;
                         for (int j = 0; j < token.TotalLength; j++, nextPos++)
                         {
-                            //noFormattedText += doc[pos];
                             if (doc[nextPos] != token.Text[j])
                             {
                                 isFinded = false;
@@ -80,7 +79,7 @@ namespace DashCode.Models.CSharpReader
             }
             foreach (var subNode in node.SubNodes)
             {
-                if (subNode is DeductionNode deductionNode)
+                if (subNode is CSharpNode deductionNode)
                 {
                     result.Add(Format(doc, ref pos, deductionNode));
                 }

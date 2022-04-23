@@ -12,9 +12,9 @@ namespace DashCode.Models.CSharpReader
             OutputLog = new List<string>();
         }
 
-        public DeductionNode MakeTree(List<Token> tokens, DeductionNode node, ref int pos)
+        public CSharpNode MakeTree(List<Token> tokens, CSharpNode node, ref int pos)
         {
-            DeductionNode currentdeductionNode = new DeductionNode(new List<Token>());
+            CSharpNode currentdeductionNode = new CSharpNode(new List<Token>());
             for (int i = pos; i < tokens.Count; i++)
             {
                 CSharpToken token = tokens[i] as CSharpToken;
@@ -22,21 +22,20 @@ namespace DashCode.Models.CSharpReader
                 {
                     case CSharpTokenType.Separator:
                         node.AddNode(currentdeductionNode);
-                        currentdeductionNode = new DeductionNode(new List<Token>());
+                        currentdeductionNode = new CSharpNode(new List<Token>());
                         break;
                     case CSharpTokenType.ScopeStart:
                         {
                             i++;
-                            currentdeductionNode.AddNode(MakeTree(tokens, new DeductionNode(NodeType.Scope), ref i));
+                            currentdeductionNode.AddNode(MakeTree(tokens, new CSharpNode(NodeType.Scope), ref i));
                             node.AddNode(currentdeductionNode);
-                            currentdeductionNode = new DeductionNode(new List<Token>());
+                            currentdeductionNode = new CSharpNode(new List<Token>());
                         }
                         break;
                     case CSharpTokenType.ParamsStart:
                         {
                             i++;
-                            currentdeductionNode.AddNode(MakeTree(tokens, new DeductionNode(NodeType.Params), ref i));
-                            //node.AddNode(currentdeductionNode);
+                            currentdeductionNode.AddNode(MakeTree(tokens, new CSharpNode(NodeType.Params), ref i));
                         }
                         break;
                     case CSharpTokenType.ParamsEnd:
@@ -57,7 +56,7 @@ namespace DashCode.Models.CSharpReader
         public override IConstruction Parse(List<Token> tokens)
         {
             int pos = 0;
-            var root = MakeTree(tokens, new DeductionNode(NodeType.Root), ref pos);
+            var root = MakeTree(tokens, new CSharpNode(NodeType.Root), ref pos);
             OutputLog = root.DetermineAll(ScopeType.Root);
             return root;
         }
