@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:DashCode.Infrastructure.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Name="explorerWindow">
-    <StackPanel Background="{StaticResource Element2PlanBackgroundColor}">
-        <TextBlock Padding="4" Background="{StaticResource ElementForegroundColor}" Foreground="{StaticResource MutedTextColor}" Text="{Binding NameText, ElementName=explorerWindow}"/>
-        <ContentPresenter Content="{Binding Items, ElementName=explorerWindow}" Margin="4"/>
-    </StackPanel>
+    <DockPanel Background="{StaticResource Element2PlanBackgroundColor}">
+        <TextBlock DockPanel.Dock="Top" Padding="4" Background="{StaticResource ElementForegroundColor}" Foreground="{StaticResource MutedTextColor}" Text="{Binding NameText, ElementName=explorerWindow}"/>
+        <ContentPresenter DockPanel.Dock="Bottom" Content="{Binding Items, ElementName=explorerWindow}" Margin="4"/>
+    </DockPanel>
 </UserControl>
