@@ -81,6 +81,7 @@ namespace DashCode.Models.CSharpReader
                 { "interface",  CSharpTokenType.KeyName },
                 { "event",      CSharpTokenType.KeyName },
                 { ";",          CSharpTokenType.Separator },
+                { ",",          CSharpTokenType.Separator },
                 { "(",          CSharpTokenType.ParamsStart },
                 { ")",          CSharpTokenType.ParamsEnd },
                 { "{",          CSharpTokenType.ScopeStart },
@@ -88,7 +89,7 @@ namespace DashCode.Models.CSharpReader
             };
             Separators = new List<char>()
             {
-                ';', '(', ')', '{', '}'
+                ';', '(', ')', '{', '}', ','
             };
             TokenTypeRegices = new List<(Regex Regex, CSharpTokenType tokenType)>()
             {

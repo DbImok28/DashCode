@@ -47,6 +47,8 @@ namespace DashCode.Models.CSharpReader
                     case CSharpTokenType.ScopeEnd:
                         if (currentdeductionNode.Tokens.Count != 0 || currentdeductionNode.SubNodes.Count != 0)
                         {
+                            if (!currentdeductionNode.Check())
+                                OutputLog.Add(currentdeductionNode.ErrorMessage);
                             node.AddNode(currentdeductionNode);
                         }
                         pos = i;

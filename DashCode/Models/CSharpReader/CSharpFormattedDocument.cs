@@ -104,7 +104,7 @@ namespace DashCode.Models.CSharpReader
         public static Color NoFormattedTextColor = Color.FromRgb(250, 250, 250);
         public static Color ErrorTextColor = Color.FromRgb(255, 0, 0);
         public static Dictionary<CSharpTokenType, Color> ColorsDictionary = new Dictionary<CSharpTokenType, Color>(){
-            {CSharpTokenType.AccessModifier, Color.FromRgb( 102,153,204)},
+            {CSharpTokenType.AccessModifier, Color.FromRgb( 70,123,174)},
             {CSharpTokenType.KeyName, Color.FromRgb(51,153,255)},
             {CSharpTokenType.Name, Color.FromRgb(51, 225, 225)},
             {CSharpTokenType.TypeName, Color.FromRgb(9, 222, 133)},

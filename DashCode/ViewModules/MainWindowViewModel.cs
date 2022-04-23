@@ -88,13 +88,13 @@ namespace DashCode.Models
             {
                 if (string.IsNullOrWhiteSpace(rawDocument))
                 {
-    
+
                 }
-    
+
             RawDocument = rawDocument;
                 Parser = parser ?? throw new ArgumentNullException(nameof(parser));
         }
-    
+
         public string _Raw.Document { get; private set; }
         public IConstruction ParsedDocument;
         public IDocumentParser Parser { get; private set; }
@@ -114,16 +114,6 @@ namespace DashCode.Models
             RawDocument = RawDocument.Insert(pos, str);
             OnDocumentUpdate?.Invoke(this, null);
         }
-        public void RemoveText(int pos, int length)
-        {
-            RawDocument = RawDocument.Remove(pos, length);
-            OnDocumentUpdate?.Invoke(this, null);
-        }
-        public void SetText(string document)
-        {
-            RawDocument = document;
-            OnDocumentUpdate?.Invoke(this, null);
-        }
         public void Parse()
         {
             Parser.ParseDocument(RawDocument);
@@ -136,4 +126,15 @@ namespace DashCode.Models
             OnPropertyChanged("Document");
         }
     }
+    //            EditorDocument Document = new EditorDocument(@"public void AddText(int pos, string str)
+    //        {
+    //        }
+
+    //", new CSharpReader());
+    //            FormattedDocument = new CSharpFormattedDocument(Document);
+    //            Document.Read();
+    //            FormattedDocument.Format();
+    //            OnPropertyChanged("Document");
+    //        }
 }
+
