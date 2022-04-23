@@ -61,7 +61,15 @@ namespace DashCode
             //var pos = editorRTB.Document.ContentStart.GetOffsetToPosition(editorRTB.CaretPosition);
             ConvertAndSet(mainWindowViewModel.FormattedDocument);
             //editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(change.Offset);
-            editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
+            try
+            {
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
+            }
+            catch (Exception)
+            {
+
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
+            }
         }
         public List<Block> ConvertToBlocks(FormattedEditorDocument formattedDoc)
         {

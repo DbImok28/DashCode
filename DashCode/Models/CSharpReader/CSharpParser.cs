@@ -5,8 +5,13 @@ using System.Text;
 
 namespace DashCode.Models.CSharpReader
 {
-    public class CSharpParser : IDocumentParser
+    public class CSharpParser : DocumentParser
     {
+        public CSharpParser()
+        {
+            OutputLog = new List<string>();
+        }
+
         public BaseNode MakeTree(List<Token> tokens, BaseNode node, ref int pos)
         {
             DeductionNode currentdeductionNode = new DeductionNode(new List<Token>());
@@ -16,7 +21,8 @@ namespace DashCode.Models.CSharpReader
                 switch (token.TokenType)
                 {
                     case CSharpTokenType.Separator:
-                        currentdeductionNode.Check();
+                        if (!currentdeductionNode.Check())
+                            OutputLog.Add(currentdeductionNode.ErrorMessage);
                         node.AddNode(currentdeductionNode);
                         currentdeductionNode = new DeductionNode(new List<Token>());
                         break;
@@ -24,7 +30,8 @@ namespace DashCode.Models.CSharpReader
                         {
                             i++;
                             currentdeductionNode.AddNode(MakeTree(tokens, new ScopeNode(), ref i));
-                            currentdeductionNode.Check();
+                            if (!currentdeductionNode.Check())
+                                OutputLog.Add(currentdeductionNode.ErrorMessage);
                             node.AddNode(currentdeductionNode);
                             currentdeductionNode = new DeductionNode(new List<Token>());
                         }
@@ -51,8 +58,9 @@ namespace DashCode.Models.CSharpReader
             }
             return node;
         }
-        public IConstruction Parse(List<Token> tokens)
+        public override IConstruction Parse(List<Token> tokens)
         {
+            OutputLog.Clear();
             int pos = 0;
             RootNode root = MakeTree(tokens, new RootNode(), ref pos) as RootNode;
             return root;

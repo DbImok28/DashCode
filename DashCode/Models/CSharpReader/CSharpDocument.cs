@@ -7,7 +7,7 @@ namespace DashCode.Models.CSharpReader
 {
     public class CSharpDocument : EditorDocument
     {
-        public CSharpDocument(string rawDocument, IDocumentReader reader) : base(rawDocument, reader)
+        public CSharpDocument(string rawDocument, DocumentReader reader) : base(rawDocument, reader)
         {
         }
     }

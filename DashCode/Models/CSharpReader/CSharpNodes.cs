@@ -112,6 +112,10 @@ namespace DashCode.Models.CSharpReader
                     {
                         case CSharpTokenType.None:
                             ErrorMessage = "Unknown expression";
+                            for (int j = 0; j < i; j++)
+                            {
+                                (Tokens[j] as CSharpToken).TokenType = CSharpTokenType.None;
+                            }
                             return false;
                         case CSharpTokenType.AccessModifier:
                             ErrorMessage = "Incorrect access modifier declaration";
@@ -126,18 +130,16 @@ namespace DashCode.Models.CSharpReader
                             }
                             break;
                         case CSharpTokenType.Name:
-                            NameCount++;
-                            if(NameIndex == -1)
-                            {
-                                NameIndex = i;
-                            }
-                            break;
                         case CSharpTokenType.TypeName:
+                            if (NameIndex != -1 && NameIndex == i - 1)
+                            {
+                                NameCount++;
+                            }
                             if (NameIndex == -1)
                             {
                                 NameIndex = i;
+                                NameCount++;
                             }
-                            NameCount++;
                             break;
                         default:
                             ErrorMessage = "Unknown error";
@@ -150,7 +152,7 @@ namespace DashCode.Models.CSharpReader
                     {
                         NodeType = NodeType.Method;
                     }
-                    else if (NameCount == 2)
+                    else if (NameCount == 2 && Tokens.Count - startIndex == 2)
                     {
                         if (SubNodes.Count == 1 && SubNodes[0].NodeType == NodeType.Scope)
                         {
@@ -168,7 +170,7 @@ namespace DashCode.Models.CSharpReader
                     case NodeType.Namespace:
                     case NodeType.Interface:
                     case NodeType.Class:
-                        if(NameCount == 1)
+                        if (NameCount == 1)
                         {
                             CSharpToken typeNameToken = Tokens[NameIndex] as CSharpToken;
                             if (typeNameToken.TokenType == CSharpTokenType.Name || typeNameToken.TokenType == CSharpTokenType.TypeName)
@@ -221,6 +223,7 @@ namespace DashCode.Models.CSharpReader
                 {
                     token.TokenType = CSharpTokenType.None;
                 }
+                NodeType = NodeType.None;
                 ErrorMessage = "Unknown expression";
                 return false;
             }

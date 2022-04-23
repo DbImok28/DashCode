@@ -8,7 +8,7 @@ namespace DashCode.Models
 {
     public class EditorDocument
     {
-        public EditorDocument(string rawDocument, IDocumentReader reader)
+        public EditorDocument(string rawDocument, DocumentReader reader)
         {
             if (string.IsNullOrWhiteSpace(rawDocument))
             {
@@ -20,7 +20,7 @@ namespace DashCode.Models
         }
         public IConstruction ReadedDocument { get; private set; }
         public string RawDocument { get; private set; }
-        public IDocumentReader Reader { get; set; }
+        public DocumentReader Reader { get; set; }
         //public event EventHandler OnDocumentUpdate;
         //public void AddText(int pos, string str)
         //{
@@ -39,7 +39,9 @@ namespace DashCode.Models
         }
         public void Read()
         {
-            ReadedDocument = Reader.Read(this);
+            var doc = Reader.Read(this);
+            if (doc != null)
+                ReadedDocument = doc;
         }
     }
 }

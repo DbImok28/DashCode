@@ -157,10 +157,10 @@
             </DockPanel>
             <controls:Explorer NameText="Output" Grid.Row="2">
                 <controls:Explorer.Items>
-                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
+                    <ListBox ItemsSource="{Binding FormattedDocument.OutputMessages}" Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Background="{StaticResource TextColor}"/>
+                                <TextBlock Foreground="{StaticResource TextColor}" Text="{Binding}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -178,7 +178,7 @@
                     <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Background="{StaticResource TextColor}"/>
+                                <TextBlock Foreground="{StaticResource TextColor}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -190,7 +190,7 @@
                     <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Background="{StaticResource TextColor}"/>
+                                <TextBlock Foreground="{StaticResource TextColor}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

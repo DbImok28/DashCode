@@ -16,6 +16,12 @@ namespace DashCode.Models
             });
         }
         public abstract void Format();
+        public IEnumerable<string> OutputMessages
+        {
+            get {
+                return EditorDocument.Reader.GetOutputMessages();
+            }
+        }
         public event EventHandler OnDocumentUpdate;
         private FormattedStrings _Document;
         public FormattedStrings Document { get => _Document; protected set { _Document = value; OnDocumentUpdate?.Invoke(this, null); } }
