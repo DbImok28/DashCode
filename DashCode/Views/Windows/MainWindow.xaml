@@ -1,4 +1,4 @@
-﻿<Window x:Class="DashCode.MainWindow"
+﻿<Window x:Class="DashCode.View.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:DashCode"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}">
+        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" >
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
