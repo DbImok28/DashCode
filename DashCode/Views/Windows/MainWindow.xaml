@@ -5,14 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
-        xmlns:local="clr-namespace:DashCode"
+        xmlns:l="clr-namespace:DashCode"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" >
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
-    <!--<Grid>
+        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" DataContext="{Binding MainWindowModel, Source={StaticResource vmlocator}}">
+        <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>

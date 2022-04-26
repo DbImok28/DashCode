@@ -15,7 +15,7 @@ using DashCode.Models.CSharpReader;
 
 namespace DashCode.ViewModules
 {
-    internal class MainWindowViewModel : BaseViewModel
+    public class MainWindowViewModel : BaseViewModel
     {
         #region Title
         private string _Title = "DashCode";

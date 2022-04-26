@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DashCode.ViewModules
 {
-    internal abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string PropertyName = null)
