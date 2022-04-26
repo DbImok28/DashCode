@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DashCode.Models;
 using DashCode.Models.CSharpReader;
+using DashCode.Models.DataBase;
 
 namespace DashCode.ViewModules
 {
@@ -103,6 +104,12 @@ namespace DashCode.Models
             Document.Read();
             FormattedDocument.Format();
             OnPropertyChanged("Document");
+
+            using (var context = new DashCodeBDContext())
+            {
+                //DESKTOP-2EFHGBU
+                var users = context.Users.ToList();
+            }
         }
     }
 }
