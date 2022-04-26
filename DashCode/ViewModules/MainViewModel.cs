@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using DashCode.Models;
 using DashCode.Models.CSharpReader;
 
 namespace DashCode.ViewModules
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
         #region Title
-        private string _Title = "DashCode";
+        private string _Title = "Filename - DashCode";
         public string Title
         {
             get => _Title;
@@ -51,7 +41,7 @@ namespace DashCode.ViewModules
         #endregion
 
        
-        public MainWindowViewModel()
+        public MainViewModel()
         {
             EditorDocument Document = new EditorDocument(@"using DashCode.Models.DocumentParser;
 using System;

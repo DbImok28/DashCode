@@ -4,6 +4,7 @@ namespace DashCode.Infrastructure.Services
 {
     public class VMLocator
     {
-        public MainWindowViewModel MainWindowModel => App.VMService.MainWindowVM;
+        public MainViewModel MainVM => App.VMService.MainVM;
+        public FirstViewModel FirstVM => App.VMService.FirstVM;
     }
 }

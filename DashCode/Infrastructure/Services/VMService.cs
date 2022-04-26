@@ -9,8 +9,10 @@ namespace DashCode.Infrastructure.Services
     {
         public VMService()
         {
-            MainWindowVM = new MainWindowViewModel();
+            MainVM = new MainViewModel();
+            FirstVM = new FirstViewModel();
         }
-        public MainWindowViewModel MainWindowVM { get; private set; }
+        public MainViewModel MainVM { get; private set; }
+        public FirstViewModel FirstVM { get; private set; }
     }
 }
