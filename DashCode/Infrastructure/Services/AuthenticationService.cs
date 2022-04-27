@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 using DashCode.Models;
 using DashCode.Views.Pages;
-using DashCode.Models;
 
 namespace DashCode.Infrastructure.Services
 {

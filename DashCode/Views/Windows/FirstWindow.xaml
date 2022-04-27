@@ -14,17 +14,15 @@
         Background="{StaticResource ElementBackgroundColor}" 
         DataContext="{Binding FirstVM, Source={StaticResource vmlocator}}"
         x:Name="ThisFirsWindow">
-    <!--<Window.Resources>
-        <ResourceDictionary>
-            <page:LoginPage x:Key="loginPage"/>
-        </ResourceDictionary>
-    </Window.Resources>-->
     <DockPanel Margin="40">
         <StackPanel DockPanel.Dock="Left">
+            <StackPanel.Resources>
+                <CollectionViewSource x:Key="ProjectFolderSource" Source="{Binding Files}" Filter="ProjectFolder_Filter"/>
+            </StackPanel.Resources>
             <TextBlock Margin="10" Text="Open" FontSize="20" Height="30"/>
             <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
                 <Grid>
-                    <TextBox Width="300" Height="30" HorizontalAlignment="Left" Margin="0,0,8,0" BorderBrush="Gray"/>
+                    <TextBox x:Name="FilterBox" Width="300" Height="30" HorizontalAlignment="Left" Margin="0,0,8,0" BorderBrush="Gray" TextChanged="FilterBox_TextChanged"/>
                     <fa:ImageAwesome Icon="Search" Width="20" Height="20" IsHitTestVisible="False" Panel.ZIndex="1" 
                                      Foreground="{StaticResource ElementForegroundColor}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,13,0"/>
                 </Grid>
@@ -32,7 +30,7 @@
                     <fa:ImageAwesome Icon="FolderOpen" Width="20" Height="20" Foreground="{StaticResource FolderColor}"/>
                 </Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Files}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged">
+            <ListBox ItemsSource="{Binding Source={StaticResource ProjectFolderSource}}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel>

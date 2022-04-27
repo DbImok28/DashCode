@@ -53,5 +53,20 @@ namespace DashCode.Views.Windows
                 }
             }
         }
+
+        private void ProjectFolder_Filter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is ProjectFolder folder) || folder is null) return;
+            var filterText = FilterBox.Text;
+            if (folder.FolderName.Contains(filterText, StringComparison.OrdinalIgnoreCase)) return;
+            e.Accepted = false;
+        }
+
+        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var box = sender as TextBox;
+            var collection = box.FindResource("ProjectFolderSource") as CollectionViewSource;
+            collection.View.Refresh();
+        }
     }
 }
