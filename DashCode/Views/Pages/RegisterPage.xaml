@@ -1,0 +1,38 @@
+﻿<Page x:Class="DashCode.Views.Pages.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DashCode.Views.Pages"
+      xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
+      xmlns:converter="clr-namespace:DashCode.Infrastructure.Converter"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      xmlns:vm="clr-namespace:DashCode.ViewModules"
+      d:DataContext="{d:DesignInstance Type=vm:FirstViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450"
+      Title="LoginPage" Width="180">
+
+    <StackPanel DockPanel.Dock="Right" Width="180" HorizontalAlignment="Right">
+        <TextBlock Text="Registration" FontSize="20" Height="30"/>
+        <Image Width="80" Height="80" Margin="8" Source="/Resources/user_no_login.png"/>
+        <controls:TextBoxWithNote NoteText="Login" Margin="2" x:Name="login"/>
+        <controls:TextBoxWithNote NoteText="Mail" Margin="2" x:Name="mail"/>
+        <controls:TextBoxWithNote NoteText="Password" Margin="2" x:Name="password" ShowWithPassword="{Binding IsChecked, ElementName=showPass, Converter={StaticResource InverseBooleanConverter}}"/>
+        <CheckBox Margin="4,2" x:Name="showPass" FlowDirection="RightToLeft" Foreground="{StaticResource TextColor}">
+            <TextBlock Text="Show password"/>
+        </CheckBox>
+        <Grid>
+            <controls:TextBoxWithNote Width="145" HorizontalAlignment="Left" NoteText="Photo*" Margin="2" x:Name="photo"/>
+            <Button Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" Click="SelectFolder_Button_Click">
+                <fa:FontAwesome FontSize="15" Icon="Folder" Foreground="{StaticResource FolderColor}"/>
+            </Button>
+        </Grid>
+        <Button Height="22" Width="176" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Register_Button_Click">
+            <TextBlock Text="Register" Foreground="{StaticResource MutedTextColor}"/>
+        </Button>
+        <Button Height="20" Margin="0,-2,2,0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Click="Login_Button_Click">
+            <TextBlock Text="Login" Foreground="{StaticResource MutedTextColor}"/>
+        </Button>
+    </StackPanel>
+</Page>

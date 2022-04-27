@@ -27,7 +27,7 @@ namespace DashCode.View.Windows
         {
             // TODO: Change to INotify
             InitializeComponent();
-            if (DataContext is MainWindowViewModel mainWindowViewModel)
+            if (DataContext is MainViewModel mainWindowViewModel)
             {
                 this.mainWindowViewModel = mainWindowViewModel;
                 ConvertAndSet(mainWindowViewModel.FormattedDocument);
@@ -141,7 +141,7 @@ namespace DashCode.View.Windows
             EditsCount = 0;
         }
         // TODO: Store only document
-        private MainWindowViewModel mainWindowViewModel;
+        private MainViewModel mainWindowViewModel;
         private bool IgnoreChange = false;
         private int EditsCount = 0;
         private int rowCount = 0;

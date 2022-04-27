@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DashCode.Infrastructure.Services;
 using System.Windows;
 
 namespace DashCode
@@ -13,5 +8,7 @@ namespace DashCode
     /// </summary>
     public partial class App : Application
     {
+        public static VMService VMService { get; } = new VMService();
+        public static AuthenticationService AuthenticateService { get; } = new AuthenticationService();
     }
 }

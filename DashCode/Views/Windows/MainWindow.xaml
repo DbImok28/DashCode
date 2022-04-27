@@ -5,94 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
-        xmlns:local="clr-namespace:DashCode"
+        xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" >
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
-    <!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="250"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="150"/>
-        </Grid.RowDefinitions>
-        <DockPanel DockPanel.Dock="Top" Grid.RowSpan="3" Grid.Row="1">
-            <StackPanel DockPanel.Dock="Top" Height="20" HorizontalAlignment="Right">
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Width" Value="20"/>
-                        <Setter Property="Height" Value="20"/>
-                    </Style>
-                </StackPanel.Resources>
-                <Button Click="Button_UpdateClick"/>
-            </StackPanel>
-            <WrapPanel Orientation="Vertical" Margin="4,0" DockPanel.Dock="Left">
-                <WrapPanel.Resources>
-                    <Style TargetType="{x:Type TextBlock}">
-                        <Setter Property="FontSize" Value="{Binding FontSize}"/>
-                    </Style>
-                </WrapPanel.Resources>
-                <ListBox x:Name="rowList" Margin="0" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontSize="{Binding FontSize}" Margin="0" Padding="0" Height="14.35"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Margin="0"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-            </WrapPanel>
-            <RichTextBox x:Name="editorRTB" Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged" 
-                         ScrollViewer.ScrollChanged="editorRTB_ScrollChanged">
-                <RichTextBox.Resources>
-                    --><!--<DataTemplate>
-                        
-                    </DataTemplate>--><!--
-                    <Style TargetType="{x:Type Paragraph}">
-                        <Setter Property="Margin" Value="0" />
-                    </Style>
-                    <Style TargetType="{x:Type Run}">
-                        <Setter Property="FontSize" Value="{Binding FontSize}" />
-                    </Style>
-                </RichTextBox.Resources>
-            </RichTextBox>
-        </DockPanel>
-        <GridSplitter Grid.Row="4" Grid.Column="0" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" ShowsPreview="False" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        <GridSplitter Grid.Row="2" Grid.Column="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-        <ListBox Grid.Row="5">
-            <TextBlock>Error1</TextBlock>
-            <TextBlock>Error1</TextBlock>
-            <TextBlock>Error1</TextBlock>
-            <TextBlock>Error1</TextBlock>
-        </ListBox>
-        <ListBox Grid.Row="3" Grid.RowSpan="3" Grid.Column="3">
-            <TextBlock>Message 1</TextBlock>
-            <TextBlock>Message 2</TextBlock>
-            <TextBlock>Message 3</TextBlock>
-            <TextBlock>Message 4</TextBlock>
-            <TextBlock>Message 5</TextBlock>
-            <TextBlock>Message 6</TextBlock>
-            <TextBlock>Message 7</TextBlock>
-            <TextBlock>Message 8</TextBlock>
-            <TextBlock>Message 9</TextBlock>
-            <TextBlock>Message 10</TextBlock>
-            <TextBlock>Message 11</TextBlock>
-        </ListBox>
-    </Grid>-->
+        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -122,10 +38,11 @@
                     </Button>
                 </StackPanel>
                 <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}">
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}"
+                         VerticalAlignment="Top" HorizontalAlignment="Left">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35"/>
+                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>
@@ -138,9 +55,6 @@
                              Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged" 
                              ScrollViewer.ScrollChanged="editorRTB_ScrollChanged" BorderThickness="0">
                     <RichTextBox.Resources>
-                        <!--<DataTemplate>
-                        
-                        </DataTemplate>-->
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="Margin" Value="0" />
                         </Style>
