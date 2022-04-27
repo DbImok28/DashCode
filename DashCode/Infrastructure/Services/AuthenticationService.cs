@@ -18,6 +18,7 @@ namespace DashCode.Infrastructure.Services
             Login = new LoginPage();
             Register = new RegisterPage();
             Autificated = new AutificatedPage();
+            OnUpdatePage += (s, a) => Autificated.loginBlock.Text = AccountLogin;
             try
             {
                 Account = FileReader.DeserializeBin<UserAccount>("AuthenticationInfo.bin");
@@ -87,6 +88,7 @@ namespace DashCode.Infrastructure.Services
         public RegisterPage Register { get; }
         public AutificatedPage Autificated { get; }
         public UserAccount Account { get; private set; }
+        public string AccountLogin => Account?.Login ?? "";
         public bool IsAutificated => Account != null;
     }
 }

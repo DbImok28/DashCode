@@ -22,7 +22,6 @@ namespace DashCode.Views.Pages
         {
             InitializeComponent();
         }
-
         private void SignOut_Button_Click(object sender, RoutedEventArgs e)
         {
             App.AuthenticateService.SetNotAutificated();
