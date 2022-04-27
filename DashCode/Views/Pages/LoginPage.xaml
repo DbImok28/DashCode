@@ -19,10 +19,10 @@
         <CheckBox Margin="4,2" x:Name="showPass" FlowDirection="RightToLeft" Foreground="{StaticResource TextColor}">
             <TextBlock Text="Show password"/>
         </CheckBox>
-        <Button Height="22" Width="160" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Login_Button_Click">
+        <Button Height="22" Width="176" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Login_Button_Click">
             <TextBlock Text="Login" Foreground="{StaticResource MutedTextColor}"/>
         </Button>
-        <Button Height="20" Width="60" Margin="16,2" HorizontalAlignment="Right"  Background="{StaticResource ElementForegroundColor}" Click="Register_Button_Click">
+        <Button Height="20" Margin="0,-2,2,0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Click="Register_Button_Click">
             <TextBlock Text="Register" Foreground="{StaticResource MutedTextColor}"/>
         </Button>
     </StackPanel>

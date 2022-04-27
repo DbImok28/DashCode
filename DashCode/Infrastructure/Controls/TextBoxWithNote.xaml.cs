@@ -64,6 +64,11 @@ namespace DashCode.Infrastructure.Controls
         }
         public void UpdateText()
         {
+            InputTextBlock.Text = Text;
+            UpdateTextVisibility();
+        }
+        public void UpdateTextVisibility()
+        {
             if (Text == "")
             {
                 NoteTextBlock.Visibility = Visibility.Visible;
@@ -76,14 +81,14 @@ namespace DashCode.Infrastructure.Controls
         private void InputTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
             Text = InputTextBlock.Text;
-            UpdateText();
+            UpdateTextVisibility();
         }
 
         private void InputPasswordBlock_PasswordChanged(object sender, RoutedEventArgs e)
         {
             Text = InputPasswordBlock.Password;
             InputTextBlock.Text = Text;
-            UpdateText();
+            UpdateTextVisibility();
         }
     }
 }

@@ -23,15 +23,15 @@
             <TextBlock Text="Show password"/>
         </CheckBox>
         <Grid>
-            <controls:TextBoxWithNote NoteText="Photo*" Margin="2" x:Name="photo"/>
-            <Button Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0">
+            <controls:TextBoxWithNote Width="145" HorizontalAlignment="Left" NoteText="Photo*" Margin="2" x:Name="photo"/>
+            <Button Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" Click="SelectFolder_Button_Click">
                 <fa:FontAwesome FontSize="15" Icon="Folder" Foreground="{StaticResource FolderColor}"/>
             </Button>
         </Grid>
-        <Button Height="22" Width="160" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Register_Button_Click">
+        <Button Height="22" Width="176" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Register_Button_Click">
             <TextBlock Text="Register" Foreground="{StaticResource MutedTextColor}"/>
         </Button>
-        <Button Height="20" Width="60" Margin="10,2" HorizontalAlignment="Right"  Background="{StaticResource ElementForegroundColor}" Click="Login_Button_Click">
+        <Button Height="20" Margin="0,-2,2,0" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Click="Login_Button_Click">
             <TextBlock Text="Login" Foreground="{StaticResource MutedTextColor}"/>
         </Button>
     </StackPanel>

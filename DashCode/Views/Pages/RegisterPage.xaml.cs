@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashCode.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -30,9 +31,22 @@ namespace DashCode.Views.Pages
 
             }
         }
-        private void  Login_Button_Click(object sender, RoutedEventArgs e)
+        private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
             App.AuthenticateService.SetLogin();
+        }
+
+        private void SelectFolder_Button_Click(object sender, RoutedEventArgs e)
+        {
+            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                dialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;...";
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    photo.Text = dialog.FileName;
+                    photo.UpdateText();
+                }
+            }
         }
     }
 }
