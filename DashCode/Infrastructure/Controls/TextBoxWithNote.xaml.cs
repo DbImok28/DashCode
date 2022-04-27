@@ -48,8 +48,6 @@ namespace DashCode.Infrastructure.Controls
                 SetValue(ShowWithPasswordProperty, value);
             }
         }
-
-        // Using a DependencyProperty as the backing store for ShowWithPassword.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowWithPasswordProperty =
             DependencyProperty.Register("ShowWithPassword", typeof(bool), typeof(TextBoxWithNote), new PropertyMetadata(false, OnShowWithPasswordCallBack));
         public void ApplyPasswordVisibility()

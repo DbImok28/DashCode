@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="24" d:DesignWidth="80" Name="This">
     <Grid>
-        <PasswordBox x:Name="InputPasswordBlock" Panel.ZIndex="1" Height="24" PasswordChanged="InputPasswordBlock_PasswordChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="Hidden"/>
+        <PasswordBox x:Name="InputPasswordBlock" Panel.ZIndex="1" Height="24" PasswordChanged="InputPasswordBlock_PasswordChanged" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
         <TextBox x:Name="InputTextBlock" Panel.ZIndex="0" TextChanged="InputTextBlock_TextChanged" Height="24" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Password, ElementName=InputPasswordBlock, Mode=TwoWay}"/>
         <TextBlock IsHitTestVisible="False" Margin="4,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
                        x:Name="NoteTextBlock" Text="{Binding NoteText, ElementName=This}" Panel.ZIndex="2" Opacity="0.4"/>
