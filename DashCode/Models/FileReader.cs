@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using System.Text.Json;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DashCode.Models
 {
@@ -22,6 +23,14 @@ namespace DashCode.Models
                 f.WriteLine(jsonData);
             }
         }
+        public static void SerializeToBin<T>(string path, T data)
+        {
+            var binSer = new BinaryFormatter();
+            using (var f = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                binSer.Serialize(f, data);
+            }
+        }
         public static T DeserializeXML<T>(string path)
         {
             T data;
@@ -38,6 +47,16 @@ namespace DashCode.Models
             using (var f = new StreamReader(path))
             {
                 data = JsonSerializer.Deserialize<T>(f.ReadToEnd());
+            }
+            return data;
+        }
+        public static T DeserializeBin<T>(string path)
+        {
+            T data;
+            var binSer = new BinaryFormatter();
+            using (var f = new FileStream(path, FileMode.Open))
+            {
+                data = (T)binSer.Deserialize(f);
             }
             return data;
         }

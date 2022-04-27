@@ -1,5 +1,6 @@
 ﻿using DashCode.Models;
 using DashCode.View.Windows;
+using DashCode.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,8 +23,9 @@ namespace DashCode.Views.Windows
         public FirstWindow()
         {
             InitializeComponent();
+            frame.Content = App.AuthenticateService.CurrentPage;
+            App.AuthenticateService.OnUpdatePage += (s, a) => frame.Content = App.AuthenticateService.CurrentPage;
         }
-
         public void OpenFolder(ProjectFolder folder)
         {
             Application.Current.MainWindow = new MainWindow();
@@ -46,16 +48,10 @@ namespace DashCode.Views.Windows
                 if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     ProjectFolder folder = new ProjectFolder(dialog.SelectedPath);
-                    App.VMService.FirstVM.Files.Add(folder);
+                    App.VMService.FirstVM.AddFileCommand.Execute(folder);
                     OpenFolder(folder);
                 }
             }
-        }
-
-        private void Login_Button_Click(object sender, RoutedEventArgs e)
-        {
-            var loginStr = login.Text;
-            var passStr = password.Text;
         }
     }
 }

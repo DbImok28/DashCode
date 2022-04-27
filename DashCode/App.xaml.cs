@@ -9,5 +9,6 @@ namespace DashCode
     public partial class App : Application
     {
         public static VMService VMService { get; } = new VMService();
+        public static AuthenticationService AuthenticateService { get; } = new AuthenticationService();
     }
 }
