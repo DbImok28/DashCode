@@ -41,10 +41,15 @@ namespace DashCode.Views.Windows
 
         private void Open_Folder_Button_Click(object sender, RoutedEventArgs e)
         {
-            //using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-            //{
-            //    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //}
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    ProjectFolder folder = new ProjectFolder(dialog.SelectedPath);
+                    App.VMService.FirstVM.Files.Add(folder);
+                    OpenFolder(folder);
+                }
+            }
         }
 
         private void Login_Button_Click(object sender, RoutedEventArgs e)
