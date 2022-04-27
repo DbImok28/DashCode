@@ -1,7 +1,15 @@
-﻿namespace DashCode.Models
+﻿using System;
+
+namespace DashCode.Models
 {
+    [Serializable]
     public class ProjectFolder
     {
+        public ProjectFolder()
+        {
+            Path = "";
+            FolderName = "";
+        }
         public ProjectFolder(string path)
         {
             Path = path;

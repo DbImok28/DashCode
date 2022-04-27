@@ -14,7 +14,7 @@ namespace DashCode.ViewModules
             get => _Title;
             set => Set(ref _Title, value);
         }
-        private ObservableCollection<ProjectFolder> _Files = new ObservableCollection<ProjectFolder>() { new ProjectFolder(@"E:\VSProjects\DashCode\DashCode"), new ProjectFolder(@"E:\VSProjects\Math") };
+        private ObservableCollection<ProjectFolder> _Files = new ObservableCollection<ProjectFolder>();
         public ObservableCollection<ProjectFolder> Files
         {
             get => _Files;
@@ -33,6 +33,16 @@ namespace DashCode.ViewModules
         public FirstViewModel()
         {
             OpenFileCommand = new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommandExecute);
+
+            try
+            {
+                Files = FileReader.DeserializeXML<ObservableCollection<ProjectFolder>>("RecentProjectFolders.xml");
+            }
+            catch (System.Exception)
+            {
+                FileReader.SerializeToXML("RecentProjectFolders.xml", Files);
+            }
+            Files.CollectionChanged += (s, a) => FileReader.SerializeToXML("RecentProjectFolders.xml", Files);
         }
     }
 }

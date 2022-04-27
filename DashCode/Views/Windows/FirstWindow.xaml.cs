@@ -23,6 +23,7 @@ namespace DashCode.Views.Windows
         {
             InitializeComponent();
         }
+
         public void OpenFolder(ProjectFolder folder)
         {
             Application.Current.MainWindow = new MainWindow();
