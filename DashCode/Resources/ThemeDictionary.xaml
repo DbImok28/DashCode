@@ -36,8 +36,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="1"/>
-        <Setter Property="Width" Value="20"/>
-        <Setter Property="Height" Value="20"/>
+        <!--<Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -225,6 +225,8 @@
         </Setter>
     </Style>
     <Style TargetType="ListBoxItem">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
@@ -243,6 +245,8 @@
         </Setter>
     </Style>
     <Style TargetType="ListBoxItem" x:Key="NoSelectableListBox">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">

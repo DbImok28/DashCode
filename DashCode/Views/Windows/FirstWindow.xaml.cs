@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DashCode.Models;
+using DashCode.View.Windows;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -20,6 +22,34 @@ namespace DashCode.Views.Windows
         public FirstWindow()
         {
             InitializeComponent();
+        }
+        public void OpenFolder(ProjectFolder folder)
+        {
+            Application.Current.MainWindow = new MainWindow();
+            Application.Current.MainWindow.Show();
+            Close();
+        }
+
+        private void ListBox_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is ListBox list && list.SelectedItem is ProjectFolder folder)
+            {
+                OpenFolder(folder);
+            }
+        }
+
+        private void Open_Folder_Button_Click(object sender, RoutedEventArgs e)
+        {
+            //using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            //{
+            //    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            //}
+        }
+
+        private void Login_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var loginStr = login.Text;
+            var passStr = password.Text;
         }
     }
 }

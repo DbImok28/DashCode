@@ -38,10 +38,11 @@
                     </Button>
                 </StackPanel>
                 <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}">
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}"
+                         VerticalAlignment="Top" HorizontalAlignment="Left">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35"/>
+                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                     <ListBox.ItemsPanel>

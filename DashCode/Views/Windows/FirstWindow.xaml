@@ -4,37 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
         xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="480" Width="720" Background="{StaticResource ElementBackgroundColor}" DataContext="{Binding FirstVM, Source={StaticResource vmlocator}}">
+        Title="{Binding Title}" Height="480" Width="720" MinWidth="640"
+        Background="{StaticResource ElementBackgroundColor}" 
+        DataContext="{Binding FirstVM, Source={StaticResource vmlocator}}"
+        x:Name="ThisFirsWindow">
     <DockPanel Margin="40">
         <StackPanel DockPanel.Dock="Left">
             <TextBlock Margin="10" Text="Open" FontSize="20" Height="30"/>
             <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
                 <Grid>
                     <TextBox Width="300" Height="30" HorizontalAlignment="Left" Margin="0,0,8,0" BorderBrush="Gray"/>
-                    
+                    <fa:ImageAwesome Icon="Search" Width="20" Height="20" IsHitTestVisible="False" Panel.ZIndex="1" 
+                                     Foreground="{StaticResource ElementForegroundColor}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,13,0"/>
                 </Grid>
-                <Button Width="30" Height="30" BorderThickness="1" BorderBrush="Gray">O</Button>
+                <Button Width="30" Height="30" BorderThickness="1" BorderBrush="Gray" Click="Open_Folder_Button_Click">
+                    <fa:ImageAwesome Icon="FolderOpen" Width="20" Height="20" Foreground="#FFCFAF76"/>
+                </Button>
             </StackPanel>
-            <ListBox>
-            <TextBlock>123</TextBlock>
-            <TextBlock>123</TextBlock>
-            <TextBlock>123</TextBlock>
-            <TextBlock>123</TextBlock>
-        </ListBox>
+            <ListBox ItemsSource="{Binding Files}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding FolderName}"/>
+                            <TextBlock Text="{Binding Path}" Foreground="{StaticResource MutedTextColor}" FontSize="8"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
     </StackPanel>
         <StackPanel Margin="10" DockPanel.Dock="Right" Width="160" HorizontalAlignment="Right">
             <TextBlock Text="Login" FontSize="20" Height="30"/>
             <Image Width="80" Height="80" Margin="8" Source="/Resources/user_no_login.png"/>
-            <controls:TextBoxWithNote NoteText="Login" Margin="2"/>
-            <controls:TextBoxWithNote NoteText="Password" Margin="2"/>
+            <controls:TextBoxWithNote NoteText="Login" Margin="2" x:Name="login"/>
+            <controls:TextBoxWithNote NoteText="Password" Margin="2" x:Name="password"/>
             <CheckBox Margin="4,2" FlowDirection="RightToLeft" Foreground="{StaticResource TextColor}">
                 <TextBlock Text="Show password"/>
             </CheckBox>
-            <Button Height="22" Width="160" Margin="0,4" Background="{StaticResource ElementForegroundColor}">
+            <Button Height="22" Width="160" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Login_Button_Click">
                 <TextBlock Text="Login" Foreground="{StaticResource MutedTextColor}"/>
             </Button>
         </StackPanel>
