@@ -41,8 +41,8 @@
             <TextBlock Text="Login" FontSize="20" Height="30"/>
             <Image Width="80" Height="80" Margin="8" Source="/Resources/user_no_login.png"/>
             <controls:TextBoxWithNote NoteText="Login" Margin="2" x:Name="login"/>
-            <controls:TextBoxWithNote NoteText="Password" Margin="2" x:Name="password"/>
-            <CheckBox Margin="4,2" FlowDirection="RightToLeft" Foreground="{StaticResource TextColor}">
+            <controls:TextBoxWithNote NoteText="Password" Margin="2" x:Name="password" ShowWithPassword="{Binding IsChecked, ElementName=showPass}"/>
+            <CheckBox Margin="4,2" x:Name="showPass" FlowDirection="RightToLeft" Foreground="{StaticResource TextColor}">
                 <TextBlock Text="Show password"/>
             </CheckBox>
             <Button Height="22" Width="160" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="Login_Button_Click">

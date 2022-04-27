@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,7 @@ namespace DashCode.Infrastructure.Controls
         public TextBoxWithNote()
         {
             InitializeComponent();
+            ApplyPasswordVisibility();
         }
         public string NoteText
         {
@@ -37,10 +39,34 @@ namespace DashCode.Infrastructure.Controls
         }
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(TextBoxWithNote), new PropertyMetadata(""));
-        private void InputTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+
+        public bool ShowWithPassword
         {
-            Text = InputTextBlock.Text;
-            if(Text == "")
+            get { return (bool)GetValue(ShowWithPasswordProperty); }
+            set 
+            { 
+                SetValue(ShowWithPasswordProperty, value);
+            }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowWithPassword.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowWithPasswordProperty =
+            DependencyProperty.Register("ShowWithPassword", typeof(bool), typeof(TextBoxWithNote), new PropertyMetadata(false, OnShowWithPasswordCallBack));
+        public void ApplyPasswordVisibility()
+        {
+            InputPasswordBlock.Visibility = ShowWithPassword ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private static void OnShowWithPasswordCallBack(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(sender is TextBoxWithNote textBoxWithNote)
+            {
+                textBoxWithNote.ApplyPasswordVisibility();
+            }
+        }
+        public void UpdateText()
+        {
+            if (Text == "")
             {
                 NoteTextBlock.Visibility = Visibility.Visible;
             }
@@ -48,6 +74,18 @@ namespace DashCode.Infrastructure.Controls
             {
                 NoteTextBlock.Visibility = Visibility.Hidden;
             }
+        }
+        private void InputTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Text = InputTextBlock.Text;
+            UpdateText();
+        }
+
+        private void InputPasswordBlock_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Text = InputPasswordBlock.Password;
+            InputTextBlock.Text = Text;
+            UpdateText();
         }
     }
 }
