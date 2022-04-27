@@ -26,6 +26,7 @@ namespace DashCode.Views.Pages
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(mail.Text)) return;
             if (App.AuthenticateService.TryRegister(login.Text, mail.Text, password.Text, photo.Text))
             {
 

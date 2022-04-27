@@ -24,6 +24,7 @@ namespace DashCode.Views.Pages
         }
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text)) return;
             if (App.AuthenticateService.TryLogin(login.Text, password.Text))
             {
 
