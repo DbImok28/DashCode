@@ -1,0 +1,48 @@
+﻿<Page x:Class="DashCode.Views.Pages.MessageMainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      xmlns:m="clr-namespace:DashCode.Models"
+      xmlns:local="clr-namespace:DashCode.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="300"
+      Title="MessageMainPage" DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <ComboBox Height="22" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding Chats}" 
+                  SelectionChanged="ComboBox_SelectionChanged" Background="{StaticResource ElementBackgroundColor}" Foreground="{StaticResource ElementForegroundColor}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <ListBox Grid.Row="1" Background="{StaticResource Element2PlanBackgroundColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ItemsSource="{Binding SelectedChat.Messages}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Image Source="/Resources/user_no_login.png" Width="30" Margin="0,0,4,0" ToolTip="{Binding Sender}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Content}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="2" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="24"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="InputMessage" TextWrapping="Wrap"/>
+            <Button Grid.Column="1" Height="24" Background="{StaticResource Element2PlanForegroundColor}" Command="{Binding SendMessageCommand}" CommandParameter="{Binding Text, ElementName=InputMessage}">
+                <fa:FontAwesome Icon="ArrowRight" FontSize="16" Foreground="{StaticResource FileColor}"/>
+            </Button>
+        </Grid>
+    </Grid>
+</Page>

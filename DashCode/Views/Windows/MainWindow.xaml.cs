@@ -1,5 +1,6 @@
 ﻿using DashCode.Models;
 using DashCode.ViewModules;
+using DashCode.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace DashCode.View.Windows
         {
             InitializeComponent();
             ReadAndUpdate();
+           // MessageFrame.Content = new MessageMainPage();
+            MessageFrame.NavigationService.Navigate(new Uri("/Views/Pages/MessageMainPage.xaml", UriKind.Relative));
         }
 
         #region RTB

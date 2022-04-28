@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DashCode.Infrastructure.Commands;
@@ -57,12 +60,44 @@ namespace DashCode.ViewModules
             set => Set(ref _CurrentFolder, value);
         }
         #endregion
-        //public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
-
-        //#region SelectedDirectory : DirectoryViewModel - Выбранная директория
-
-        //private DirectoryViewModel _SelectedDirectory;
-        //public DirectoryViewModel SelectedDirectory { get => _SelectedDirectory; set => Set(ref _SelectedDirectory, value); }
+        #region Chats
+        private ObservableCollection<Chat> _Chats = new ObservableCollection<Chat>()
+        {
+            new Chat("test", new ObservableCollection<User>()
+            {
+                new User("vasa"),
+                new User("lexa")
+            },
+            new ObservableCollection<Message>()
+            {
+                new Message(new User("vasa"), "hello"),
+                new Message(new User("lexa"), "hi"),
+            }),
+            new Chat("test2", new ObservableCollection<User>()
+            {
+                new User("vasa"),
+                new User("lexa"),
+                new User("petra"),
+            },
+            new ObservableCollection<Message>()
+            {
+                new Message(new User("vasa"), "hello people"),
+                new Message(new User("lexa"), "hi"),
+                new Message(new User("petra"), "good"),
+            })
+        };
+        public ObservableCollection<Chat> Chats
+        {
+            get => _Chats;
+            set => Set(ref _Chats, value);
+        }
+        private Chat _SelectedChat;
+        public Chat SelectedChat
+        {
+            get => _SelectedChat;
+            set => Set(ref _SelectedChat, value);
+        }
+        #endregion
         #region OpenFolder
         public ICommand OpenFolderCommand { get; }
         private void OnOpenFolderCommandExecuted(object par) => CurrentFolder = par as ProjectFolder;
@@ -82,6 +117,14 @@ namespace DashCode.ViewModules
         }
         private bool CanSaveFileCommandExecute(object par) => true;
         #endregion
+        #region SendMessage
+        public ICommand SendMessageCommand { get; }
+        private void OnSendMessageCommandExecuted(object par)
+        {
+
+        }
+        private bool CanSendMessageCommandExecute(object par) => true;
+        #endregion
         public void TrySelectNewFile(ProjectFile file)
         {
             CurrentFile = file;
@@ -92,11 +135,14 @@ namespace DashCode.ViewModules
             OpenFileCommand = new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommandExecute);
             OpenFolderCommand = new LambdaCommand(OnOpenFolderCommandExecuted, CanOpenFolderCommandExecute);
             SaveFileCommand = new LambdaCommand(OnSaveFileCommandExecuted, CanSaveFileCommandExecute);
+            SendMessageCommand = new LambdaCommand(OnSendMessageCommandExecuted, CanSendMessageCommandExecute);
+
             EditorDocument Document = new EditorDocument(CurrentFile, new CSharpReader());
             FormattedDocument = new CSharpFormattedDocument(Document);
             Document.Read();
             FormattedDocument.Format();
             OnPropertyChanged("Document");
+            SelectedChat = Chats.First();
         }
     }
 }

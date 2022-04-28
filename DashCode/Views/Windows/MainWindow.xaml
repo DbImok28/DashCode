@@ -10,7 +10,8 @@
         xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
+        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" 
+        DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -113,7 +114,7 @@
             </controls:Explorer>
             <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             <controls:Explorer NameText="Messages" Grid.Row="2" Grid.Column="2" Items=""/>
-            <Frame Margin="4,24,4,4" x:Name="MessageFrame" Grid.Row="2" Grid.Column="2" Content="Message" NavigationUIVisibility="Hidden"/>
+            <Frame Margin="4,30,4,4" x:Name="MessageFrame" Grid.Row="2" Grid.Column="2" Content="Message" NavigationUIVisibility="Hidden"/>
         </Grid>
         <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
     </Grid>
