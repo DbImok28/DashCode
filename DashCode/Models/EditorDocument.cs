@@ -1,8 +1,5 @@
 ﻿using DashCode.Models.DocumentReaders;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace DashCode.Models
 {
@@ -14,28 +11,33 @@ namespace DashCode.Models
             {
                 throw new ArgumentException($"'{nameof(rawDocument)}' cannot be null or whitespace.", nameof(rawDocument));
             }
-
-            RawDocument = rawDocument;
+            File = new ProjectFile
+            {
+                Content = rawDocument
+            };
+            Reader = reader ?? throw new ArgumentNullException(nameof(reader));
+        }
+        public EditorDocument(ProjectFile file, DocumentReader reader)
+        {
+            Open(file);
             Reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
         public IConstruction ReadedDocument { get; private set; }
-        public string RawDocument { get; private set; }
+        public ProjectFile File { get; private set; }
+        public string RawDocument => File.Content;
         public DocumentReader Reader { get; set; }
-        //public event EventHandler OnDocumentUpdate;
-        //public void AddText(int pos, string str)
-        //{
-        //    RawDocument = RawDocument.Insert(pos, str);
-        //    OnDocumentUpdate?.Invoke(this, null);
-        //}
-        //public void RemoveText(int pos, int length)
-        //{
-        //    RawDocument = RawDocument.Remove(pos, length);
-        //    OnDocumentUpdate?.Invoke(this, null);
-        //}
+        public void Open(ProjectFile file)
+        {
+            File = file;
+            File.ReadContent();
+        }
         public void SetText(string document)
         {
-            RawDocument = document;
-            //OnDocumentUpdate?.Invoke(this, null);
+            File.Content = document;
+        }
+        public void Save()
+        {
+            File.Save();
         }
         public void Read()
         {

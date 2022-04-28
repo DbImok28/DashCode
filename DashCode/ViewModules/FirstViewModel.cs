@@ -21,33 +21,33 @@ namespace DashCode.ViewModules
             set => Set(ref _Files, value);
         }
         #endregion
-        #region RemoveFileCommand
-        public ICommand RemoveFileCommand { get; }
-        private void OnRemoveFileCommandExecuted(object par)
+        #region RemoveFolderCommand
+        public ICommand RemoveFolderCommand { get; }
+        private void OnRemoveFolderCommandExecuted(object par)
         {
             if(par is ProjectFolder folder)
             {
                 _Files.Remove(folder);
             }
         }
-        private bool CanRemoveFileCommandExecute(object par) => Files.Count > 0;
+        private bool CanRemoveFolderCommandExecute(object par) => Files.Count > 0;
         #endregion
-        #region AddFileCommand
-        public ICommand AddFileCommand { get; }
-        private void OnAddFileCommandExecuted(object par)
+        #region AddFolderCommand
+        public ICommand AddFolderCommand { get; }
+        private void OnAddFolderCommandExecuted(object par)
         {
             if (par is ProjectFolder folder)
             {
                 _Files.Add(folder);
             }
         }
-        private bool CanAddFileCommandExecute(object par) => true;
+        private bool CanAddFolderCommandExecute(object par) => true;
         #endregion
 
         public FirstViewModel()
         {
-            RemoveFileCommand = new LambdaCommand(OnRemoveFileCommandExecuted, CanRemoveFileCommandExecute);
-            AddFileCommand = new LambdaCommand(OnAddFileCommandExecuted, CanAddFileCommandExecute);
+            RemoveFolderCommand = new LambdaCommand(OnRemoveFolderCommandExecuted, CanRemoveFolderCommandExecute);
+            AddFolderCommand = new LambdaCommand(OnAddFolderCommandExecuted, CanAddFolderCommandExecute);
             try
             {
                 Files = FileReader.DeserializeXML<ObservableCollection<ProjectFolder>>("RecentProjectFolders.xml");

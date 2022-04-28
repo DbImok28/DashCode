@@ -2,16 +2,9 @@
 using DashCode.View.Windows;
 using DashCode.Views.Pages;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DashCode.Views.Windows
 {
@@ -28,9 +21,13 @@ namespace DashCode.Views.Windows
         }
         public void OpenFolder(ProjectFolder folder)
         {
-            Application.Current.MainWindow = new MainWindow();
-            Application.Current.MainWindow.Show();
-            Close();
+            if (Application.Current.MainWindow == this)
+            {
+                Application.Current.MainWindow = new MainWindow();
+                Application.Current.MainWindow.Show();
+                Close();
+                App.VMService.MainVM.OpenFolderCommand.Execute(folder);
+            }
         }
 
         private void ListBox_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -48,7 +45,7 @@ namespace DashCode.Views.Windows
                 if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     ProjectFolder folder = new ProjectFolder(dialog.SelectedPath);
-                    App.VMService.FirstVM.AddFileCommand.Execute(folder);
+                    App.VMService.FirstVM.AddFolderCommand.Execute(folder);
                     OpenFolder(folder);
                 }
             }

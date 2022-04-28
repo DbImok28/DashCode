@@ -25,17 +25,8 @@ namespace DashCode.View.Windows
     {
         public MainWindow()
         {
-            // TODO: Change to INotify
             InitializeComponent();
-            if (DataContext is MainViewModel mainWindowViewModel)
-            {
-                this.mainWindowViewModel = mainWindowViewModel;
-                ConvertAndSet(mainWindowViewModel.FormattedDocument);
-            }
-            else
-            {
-                throw new InvalidCastException("Window DataContext is not MainWindowViewModel");
-            }
+            Update(0, 0);
         }
         private void editorRTB_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -54,12 +45,13 @@ namespace DashCode.View.Windows
         }
         public void Update(int offset, int len)
         {
+            var mainVM = App.VMService.MainVM;
             var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-            mainWindowViewModel.FormattedDocument.EditorDocument.SetText(range.Text);
-            mainWindowViewModel.FormattedDocument.EditorDocument.Read();
-            mainWindowViewModel.FormattedDocument.Format();
-            ConvertAndSet(mainWindowViewModel.FormattedDocument);
-            mainWindowViewModel.OnPropertyChanged("FormattedDocument");
+            mainVM.FormattedDocument.EditorDocument.SetText(range.Text);
+            mainVM.FormattedDocument.EditorDocument.Read();
+            mainVM.FormattedDocument.Format();
+            ConvertAndSet(mainVM.FormattedDocument);
+            mainVM.OnPropertyChanged("FormattedDocument");
             try
             {
                 editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
@@ -140,8 +132,6 @@ namespace DashCode.View.Windows
             Update(0, 0);
             EditsCount = 0;
         }
-        // TODO: Store only document
-        private MainViewModel mainWindowViewModel;
         private bool IgnoreChange = false;
         private int EditsCount = 0;
         private int rowCount = 0;
@@ -151,6 +141,13 @@ namespace DashCode.View.Windows
             //int startRow = (int)(e.VerticalOffset / 48) + 1;
             int startRow = (int)(e.VerticalOffset / 24);
             rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
+        }
+
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Update(0, 0);
+            EditsCount = 0;
+            App.VMService.MainVM.SaveFileCommand.Execute(null);
         }
     }
 }

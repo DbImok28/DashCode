@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
@@ -19,11 +20,14 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-            <StackPanel Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="3">
-                <Button Click="Button_UpdateClick" Width="40" Margin="2">
-                    <TextBlock Text="save" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-            </StackPanel>
+        <StackPanel Margin="4,0,0,0" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <Button Margin="2" Click="Save_Button_Click">
+                <fa:FontAwesome FontSize="18" Icon="Save" ToolTip="Save" Foreground="{StaticResource BlueForegroundColor}"/>
+            </Button>
+            <Button Margin="2">
+                <fa:FontAwesome FontSize="18" Icon="FolderOpen" ToolTip="Open project folder" Foreground="{StaticResource FolderColor}"/>
+            </Button>
+        </StackPanel>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -34,7 +38,7 @@
             <DockPanel Background="{StaticResource ElementForegroundColor}">
                 <StackPanel DockPanel.Dock="Top" Height="24" HorizontalAlignment="Right">
                     <Button Click="Button_UpdateClick" Width="20" Height="20" Margin="2">
-                        <TextBlock Text="r" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <fa:FontAwesome FontSize="16" Icon="RotateRight" Foreground="{StaticResource WhiteElementForegroundColor}" ToolTip="Reload"/>
                     </Button>
                 </StackPanel>
                 <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 

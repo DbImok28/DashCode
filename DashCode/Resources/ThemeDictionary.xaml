@@ -20,6 +20,7 @@
     <SolidColorBrush x:Key="MutedSelectedColor" Color="#FF569DE5"/>
     <SolidColorBrush x:Key="WhiteElementForegroundColor" Color="#FFA2A1A1"/>
     <SolidColorBrush x:Key="FolderColor" Color="#FFCFAF76"/>
+    <SolidColorBrush x:Key="BlueForegroundColor" Color="#FF5F9CE6"/>
     <!--Button-->
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">

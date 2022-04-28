@@ -10,10 +10,7 @@ namespace DashCode.Models
         public FormattedEditorDocument(EditorDocument editorDocument)
         {
             EditorDocument = editorDocument ?? throw new ArgumentNullException(nameof(editorDocument));
-            Document = new FormattedStrings(new List<FormattedString>
-            {
-                new FormattedString("int", Color.FromRgb(0,255,0))
-            });
+            Document = new FormattedStrings(new List<FormattedString>());
         }
         public abstract void Format();
         public IEnumerable<string> OutputMessages
@@ -21,6 +18,15 @@ namespace DashCode.Models
             get {
                 return EditorDocument.Reader.GetOutputMessages();
             }
+        }
+        public void Open(ProjectFile file)
+        {
+            EditorDocument.Open(file);
+            OnDocumentUpdate?.Invoke(this, null);
+        }
+        public void Save()
+        {
+            EditorDocument.Save();
         }
         public event EventHandler OnDocumentUpdate;
         private FormattedStrings _Document;

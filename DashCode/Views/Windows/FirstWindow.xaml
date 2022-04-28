@@ -30,7 +30,7 @@
                     <fa:ImageAwesome Icon="FolderOpen" Width="20" Height="20" Foreground="{StaticResource FolderColor}"/>
                 </Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Source={StaticResource ProjectFolderSource}}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged">
+            <ListBox ItemsSource="{Binding Source={StaticResource ProjectFolderSource}}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged" ItemContainerStyle="{StaticResource NoSelectableListBox}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel>
@@ -38,7 +38,7 @@
                                 <TextBlock Text="{Binding FolderName}"/>
                                 <TextBlock Text="{Binding Path}" Foreground="{StaticResource MutedTextColor}" FontSize="8"/>
                             </StackPanel>
-                            <Button Width="20" Height="20" HorizontalAlignment="Right" DockPanel.Dock="Right" Command="{Binding FirstVM.RemoveFileCommand, Source={StaticResource vmlocator}}" CommandParameter="{Binding}">
+                            <Button Width="20" Height="20" HorizontalAlignment="Right" DockPanel.Dock="Right" Command="{Binding FirstVM.RemoveFolderCommand, Source={StaticResource vmlocator}}" CommandParameter="{Binding}">
                                 <fa:ImageAwesome Icon="Close" Margin="4" Foreground="{StaticResource WhiteElementForegroundColor}"/>
                             </Button>
                         </DockPanel>
