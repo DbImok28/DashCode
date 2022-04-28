@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashCode.ViewModules;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -6,23 +7,19 @@ using System.Windows.Forms;
 
 namespace DashCode.Models
 {
-    public class ProjectFile
+    public class ProjectFile : BaseViewModel
     {
+
+        public ProjectFile(string Path) => _FileInfo = new FileInfo(Path);
         public ProjectFile()
         {
-            Path = null;
-            Name = null;
-            Extension = null;
+            _FileInfo = null;
         }
-        public ProjectFile(string path)
-        {
-            Path = path;
-            Name = System.IO.Path.GetFileName(path);
-            Extension = System.IO.Path.GetExtension(path);
-        }
-        public string Path { get; set; }
-        public string Name { get; set; }
-        public string Extension { get; set; }
+        private FileInfo _FileInfo;
+        public string Path => _FileInfo.FullName;
+        public string Name => _FileInfo?.Name ?? "-";
+        public DateTime CreationTime => _FileInfo.CreationTime;
+        public string Extension => _FileInfo.Extension;
         private string _Content;
         public string Content
         {
@@ -43,19 +40,14 @@ namespace DashCode.Models
         public void ReadContent()
         {
             _Content = "";
-            if (string.IsNullOrEmpty(Path) && Path != null)
+            if (_FileInfo != null)
             {
-                StreamReader f = new StreamReader(Path);
-                while (!f.EndOfStream)
-                {
-                    _Content += f.ReadLine();
-                }
-                f.Close();
+                _Content = File.ReadAllText(Path);
             }
         }
         public void Save()
         {
-            if (Path == null)
+            if (_FileInfo == null)
             {
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "All files (*.*)|*.*";
@@ -63,9 +55,7 @@ namespace DashCode.Models
 
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    Path = saveFileDialog1.FileName;
-                    Name = System.IO.Path.GetFileName(Path);
-                    Extension = System.IO.Path.GetExtension(Path);
+                    _FileInfo = new FileInfo(saveFileDialog1.FileName);
                     File.WriteAllText(Path, Content);
                 }
             }

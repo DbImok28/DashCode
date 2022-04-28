@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cmd="clr-namespace:DashCode.Infrastructure.Commands"
         xmlns:vm="clr-namespace:DashCode.ViewModules"
+        xmlns:m="clr-namespace:DashCode.Models"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
@@ -36,11 +37,15 @@
             </Grid.RowDefinitions>
             <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
             <DockPanel Background="{StaticResource ElementForegroundColor}">
-                <StackPanel DockPanel.Dock="Top" Height="24" HorizontalAlignment="Right">
-                    <Button Click="Button_UpdateClick" Width="20" Height="20" Margin="2">
+                <DockPanel Margin="22,0,0,0" DockPanel.Dock="Top" Height="24">
+                    <Button DockPanel.Dock="Right" Click="Button_UpdateClick" Width="20" Height="20" Margin="2">
                         <fa:FontAwesome FontSize="16" Icon="RotateRight" Foreground="{StaticResource WhiteElementForegroundColor}" ToolTip="Reload"/>
                     </Button>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <fa:ImageAwesome Height="12" Icon="File" Foreground="{StaticResource FileColor}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding CurrentFile}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DockPanel>
                 <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
                              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}"
                          VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -86,29 +91,29 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="300"/>
             </Grid.RowDefinitions>
+            <Grid.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type m:ProjectFolder}" ItemsSource="{Binding DirectoryItems}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Height="12" Icon="Folder" Foreground="{StaticResource FolderColor}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type m:ProjectFile}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Height="12" Icon="File" Foreground="{StaticResource FileColor}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </Grid.Resources>
             <controls:Explorer NameText="Folders">
                 <controls:Explorer.Items>
-                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Foreground="{StaticResource TextColor}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <TreeView ItemsSource="{Binding CurrentFolder.DirectoryItems}" Background="{StaticResource Element2PlanBackgroundColor}" 
+                              BorderBrush="{x:Null}" MouseDoubleClick="FolderTreeView_MouseDoubleClick" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                 </controls:Explorer.Items>
             </controls:Explorer>
             <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            <controls:Explorer NameText="Messages" Grid.Row="2" Grid.Column="2">
-                <controls:Explorer.Items>
-                    <ListBox Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Foreground="{StaticResource TextColor}"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </controls:Explorer.Items>
-            </controls:Explorer>
+            <controls:Explorer NameText="Messages" Grid.Row="2" Grid.Column="2" Items=""/>
+            <Frame Margin="4,24,4,4" x:Name="MessageFrame" Grid.Row="2" Grid.Column="2" Content="Message" NavigationUIVisibility="Hidden"/>
         </Grid>
         <GridSplitter Background="{StaticResource ElementBorderColor}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
     </Grid>

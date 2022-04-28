@@ -2,6 +2,7 @@
 using DashCode.Infrastructure.Commands;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Linq;
 
 namespace DashCode.ViewModules
 {
@@ -14,11 +15,13 @@ namespace DashCode.ViewModules
             get => _Title;
             set => Set(ref _Title, value);
         }
-        private ObservableCollection<ProjectFolder> _Files = new ObservableCollection<ProjectFolder>();
-        public ObservableCollection<ProjectFolder> Files
+        #endregion
+        #region Files
+        private ObservableCollection<ProjectFolder> _Folders = new ObservableCollection<ProjectFolder>();
+        public ObservableCollection<ProjectFolder> Folders
         {
-            get => _Files;
-            set => Set(ref _Files, value);
+            get => _Folders;
+            set => Set(ref _Folders, value);
         }
         #endregion
         #region RemoveFolderCommand
@@ -27,10 +30,10 @@ namespace DashCode.ViewModules
         {
             if(par is ProjectFolder folder)
             {
-                _Files.Remove(folder);
+                _Folders.Remove(folder);
             }
         }
-        private bool CanRemoveFolderCommandExecute(object par) => Files.Count > 0;
+        private bool CanRemoveFolderCommandExecute(object par) => Folders.Count > 0;
         #endregion
         #region AddFolderCommand
         public ICommand AddFolderCommand { get; }
@@ -38,7 +41,7 @@ namespace DashCode.ViewModules
         {
             if (par is ProjectFolder folder)
             {
-                _Files.Add(folder);
+                _Folders.Add(folder);
             }
         }
         private bool CanAddFolderCommandExecute(object par) => true;
@@ -50,13 +53,17 @@ namespace DashCode.ViewModules
             AddFolderCommand = new LambdaCommand(OnAddFolderCommandExecuted, CanAddFolderCommandExecute);
             try
             {
-                Files = FileReader.DeserializeXML<ObservableCollection<ProjectFolder>>("RecentProjectFolders.xml");
+                var FilesPathies = FileReader.DeserializeXML<ObservableCollection<string>>("RecentProjectFolders.xml");
+                foreach (var path in FilesPathies)
+                {
+                    Folders.Add(new ProjectFolder(path));
+                }
             }
             catch (System.Exception)
             {
-                FileReader.SerializeToXML("RecentProjectFolders.xml", Files);
+                FileReader.SerializeToXML("RecentProjectFolders.xml", Folders.Select(x => x.Path).ToList());
             }
-            Files.CollectionChanged += (s, a) => FileReader.SerializeToXML("RecentProjectFolders.xml", Files);
+            Folders.CollectionChanged += (s, a) => FileReader.SerializeToXML("RecentProjectFolders.xml", Folders.Select(x => x.Path).ToList());
         }
     }
 }

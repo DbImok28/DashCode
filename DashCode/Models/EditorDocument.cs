@@ -5,18 +5,6 @@ namespace DashCode.Models
 {
     public class EditorDocument
     {
-        public EditorDocument(string rawDocument, DocumentReader reader)
-        {
-            if (string.IsNullOrWhiteSpace(rawDocument))
-            {
-                throw new ArgumentException($"'{nameof(rawDocument)}' cannot be null or whitespace.", nameof(rawDocument));
-            }
-            File = new ProjectFile
-            {
-                Content = rawDocument
-            };
-            Reader = reader ?? throw new ArgumentNullException(nameof(reader));
-        }
         public EditorDocument(ProjectFile file, DocumentReader reader)
         {
             Open(file);

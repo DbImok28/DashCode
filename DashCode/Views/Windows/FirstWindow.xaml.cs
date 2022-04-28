@@ -34,7 +34,7 @@ namespace DashCode.Views.Windows
         {
             if (sender is ListBox list && list.SelectedItem is ProjectFolder folder)
             {
-                OpenFolder(folder);
+                //OpenFolder(folder);
             }
         }
 
@@ -55,7 +55,7 @@ namespace DashCode.Views.Windows
         {
             if (!(e.Item is ProjectFolder folder) || folder is null) return;
             var filterText = FilterBox.Text;
-            if (folder.FolderName.Contains(filterText, StringComparison.OrdinalIgnoreCase)) return;
+            if (folder.Name.Contains(filterText, StringComparison.OrdinalIgnoreCase)) return;
             e.Accepted = false;
         }
 
@@ -64,6 +64,17 @@ namespace DashCode.Views.Windows
             var box = sender as TextBox;
             var collection = box.FindResource("ProjectFolderSource") as CollectionViewSource;
             collection.View.Refresh();
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedFolder = (sender as ListBox).SelectedItem as ProjectFolder;
+        }
+        public ProjectFolder SelectedFolder { get; set; }
+
+        private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OpenFolder(SelectedFolder);
         }
     }
 }

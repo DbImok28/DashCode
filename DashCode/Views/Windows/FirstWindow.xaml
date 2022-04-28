@@ -17,7 +17,7 @@
     <DockPanel Margin="40">
         <StackPanel DockPanel.Dock="Left">
             <StackPanel.Resources>
-                <CollectionViewSource x:Key="ProjectFolderSource" Source="{Binding Files}" Filter="ProjectFolder_Filter"/>
+                <CollectionViewSource x:Key="ProjectFolderSource" Source="{Binding Folders}" Filter="ProjectFolder_Filter"/>
             </StackPanel.Resources>
             <TextBlock Margin="10" Text="Open" FontSize="20" Height="30"/>
             <StackPanel Orientation="Horizontal" Margin="10,0,0,10">
@@ -30,12 +30,12 @@
                     <fa:ImageAwesome Icon="FolderOpen" Width="20" Height="20" Foreground="{StaticResource FolderColor}"/>
                 </Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Source={StaticResource ProjectFolderSource}}" IsMouseCapturedChanged="ListBox_IsMouseCapturedChanged" ItemContainerStyle="{StaticResource NoSelectableListBox}">
+            <ListBox ItemsSource="{Binding Source={StaticResource ProjectFolderSource}}" SelectionChanged="ListBox_SelectionChanged" MouseDoubleClick="ListBox_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel>
                             <StackPanel HorizontalAlignment="Stretch" DockPanel.Dock="Left">
-                                <TextBlock Text="{Binding FolderName}"/>
+                                <TextBlock Text="{Binding Name}"/>
                                 <TextBlock Text="{Binding Path}" Foreground="{StaticResource MutedTextColor}" FontSize="8"/>
                             </StackPanel>
                             <Button Width="20" Height="20" HorizontalAlignment="Right" DockPanel.Dock="Right" Command="{Binding FirstVM.RemoveFolderCommand, Source={StaticResource vmlocator}}" CommandParameter="{Binding}">

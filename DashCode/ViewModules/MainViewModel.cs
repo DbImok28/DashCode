@@ -50,13 +50,19 @@ namespace DashCode.ViewModules
         }
         #endregion
         #region CurrentFolder
-        private ProjectFolder _CurrentFolder = new ProjectFolder();
+        private ProjectFolder _CurrentFolder = new ProjectFolder("C:\\");
         public ProjectFolder CurrentFolder
         {
             get => _CurrentFolder;
             set => Set(ref _CurrentFolder, value);
         }
         #endregion
+        //public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+
+        //#region SelectedDirectory : DirectoryViewModel - Выбранная директория
+
+        //private DirectoryViewModel _SelectedDirectory;
+        //public DirectoryViewModel SelectedDirectory { get => _SelectedDirectory; set => Set(ref _SelectedDirectory, value); }
         #region OpenFolder
         public ICommand OpenFolderCommand { get; }
         private void OnOpenFolderCommandExecuted(object par) => CurrentFolder = par as ProjectFolder;
@@ -64,69 +70,28 @@ namespace DashCode.ViewModules
         #endregion
         #region OpenFile
         public ICommand OpenFileCommand { get; }
-        private void OnOpenFileCommandExecuted(object par)
-        {
-            CurrentFile = par as ProjectFile;
-            FormattedDocument.Open(CurrentFile);
-        }
+        private void OnOpenFileCommandExecuted(object par) => TrySelectNewFile(par as ProjectFile);
         private bool CanOpenFileCommandExecute(object par) => true;
         #endregion
-        #region OpenFolder
+        #region SaveFile
         public ICommand SaveFileCommand { get; }
-        private void OnSaveFileCommandExecuted(object par) => FormattedDocument.Save();
+        private void OnSaveFileCommandExecuted(object par)
+        {
+            FormattedDocument.Save();
+            OnPropertyChanged(nameof(CurrentFile));
+        }
         private bool CanSaveFileCommandExecute(object par) => true;
         #endregion
+        public void TrySelectNewFile(ProjectFile file)
+        {
+            CurrentFile = file;
+            FormattedDocument.Open(CurrentFile);
+        }
         public MainViewModel()
         {
             OpenFileCommand = new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommandExecute);
             OpenFolderCommand = new LambdaCommand(OnOpenFolderCommandExecuted, CanOpenFolderCommandExecute);
             SaveFileCommand = new LambdaCommand(OnSaveFileCommandExecuted, CanSaveFileCommandExecute);
-            //            EditorDocument Document = new EditorDocument(@"using DashCode.Models.DocumentParser;
-            //using System;
-            //using System.Collections.Generic;
-            //using System.Collections.ObjectModel;
-            //using System.Text;
-
-            //namespace DashCode.Models
-            //{ 
-            //    public class EditorDocument
-            //    {
-            //            public EditorDocument(string rawDocument, IDocumentParser parser)
-            //            {
-            //                if (string.IsNullOrWhiteSpace(rawDocument))
-            //                {
-
-            //                }
-
-            //            RawDocument = rawDocument;
-            //                Parser = parser ?? throw new ArgumentNullException(nameof(parser));
-            //        }
-
-            //        public string _Raw.Document { get; private set; }
-            //        public IConstruction ParsedDocument;
-            //        public IDocumentParser Parser { get; private set; }
-            //        public event EventHandler OnDocumentUpdate;
-            //        public FormattedEditorDocument FormattedDocument
-            //        {
-            //            get => _FormattedDocument;
-            //            set => Set(ref _FormattedDocument, value);
-            //        }
-            //        public FormattedEditorDocument FormattedDocument
-            //        {
-            //            get => { _FormattedDocument; }
-            //            set => Set(ref _FormattedDocument, value);
-            //        }
-            //        public void AddText(int pos, string str)
-            //        {
-            //            RawDocument = RawDocument.Insert(pos, str);
-            //            OnDocumentUpdate?.Invoke(this, null);
-            //        }
-            //        public void Parse()
-            //        {
-            //            Parser.ParseDocument(RawDocument);
-            //        }
-            //    }
-            //}", new CSharpReader());
             EditorDocument Document = new EditorDocument(CurrentFile, new CSharpReader());
             FormattedDocument = new CSharpFormattedDocument(Document);
             Document.Read();

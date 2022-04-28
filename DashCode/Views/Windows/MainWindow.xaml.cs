@@ -26,8 +26,10 @@ namespace DashCode.View.Windows
         public MainWindow()
         {
             InitializeComponent();
-            Update(0, 0);
+            ReadAndUpdate();
         }
+
+        #region RTB
         private void editorRTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!IgnoreChange)
@@ -37,17 +39,21 @@ namespace DashCode.View.Windows
                     EditsCount += change.AddedLength + change.RemovedLength;
                     if (EditsCount > 20)
                     {
-                        Update(change.Offset, change.AddedLength - change.RemovedLength);
+                        ReadAndUpdate(change.Offset, change.AddedLength - change.RemovedLength);
                         EditsCount = 0;
                     }
                 }
             }
         }
-        public void Update(int offset, int len)
+        public void ReadAndUpdate(int offset = 0, int len = 0)
+        {
+            var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
+            App.VMService.MainVM.FormattedDocument.EditorDocument.SetText(range.Text);
+            Update(offset, len);
+        }
+        public void Update(int offset = 0, int len = 0)
         {
             var mainVM = App.VMService.MainVM;
-            var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-            mainVM.FormattedDocument.EditorDocument.SetText(range.Text);
             mainVM.FormattedDocument.EditorDocument.Read();
             mainVM.FormattedDocument.Format();
             ConvertAndSet(mainVM.FormattedDocument);
@@ -129,25 +135,36 @@ namespace DashCode.View.Windows
         }
         private void Button_UpdateClick(object sender, RoutedEventArgs e)
         {
-            Update(0, 0);
+            ReadAndUpdate();
             EditsCount = 0;
         }
-        private bool IgnoreChange = false;
-        private int EditsCount = 0;
-        private int rowCount = 0;
-
         private void editorRTB_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             //int startRow = (int)(e.VerticalOffset / 48) + 1;
             int startRow = (int)(e.VerticalOffset / 24);
-            rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
+            if (startRow + 1 < rowCount - startRow)
+                rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
         }
+        private bool IgnoreChange = false;
+        private int EditsCount = 0;
+        private int rowCount = 0;
+        #endregion
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            Update(0, 0);
+            ReadAndUpdate();
             EditsCount = 0;
             App.VMService.MainVM.SaveFileCommand.Execute(null);
+        }
+
+        private void FolderTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TreeView tree && tree.SelectedItem is ProjectFile file)
+            {
+                App.VMService.MainVM.TrySelectNewFile(file);
+                Update();
+                EditsCount = 0;
+            }
         }
     }
 }
