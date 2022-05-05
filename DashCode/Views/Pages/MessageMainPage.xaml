@@ -5,24 +5,40 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:fa="http://schemas.fontawesome.io/icons/"
       xmlns:m="clr-namespace:DashCode.Models"
+      xmlns:vm="clr-namespace:DashCode.ViewModules"
       xmlns:local="clr-namespace:DashCode.Views.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="300"
-      Title="MessageMainPage" DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
+      d:DataContext="{d:DesignInstance Type=vm:ChatViewModel}"
+      Title="MessageMainPage" DataContext="{Binding ChatVM, Source={StaticResource vmlocator}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
-        <ComboBox Height="22" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding Chats}" 
-                  SelectionChanged="ComboBox_SelectionChanged" Background="{StaticResource ElementBackgroundColor}" Foreground="{StaticResource ElementForegroundColor}">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Height="24" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding Chats}" SelectedItem="{Binding SelectedChat}"
+                  Background="{StaticResource ElementBackgroundColor}" Foreground="{StaticResource ElementForegroundColor}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <fa:FontAwesome Icon="EllipsisH" FontSize="16" VerticalAlignment="Center"/>
+                </Button>
+                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="CreateChatButton_Click">
+                    <fa:FontAwesome Icon="Plus" FontSize="16" VerticalAlignment="Center"/>
+                </Button>
+            </StackPanel>
+        </Grid>
         <ListBox Grid.Row="1" Background="{StaticResource Element2PlanBackgroundColor}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  ItemsSource="{Binding SelectedChat.Messages}">
             <ListBox.ItemTemplate>

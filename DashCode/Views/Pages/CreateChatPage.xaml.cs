@@ -1,5 +1,4 @@
-﻿using DashCode.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -15,18 +14,22 @@ using System.Windows.Shapes;
 namespace DashCode.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for MessageMainPage.xaml
+    /// Interaction logic for CreateChatPage.xaml
     /// </summary>
-    public partial class MessageMainPage : Page
+    public partial class CreateChatPage : Page
     {
-        public MessageMainPage()
+        public CreateChatPage()
         {
             InitializeComponent();
         }
 
         private void CreateChatButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri(@"\Views\Pages\CreateChatPage.xaml", UriKind.Relative));
+            if(!string.IsNullOrEmpty(chatName.Text))
+            {
+                App.VMService.ChatVM.CreateChatCommand.Execute(chatName.Text);
+                NavigationService.Navigate(new Uri(@"\Views\Pages\MessageMainPage.xaml", UriKind.Relative));
+            }
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿<Page x:Class="DashCode.Views.Pages.CreateChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DashCode.Views.Pages"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      xmlns:m="clr-namespace:DashCode.Models"
+      xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
+      xmlns:converter="clr-namespace:DashCode.Infrastructure.Converter"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="300"
+      Title="CreateChatPage" DataContext="{Binding ChatVM, Source={StaticResource vmlocator}}">
+
+    <StackPanel Margin="0,10,0,0">
+        <controls:TextBoxWithNote NoteText="Chat name" Margin="2" x:Name="chatName"/>
+        <!--<Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Command="{Binding CreateChatCommand}" CommandParameter="{Binding ElementName=chatName, Path=Text}">-->
+        <Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="CreateChatButton_Click">
+            <TextBlock Text="Create chat" Foreground="{StaticResource MutedTextColor}"/>
+        </Button>
+    </StackPanel>
+</Page>

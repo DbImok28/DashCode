@@ -6,5 +6,6 @@ namespace DashCode.Infrastructure.Services
     {
         public MainViewModel MainVM => App.VMService.MainVM;
         public FirstViewModel FirstVM => App.VMService.FirstVM;
+        public ChatViewModel ChatVM => App.VMService.ChatVM;
     }
 }
