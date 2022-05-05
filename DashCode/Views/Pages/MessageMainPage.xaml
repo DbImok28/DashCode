@@ -24,14 +24,14 @@
             </Grid.ColumnDefinitions>
             <ComboBox Height="24" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding Chats}" SelectedItem="{Binding SelectedChat}"
                   Background="{StaticResource ElementBackgroundColor}" Foreground="{StaticResource ElementForegroundColor}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="EditChatButton_Click">
                     <fa:FontAwesome Icon="EllipsisH" FontSize="16" VerticalAlignment="Center"/>
                 </Button>
                 <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="CreateChatButton_Click">

@@ -1,0 +1,77 @@
+﻿<Page x:Class="DashCode.Views.Pages.EditChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
+      xmlns:m="clr-namespace:DashCode.Models"
+      xmlns:vm="clr-namespace:DashCode.ViewModules"
+      xmlns:local="clr-namespace:DashCode.Views.Pages"
+      xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
+      xmlns:converter="clr-namespace:DashCode.Infrastructure.Converter"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="300"
+      d:DataContext="{d:DesignInstance Type=vm:ChatViewModel}"
+      Title="MessageMainPage" DataContext="{Binding ChatVM, Source={StaticResource vmlocator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Height="24" DockPanel.Dock="Top" VerticalAlignment="Top" ItemsSource="{Binding Chats}" SelectedItem="{Binding SelectedChat}"
+                  Background="{StaticResource ElementBackgroundColor}" Foreground="{StaticResource ElementForegroundColor}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ExitButton_Click">
+                    <fa:FontAwesome Icon="Times" FontSize="16" VerticalAlignment="Center"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+            <controls:TextBoxWithNote Margin="0,4,0,0" NoteText="Chat name" x:Name="renameChatName"/>
+            <Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" 
+                    Command="{Binding RenameChatCommand}" CommandParameter="{Binding ElementName=renameChatName, Path=Text}">
+                <TextBlock Text="Rename chat" Foreground="{StaticResource MutedTextColor}"/>
+            </Button>
+            
+            <controls:TextBoxWithNote Margin="0,15,0,0" NoteText="User name" x:Name="addUserName"/>
+            <Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" 
+                    Command="{Binding AddUserToChatCommand}" CommandParameter="{Binding ElementName=addUserName, Path=Text}">
+                <TextBlock Text="Add user" Foreground="{StaticResource MutedTextColor}"/>
+            </Button>
+
+            <Button Height="22" Margin="0,15,0,0" Background="{StaticResource ElementForegroundColor}" 
+                    Command="{Binding DeleteChatCommand}">
+                <TextBlock Text="Delete chat" Foreground="{StaticResource MutedTextColor}"/>
+            </Button>
+        </StackPanel>
+            <ListBox Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 ItemsSource="{Binding SelectedChat.Users}" Background="{StaticResource Element2PlanBackgroundColor}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <Image Source="/Resources/user_no_login.png" Width="30" Margin="0,0,4,0"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Page>

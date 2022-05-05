@@ -28,5 +28,10 @@ namespace DashCode.Views.Pages
         {
             NavigationService.Navigate(new Uri(@"\Views\Pages\CreateChatPage.xaml", UriKind.Relative));
         }
+
+        private void EditChatButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri(@"\Views\Pages\EditChatPage.xaml", UriKind.Relative));
+        }
     }
 }

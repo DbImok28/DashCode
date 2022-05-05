@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DashCode.Views.Pages
 {
@@ -28,7 +21,19 @@ namespace DashCode.Views.Pages
             if(!string.IsNullOrEmpty(chatName.Text))
             {
                 App.VMService.ChatVM.CreateChatCommand.Execute(chatName.Text);
-                NavigationService.Navigate(new Uri(@"\Views\Pages\MessageMainPage.xaml", UriKind.Relative));
+                //NavigationService.Navigate(new Uri(@"\Views\Pages\MessageMainPage.xaml", UriKind.Relative));
+                if (NavigationService.CanGoBack)
+                {
+                    NavigationService.GoBack();
+                }
+            }
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
             }
         }
     }

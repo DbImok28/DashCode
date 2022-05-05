@@ -12,11 +12,20 @@
       d:DesignHeight="450" d:DesignWidth="300"
       Title="CreateChatPage" DataContext="{Binding ChatVM, Source={StaticResource vmlocator}}">
 
-    <StackPanel Margin="0,10,0,0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="ExitButton_Click">
+            <fa:FontAwesome Icon="Times" FontSize="16" VerticalAlignment="Center"/>
+        </Button>
+    <StackPanel Grid.Row="1">
         <controls:TextBoxWithNote NoteText="Chat name" Margin="2" x:Name="chatName"/>
         <!--<Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Command="{Binding CreateChatCommand}" CommandParameter="{Binding ElementName=chatName, Path=Text}">-->
         <Button Height="22" Margin="0,4" Background="{StaticResource ElementForegroundColor}" Click="CreateChatButton_Click">
             <TextBlock Text="Create chat" Foreground="{StaticResource MutedTextColor}"/>
         </Button>
     </StackPanel>
+    </Grid>
 </Page>
