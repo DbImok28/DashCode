@@ -47,32 +47,7 @@
                         <TextBlock Text="{Binding CurrentFile}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DockPanel>
-                <ListBox x:Name="rowList" Background="{x:Null}" Margin="4,0" Padding="0" DockPanel.Dock="Left" 
-                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource NoSelectableListBox}"
-                         VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="{StaticResource RowNumberTextColor}" Margin="0" Padding="0" Height="14.35" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Background="{StaticResource ElementForegroundColor}" Margin="0"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-                <RichTextBox Background="{StaticResource ElementBackgroundColor}" BorderBrush="{StaticResource ElementBorderColor}" x:Name="editorRTB" 
-                             Margin="0" Padding="0" AcceptsTab="True" DockPanel.Dock="Right" TextChanged="editorRTB_TextChanged" 
-                             ScrollViewer.ScrollChanged="editorRTB_ScrollChanged" BorderThickness="0">
-                    <RichTextBox.Resources>
-                        <Style TargetType="{x:Type Paragraph}">
-                            <Setter Property="Margin" Value="0" />
-                        </Style>
-                        <Style TargetType="{x:Type Run}">
-                            <Setter Property="FontSize" Value="{Binding FontSize}" />
-                        </Style>
-                    </RichTextBox.Resources>
-                </RichTextBox>
+                <controls:TextEditor x:Name="textEditor" Margin="0" Padding="0" BorderThickness="0" FontSize="{Binding FontSize}"/>
             </DockPanel>
             <controls:Explorer NameText="Output" Grid.Row="2">
                 <controls:Explorer.Items>
