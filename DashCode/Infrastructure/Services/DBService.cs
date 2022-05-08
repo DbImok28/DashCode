@@ -120,7 +120,7 @@ namespace DashCode.Infrastructure.Services
             if (result > 0)
             {
                 //MessageBox.Show("Верно");
-                outPhoto = photo;
+                outPhoto = photoParameter.Value as byte[];
                 return true;
             }
             else

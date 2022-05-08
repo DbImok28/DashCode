@@ -16,7 +16,6 @@ namespace DashCode.Models
             Login = login;
             Mail = mail;
             Password = password;
-            ImagePath = null;
             BitMap = image;
         }
         public UserAccount(string login, string mail, string password, string imagePath)
@@ -24,15 +23,13 @@ namespace DashCode.Models
             Login = login;
             Mail = mail;
             Password = password;
-            ImagePath = imagePath;
-            BitMap = GetBitMap(imagePath);
+            BitMap = ImageTools.ImageToByteArr(imagePath);
         }
         public UserAccount(string login, string password, byte[] image)
         {
             Login = login;
             Mail = null;
             Password = password;
-            ImagePath = null;
             BitMap = image;
         }
         public UserAccount(string login, string password, string imagePath)
@@ -40,12 +37,7 @@ namespace DashCode.Models
             Login = login;
             Mail = null;
             Password = password;
-            ImagePath = imagePath;
-            BitMap = GetBitMap(imagePath);
-        }
-        public byte[] GetBitMap(string imagePath)
-        {
-            return null;
+            BitMap = ImageTools.ImageToByteArr(imagePath);
         }
         public string GetAccessString()
         {
@@ -54,7 +46,6 @@ namespace DashCode.Models
         public string Login { get; private set; }
         public string Mail { get; private set; }
         public string Password { get; set; }
-        public string ImagePath { get; private set; }
         public byte[] BitMap { get; private set; }
         public bool IsValid => Login != null;
 

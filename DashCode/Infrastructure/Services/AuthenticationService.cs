@@ -20,7 +20,7 @@ namespace DashCode.Infrastructure.Services
             Login = new LoginPage();
             Register = new RegisterPage();
             Autificated = new AutificatedPage();
-            OnUpdatePage += (s, a) => Autificated.loginBlock.Text = AccountLogin;
+            OnUpdatePage += (s, a) => Autificated.Update(Account);
             try
             {
                 if (File.Exists("AuthenticationInfo.bin"))
@@ -62,7 +62,6 @@ namespace DashCode.Infrastructure.Services
             }
             return false;
         }
-        
         public bool TryRegister(string login, string mail, string password, string imagePath)
         {
             var photo = ImageTools.ImageToByteArr(imagePath);

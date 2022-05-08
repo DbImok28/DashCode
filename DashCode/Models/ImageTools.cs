@@ -22,5 +22,17 @@ namespace DashCode.Models
                 return System.Drawing.Image.FromStream(ms);
             }
         }
+        public static System.Windows.Media.Imaging.BitmapImage ByteArrToBitmapImage(byte[] byteArrayIn)
+        {
+            using (var ms = new MemoryStream(byteArrayIn))
+            {
+                var image = new System.Windows.Media.Imaging.BitmapImage();
+                image.BeginInit();
+                image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad; // here
+                image.StreamSource = ms;
+                image.EndInit();
+                return image;
+            }
+        }
     }
 }

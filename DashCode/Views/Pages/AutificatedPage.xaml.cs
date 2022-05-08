@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashCode.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,25 @@ namespace DashCode.Views.Pages
         public AutificatedPage()
         {
             InitializeComponent();
+        }
+        public void Update(UserAccount account)
+        {
+            if (account != null)
+            {
+                var photo = account.BitMap;
+                if (photo != null)
+                {
+                    try
+                    {
+                        UserIcon.Source = ImageTools.ByteArrToBitmapImage(photo);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "Load image error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                loginBlock.Text = account.Login;
+            }
         }
         private void SignOut_Button_Click(object sender, RoutedEventArgs e)
         {
