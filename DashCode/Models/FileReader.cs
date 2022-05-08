@@ -31,6 +31,17 @@ namespace DashCode.Models
                 binSer.Serialize(f, data);
             }
         }
+
+        public static T DeserializeXML<T>(string path, string root)
+        {
+            T data;
+            var xmlSer = new XmlSerializer(typeof(T), new XmlRootAttribute(root));
+            using (var f = new StreamReader(path))
+            {
+                data = (T)xmlSer.Deserialize(f);
+            }
+            return data;
+        }
         public static T DeserializeXML<T>(string path)
         {
             T data;

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace DashCode.Views.Pages
 {
@@ -22,6 +23,16 @@ namespace DashCode.Views.Pages
         public MessageMainPage()
         {
             InitializeComponent();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += UpdateTimer_Tick;
+            timer.Interval = new TimeSpan(0, 0, 5);
+            timer.Start();
+
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            App.VMService.ChatVM.Update();
         }
 
         private void CreateChatButton_Click(object sender, RoutedEventArgs e)

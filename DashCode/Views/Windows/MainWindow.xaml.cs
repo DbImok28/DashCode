@@ -1,6 +1,7 @@
 ﻿using DashCode.Models;
 using DashCode.ViewModules;
 using DashCode.Views.Pages;
+using DashCode.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace DashCode.View.Windows
             ReadAndUpdate();
            // MessageFrame.Content = new MessageMainPage();
             MessageFrame.NavigationService.Navigate(new Uri("/Views/Pages/MessageMainPage.xaml", UriKind.Relative));
+            App.VMService.ChatVM.Update();
         }
 
         #region RTB
@@ -167,6 +169,16 @@ namespace DashCode.View.Windows
                 App.VMService.MainVM.TrySelectNewFile(file);
                 Update();
                 EditsCount = 0;
+            }
+        }
+
+        private void OpenFirstWindow_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow == this)
+            {
+                Application.Current.MainWindow = new FirstWindow();
+                Application.Current.MainWindow.Show();
+                Close();
             }
         }
     }

@@ -10,5 +10,6 @@ namespace DashCode
     {
         public static VMService VMService { get; } = new VMService();
         public static AuthenticationService AuthenticateService { get; } = new AuthenticationService();
+        public static DBService DBService { get; } = new DBService();
     }
 }

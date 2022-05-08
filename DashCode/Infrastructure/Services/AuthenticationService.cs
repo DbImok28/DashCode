@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using DashCode.Models;
 using DashCode.Views.Pages;
@@ -21,10 +23,20 @@ namespace DashCode.Infrastructure.Services
             OnUpdatePage += (s, a) => Autificated.loginBlock.Text = AccountLogin;
             try
             {
-                Account = FileReader.DeserializeBin<UserAccount>("AuthenticationInfo.bin");
-                CurrentPage = Autificated;
-                State = AuthenticationState.Autificated;
-                OnUpdatePage?.Invoke(this, null);
+                if (File.Exists("AuthenticationInfo.bin"))
+                {
+                    Account = FileReader.DeserializeBin<UserAccount>("AuthenticationInfo.bin");
+                    CurrentPage = Autificated;
+                    State = AuthenticationState.Autificated;
+                    OnUpdatePage?.Invoke(this, null);
+                }
+                else
+                {
+                    Account = null;
+                    CurrentPage = Login;
+                    State = AuthenticationState.Login;
+                    OnUpdatePage?.Invoke(this, null);
+                }
             }
             catch (Exception)
             {
@@ -36,21 +48,30 @@ namespace DashCode.Infrastructure.Services
         }
         ~AuthenticationService()
         {
-            if(IsAutificated)
+            if (IsAutificated)
             {
                 FileReader.SerializeToBin("AuthenticationInfo.bin", Account);
             }
         }
         public bool TryLogin(string login, string password)
         {
-            string imagePath = ""; // TODO: LoadImage
-            SetAutificated(login, null, password, imagePath);
-            return true;
+            if (App.DBService.TryLogin(login, password, out byte[] photo))
+            {
+                SetAutificated(login, null, password, photo);
+                return true;
+            }
+            return false;
         }
+        
         public bool TryRegister(string login, string mail, string password, string imagePath)
         {
-            SetAutificated(login, mail, password, imagePath);
-            return true;
+            var photo = ImageTools.ImageToByteArr(imagePath);
+            if (App.DBService.Register(login, mail, password, photo))
+            {
+                SetAutificated(login, mail, password, photo);
+                return true;
+            }
+            return false;
         }
         public void SignOut()
         {
@@ -72,6 +93,15 @@ namespace DashCode.Infrastructure.Services
             Account = new UserAccount(login, mail, password, imagePath);
             CurrentPage = Autificated;
             State = AuthenticationState.Autificated;
+            FileReader.SerializeToBin("AuthenticationInfo.bin", Account);
+            OnUpdatePage?.Invoke(this, null);
+        }
+        public void SetAutificated(string login, string mail, string password, byte[] photo)
+        {
+            Account = new UserAccount(login, mail, password, photo);
+            CurrentPage = Autificated;
+            State = AuthenticationState.Autificated;
+            FileReader.SerializeToBin("AuthenticationInfo.bin", Account);
             OnUpdatePage?.Invoke(this, null);
         }
         public void SetNotAutificated()
@@ -79,6 +109,7 @@ namespace DashCode.Infrastructure.Services
             CurrentPage = Login;
             State = AuthenticationState.Login;
             Account = null;
+            File.Delete("AuthenticationInfo.bin");
             OnUpdatePage?.Invoke(this, null);
         }
         public event EventHandler OnUpdatePage;

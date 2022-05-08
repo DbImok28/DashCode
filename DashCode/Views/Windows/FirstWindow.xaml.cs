@@ -30,14 +30,6 @@ namespace DashCode.Views.Windows
             }
         }
 
-        private void ListBox_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is ListBox list && list.SelectedItem is ProjectFolder folder)
-            {
-                //OpenFolder(folder);
-            }
-        }
-
         private void Open_Folder_Button_Click(object sender, RoutedEventArgs e)
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())

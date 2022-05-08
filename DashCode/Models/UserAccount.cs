@@ -53,9 +53,10 @@ namespace DashCode.Models
         }
         public string Login { get; private set; }
         public string Mail { get; private set; }
-        private string Password { get; set; }
+        public string Password { get; set; }
         public string ImagePath { get; private set; }
         public byte[] BitMap { get; private set; }
+        public bool IsValid => Login != null;
 
         public override string ToString()
         {

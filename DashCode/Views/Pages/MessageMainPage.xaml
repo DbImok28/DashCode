@@ -45,7 +45,10 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                         <Image Source="/Resources/user_no_login.png" Width="30" Margin="0,0,4,0" ToolTip="{Binding Sender}"/>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Content}"/>
+                        <StackPanel>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Sender.Name}" FontSize="10" Foreground="{StaticResource FolderColor}"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Content}"/>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

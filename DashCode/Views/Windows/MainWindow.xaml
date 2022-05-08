@@ -26,7 +26,7 @@
             <Button Margin="2" Click="Save_Button_Click">
                 <fa:FontAwesome FontSize="18" Icon="Save" ToolTip="Save" Foreground="{StaticResource BlueForegroundColor}"/>
             </Button>
-            <Button Margin="2">
+            <Button Margin="2" Click="OpenFirstWindow_Button_Click">
                 <fa:FontAwesome FontSize="18" Icon="FolderOpen" ToolTip="Open project folder" Foreground="{StaticResource FolderColor}"/>
             </Button>
         </StackPanel>

@@ -2,37 +2,14 @@
 using DashCode.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DashCode.ViewModules
 {
     public class ChatViewModel : BaseViewModel
     {
-        private ObservableCollection<Chat> _Chats = new ObservableCollection<Chat>()
-        {
-            new Chat("test", new ObservableCollection<User>()
-            {
-                new User("vasa"),
-                new User("lexa")
-            },
-            new ObservableCollection<Message>()
-            {
-                new Message(new User("vasa"), "hello"),
-                new Message(new User("lexa"), "hi"),
-            }),
-            new Chat("test2", new ObservableCollection<User>()
-            {
-                new User("vasa"),
-                new User("lexa"),
-                new User("petra"),
-            },
-            new ObservableCollection<Message>()
-            {
-                new Message(new User("vasa"), "hello people"),
-                new Message(new User("lexa"), "hi"),
-                new Message(new User("petra"), "good"),
-            })
-        };
+        private ObservableCollection<Chat> _Chats = new ObservableCollection<Chat>();
         public ObservableCollection<Chat> Chats
         {
             get => _Chats;
@@ -76,29 +53,109 @@ namespace DashCode.ViewModules
             DeleteChatCommand = new LambdaCommand(OnDeleteChatCommandExecuted);
             RenameChatCommand = new LambdaCommand(OnRenameChatCommandExecuted);
             AddUserToChatCommand = new LambdaCommand(OnAddUserToChatCommandExecuted);
-            if (Chats.Count > 0)
-                SelectedChat = Chats.First();
+            //App.AuthenticateService.OnUpdatePage += (s, a) => Load();
         }
+
         public void CreateChat(string name)
         {
-            // TODO: Add logic
+            var chat = App.DBService.CreateChat(App.AuthenticateService.Account, name);
+            if (chat != null)
+            {
+                SelectedChat = chat;
+                Chats.Add(chat);
+                Update();
+            }
+            else
+            {
+                MessageBox.Show("Ошибка создания");
+            }
         }
         public void SendMessage(string msg)
         {
-            // TODO: Add logic
+            if (SelectedChat != null && !App.DBService.SendMessage(App.AuthenticateService.Account, SelectedChat, msg))
+            {
+                MessageBox.Show("Ошибка отправки сообщения");
+            }
+            else
+            {
+                Update();
+            }
         }
         public void DeleteChat()
         {
-            // TODO: Add logic
+            if (SelectedChat != null && !App.DBService.DeleteChat(App.AuthenticateService.Account, SelectedChat))
+            {
+                MessageBox.Show("Ошибка удаления");
+            }
+            else
+            {
+                Update();
+            }
         }
         public void RenameChat(string name)
         {
-            // TODO: Add logic
-
+            if (SelectedChat != null && !App.DBService.RenameChat(App.AuthenticateService.Account, SelectedChat, name))
+            {
+                MessageBox.Show("Ошибка. Не удалось изменить имя");
+            }
+            else
+            {
+                Update();
+            }
         }
         public void AddUserToChat(string userName)
         {
-            // TODO: Add logic
+            if (SelectedChat != null && !App.DBService.AddUserToChat(App.AuthenticateService.Account, SelectedChat, userName))
+            {
+                MessageBox.Show("Ошибка добавления пользователя");
+            }
+            else
+            {
+                Update();
+            }
+        }
+        public void Update()
+        {
+            if (App.AuthenticateService.Account != null)
+            {
+                var chats = App.DBService.LoadChats(App.AuthenticateService.Account);
+                if (chats.Count != Chats.Count)
+                {
+                    Chats.Clear();
+                    foreach (var chat in chats)
+                    {
+                        Chats.Add(chat);
+                    }
+                    if (Chats.Count > 0)
+                    {
+                        SelectedChat = Chats.First();
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < chats.Count; i++)
+                    {
+                        Chats[i].Update(chats[i]);
+                    }
+                }
+            }
+        }
+        public void Load()
+        {
+            if (App.AuthenticateService.Account != null)
+            {
+                Chats = new ObservableCollection<Chat>();
+                var chats = App.DBService.LoadChats(App.AuthenticateService.Account);
+                Chats.Clear();
+                foreach (var chat in chats)
+                {
+                    Chats.Add(chat);
+                }
+                if (Chats.Count > 0)
+                {
+                    SelectedChat = Chats.First();
+                }
+            }
         }
     }
 }

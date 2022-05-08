@@ -23,6 +23,11 @@ namespace DashCode.Models
             get => _Content;
             set => Set(ref _Content, value);
         }
+        public void Update(Message message)
+        {
+            Sender = message.Sender;
+            Content = message.Content;
+        }
         public override string ToString()
         {
             return "Message";
