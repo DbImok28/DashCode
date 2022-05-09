@@ -1,10 +1,10 @@
 ﻿using DashCode.Models;
 using DashCode.View.Windows;
-using DashCode.Views.Pages;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace DashCode.Views.Windows
 {
@@ -64,9 +64,36 @@ namespace DashCode.Views.Windows
         }
         public ProjectFolder SelectedFolder { get; set; }
 
-        private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             OpenFolder(SelectedFolder);
+        }
+
+        private void Title_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount > 1)
+            {
+                App.RestoreWindow();
+            }
+            else
+            {
+                App.DragWindow();
+            }
+        }
+
+        private void Minimize_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.MinimizeWindow();
+        }
+
+        private void Restore_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.RestoreWindow();
+        }
+
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.CloseWindow();
         }
     }
 }

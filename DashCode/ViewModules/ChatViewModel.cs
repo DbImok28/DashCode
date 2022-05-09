@@ -119,23 +119,26 @@ namespace DashCode.ViewModules
             if (App.AuthenticateService.Account != null)
             {
                 var chats = App.DBService.LoadChats(App.AuthenticateService.Account);
-                if (chats.Count != Chats.Count)
+                if (chats != null)
                 {
-                    Chats.Clear();
-                    foreach (var chat in chats)
+                    if (chats.Count != Chats.Count)
                     {
-                        Chats.Add(chat);
+                        Chats.Clear();
+                        foreach (var chat in chats)
+                        {
+                            Chats.Add(chat);
+                        }
+                        if (Chats.Count > 0)
+                        {
+                            SelectedChat = Chats.First();
+                        }
                     }
-                    if (Chats.Count > 0)
+                    else
                     {
-                        SelectedChat = Chats.First();
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < chats.Count; i++)
-                    {
-                        Chats[i].Update(chats[i]);
+                        for (int i = 0; i < chats.Count; i++)
+                        {
+                            Chats[i].Update(chats[i]);
+                        }
                     }
                 }
             }
@@ -146,14 +149,17 @@ namespace DashCode.ViewModules
             {
                 Chats = new ObservableCollection<Chat>();
                 var chats = App.DBService.LoadChats(App.AuthenticateService.Account);
-                Chats.Clear();
-                foreach (var chat in chats)
+                if (chats != null)
                 {
-                    Chats.Add(chat);
-                }
-                if (Chats.Count > 0)
-                {
-                    SelectedChat = Chats.First();
+                    Chats.Clear();
+                    foreach (var chat in chats)
+                    {
+                        Chats.Add(chat);
+                    }
+                    if (Chats.Count > 0)
+                    {
+                        SelectedChat = Chats.First();
+                    }
                 }
             }
         }

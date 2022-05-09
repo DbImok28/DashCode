@@ -271,6 +271,12 @@ namespace DashCode.Infrastructure.Controls
             int startRow = (int)(e.VerticalOffset / 24);
             if (startRow + 1 < rowCount - startRow)
                 rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
+
+            //string temp = string.Empty;//создаем перменную, приравниваем ее к пустой строке
+            //for (int i = 0; i < editorRTB.Lines.Length; ++i)//проходим по всем строкам нашего документа
+            //    //в переменную помещаем строку с документа, пр этом добавив в начало строки ее номер
+            //    temp += editorRTB.Lines[i].Insert(0, (i + 1).ToString() + ". ") + Environment.NewLine;
+            //editorRTB.Text = temp;//приравниваем переменную документу
         }
         #endregion
     }

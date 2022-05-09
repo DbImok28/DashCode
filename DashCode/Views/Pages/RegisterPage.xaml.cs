@@ -27,9 +27,16 @@ namespace DashCode.Views.Pages
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(mail.Text)) return;
-            if (App.AuthenticateService.TryRegister(login.Text, mail.Text, password.Text, photo.Text))
+            if (!App.AuthenticateService.TryRegister(login.Text, mail.Text, password.Text, photo.Text))
             {
-
+                if (App.DBService.IsConnected)
+                {
+                    MessageBox.Show("Неверный данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("Нет соединения с сервером", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         private void Login_Button_Click(object sender, RoutedEventArgs e)

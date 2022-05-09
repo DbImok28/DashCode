@@ -10,33 +10,59 @@ using System.Windows;
 using System.Linq;
 using System.Xml;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DashCode.Infrastructure.Services
 {
     public class DBService
     {
         private SqlConnection Connection;
+        public bool IsConnected = false;
         public DBService()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
-            Connection = new SqlConnection(connectionString);
+            Task.Run(() => Connect(connectionString));
+        }
 
+        public void Connect(string connectionString)
+        {
+            Connection = new SqlConnection(connectionString);
+            IsConnected = false;
             try
             {
                 Connection.Open();
+                IsConnected = true;
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "BDConnection error");
-            }
-            finally
-            {
-                //Connection.Close();
+                if (File.Exists("DBConnection.txt"))
+                {
+                    string connectionStr = File.ReadAllText("DBConnection.txt");
+                    if (!string.IsNullOrWhiteSpace(connectionStr))
+                    {
+                        try
+                        {
+                            Connection = new SqlConnection(connectionStr);
+                            Connection.Open();
+                            IsConnected = true;
+                        }
+                        catch (SqlException ex2)
+                        {
+                            MessageBox.Show(ex2.Message, "DBConnection error");
+                        }
+                        return;
+                    }
+                }
+                MessageBox.Show(ex.Message, "DBConnection error");
             }
         }
         ~DBService()
         {
-            Connection.Close();
+            if (IsConnected)
+            {
+                Connection.Close();
+                IsConnected = false;
+            }
         }
         public int CallStoredProcedure(string name, params SqlParameter[] parameters)
         {
@@ -105,6 +131,12 @@ namespace DashCode.Infrastructure.Services
         }
         public bool TryLogin(string login, string password, out byte[] outPhoto)
         {
+            if (!IsConnected)
+            {
+                outPhoto = null;
+                return false;
+            }
+
             byte[] photo = null;
             var photoParameter = new SqlParameter("@photo", photo)
             {
@@ -131,6 +163,7 @@ namespace DashCode.Infrastructure.Services
         }
         public bool Register(string userName, string mail, string password, byte[] photo)
         {
+            if (!IsConnected) return false;
             var result = CallStoredProcedure("REGISTER",
                 new SqlParameter("@user_name", userName),
                 new SqlParameter("@login", mail),
@@ -150,6 +183,7 @@ namespace DashCode.Infrastructure.Services
         }
         public Chat CreateChat(UserAccount user, string name)
         {
+            if (!IsConnected) return null;
             int chatId = 0;
             var result = CallStoredProcedure("CREATE_CHAT",
                 new SqlParameter("@name", name),
@@ -168,6 +202,7 @@ namespace DashCode.Infrastructure.Services
         }
         public bool DeleteChat(UserAccount user, Chat chat)
         {
+            if (!IsConnected) return false;
             var result = CallStoredProcedure("DELETE_CHAT",
                 new SqlParameter("@chat_id", chat.Id),
                 new SqlParameter("@login", user.Login),
@@ -177,6 +212,7 @@ namespace DashCode.Infrastructure.Services
         }
         public bool SendMessage(UserAccount user, Chat chat, string msg)
         {
+            if (!IsConnected) return false;
             var result = CallStoredProcedure("SEND_MESSAGE",
                 new SqlParameter("@chat_id", chat.Id),
                 new SqlParameter("@message", msg),
@@ -187,6 +223,7 @@ namespace DashCode.Infrastructure.Services
         }
         public bool RenameChat(UserAccount user, Chat chat, string name)
         {
+            if (!IsConnected) return false;
             var result = CallStoredProcedure("RENAME_CHAT",
                 new SqlParameter("@chat_id", chat.Id),
                 new SqlParameter("@name", name),
@@ -197,6 +234,7 @@ namespace DashCode.Infrastructure.Services
         }
         public bool AddUserToChat(UserAccount user, Chat chat, string userName)
         {
+            if (!IsConnected) return false;
             var result = CallStoredProcedure("ADD_USER_FOR_CHAT",
                 new SqlParameter("@chat_id", chat.Id),
                 new SqlParameter("@user_name", userName),
@@ -207,6 +245,7 @@ namespace DashCode.Infrastructure.Services
         }
         public List<User> LoadUsersForChat(int chatId, UserAccount user)
         {
+            if (!IsConnected) return null;
             var users = new List<User>();
             var UsersSet = CallTableStoredProcedure("USERS_FOR_CHAT", "outxml",
                 new SqlParameter("@chat_id", chatId),
@@ -229,6 +268,7 @@ namespace DashCode.Infrastructure.Services
         }
         public List<Message> LoadMessagesForChat(int chatId, UserAccount user, List<User> users)
         {
+            if (!IsConnected) return null;
             var messages = new List<Message>();
             var MessagesSet = CallTableStoredProcedure("MESSAGES_FOR_CHAT", "outxml",
                 new SqlParameter("@chat_id", chatId),
@@ -246,6 +286,7 @@ namespace DashCode.Infrastructure.Services
         }
         public List<Chat> LoadChats(UserAccount user)
         {
+            if (!IsConnected) return null;
             if (!user.IsValid) return new List<Chat>();
 
             var result = new List<Chat>();

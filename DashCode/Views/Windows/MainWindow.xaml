@@ -10,8 +10,10 @@
         xmlns:l="clr-namespace:DashCode.View.Windows"
         xmlns:controls="clr-namespace:DashCode.Infrastructure.Controls"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="720" Width="1080" Background="{StaticResource BackgroundColor}" 
-        DataContext="{Binding MainVM, Source={StaticResource vmlocator}}">
+        Title="{Binding Title}" Height="720" Width="1080" 
+        DataContext="{Binding MainVM, Source={StaticResource vmlocator}}" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent" 
+        BorderThickness="1" BorderBrush="{StaticResource ElementBorderColor}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,14 +24,27 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="4,0,0,0" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.ColumnSpan="3" Orientation="Horizontal">
-            <Button Margin="2" Click="Save_Button_Click">
-                <fa:FontAwesome FontSize="18" Icon="Save" ToolTip="Save" Foreground="{StaticResource BlueForegroundColor}"/>
-            </Button>
-            <Button Margin="2" Click="OpenFirstWindow_Button_Click">
-                <fa:FontAwesome FontSize="18" Icon="FolderOpen" ToolTip="Open project folder" Foreground="{StaticResource FolderColor}"/>
-            </Button>
-        </StackPanel>
+        <Grid Background="{StaticResource BackgroundColor}" Grid.ColumnSpan="3" MouseDown="Title_MouseDown">
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button Margin="4" Click="Minimize_Button_Click">
+                    <fa:FontAwesome FontSize="16" Icon="WindowMinimize" ToolTip="Minimize" Foreground="{StaticResource BlueForegroundColor}"/>
+                </Button>
+                <Button Margin="4" Click="Restore_Button_Click">
+                    <fa:FontAwesome FontSize="16" Icon="WindowRestore" ToolTip="Restore" Foreground="{StaticResource BlueForegroundColor}"/>
+                </Button>
+                <Button Margin="4" Click="Close_Button_Click">
+                    <fa:FontAwesome FontSize="16" Icon="WindowClose" ToolTip="Close" Foreground="{StaticResource BlueForegroundColor}"/>
+                </Button>
+            </StackPanel>
+            <StackPanel Margin="4,0,0,0" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <Button Margin="2" Click="Save_Button_Click">
+                    <fa:FontAwesome FontSize="18" Icon="Save" ToolTip="Save" Foreground="{StaticResource BlueForegroundColor}"/>
+                </Button>
+                <Button Margin="2" Click="OpenFirstWindow_Button_Click">
+                    <fa:FontAwesome FontSize="18" Icon="FolderOpen" ToolTip="Open project folder" Foreground="{StaticResource FolderColor}"/>
+                </Button>
+            </StackPanel>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition/>

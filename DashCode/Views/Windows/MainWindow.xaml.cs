@@ -48,5 +48,32 @@ namespace DashCode.View.Windows
         {
             textEditor.ReadAndUpdate();
         }
+
+        private void Title_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount > 1)
+            {
+                App.RestoreWindow();
+            }
+            else
+            {
+                App.DragWindow();
+            }
+        }
+
+        private void Minimize_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.MinimizeWindow();
+        }
+
+        private void Restore_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.RestoreWindow();
+        }
+
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
+        {
+            App.CloseWindow();
+        }
     }
 }
