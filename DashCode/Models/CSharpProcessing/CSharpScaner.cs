@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DashCode.Models.CSharpReader
+namespace DashCode.Models.CSharpProcessing
 {
     /// <summary>
     /// Разбивает текст на токены

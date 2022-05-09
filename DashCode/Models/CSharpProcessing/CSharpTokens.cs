@@ -1,6 +1,6 @@
 ﻿using DashCode.Models.Document;
 
-namespace DashCode.Models.CSharpReader
+namespace DashCode.Models.CSharpProcessing
 {
     public enum CSharpTokenType
     {

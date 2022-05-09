@@ -170,48 +170,58 @@ namespace DashCode.Infrastructure.Controls
         }
         public void Update(int offset = 0, int len = 0)
         {
-            EditsCount = 0;
             var mainVM = App.VMService.MainVM;
-            mainVM.Document.ReadAndFormat();
-            ConvertAndSet(mainVM.Document);
-            mainVM.OnPropertyChanged("CurrentDocument");
-            try
+            if (mainVM.Document.Formatter != null)
             {
-                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
-            }
-            catch (Exception)
-            {
+                EditsCount = 0;
+                mainVM.Document.ReadAndFormat();
+                ConvertAndSet(mainVM.Document);
+                mainVM.OnPropertyChanged("CurrentDocument");
+                try
+                {
+                    editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
+                }
+                catch (Exception)
+                {
 
-                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
+                    editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
+                }
             }
         }
         public List<Block> ConvertToBlocks(EditorDocument doc)
         {
-            var blocks = new List<Block>();
-            Paragraph currentParagraph = new Paragraph();
-            foreach (var str in doc.FormattedDocument)
+            if (doc.FormattedDocument != null)
             {
-                var splited = Regex.Split(str.Text, @"\r?\n");
-                var brush = new SolidColorBrush(str.TextColor);
-                var run = new Run(splited[0])
+                var blocks = new List<Block>();
+                Paragraph currentParagraph = new Paragraph();
+                foreach (var str in doc.FormattedDocument)
                 {
-                    Foreground = brush
-                };
-                currentParagraph.Inlines.Add(run);
-
-                for (int i = 1; i < splited.Length; i++)
-                {
-                    blocks.Add(currentParagraph);
-                    currentParagraph = new Paragraph();
-                    var nextRun = new Run(splited[i])
+                    var splited = Regex.Split(str.Text, @"\r?\n");
+                    var brush = new SolidColorBrush(str.TextColor);
+                    var run = new Run(splited[0])
                     {
                         Foreground = brush
                     };
-                    currentParagraph.Inlines.Add(nextRun);
+                    currentParagraph.Inlines.Add(run);
+
+                    for (int i = 1; i < splited.Length; i++)
+                    {
+                        blocks.Add(currentParagraph);
+                        currentParagraph = new Paragraph();
+                        var nextRun = new Run(splited[i])
+                        {
+                            Foreground = brush
+                        };
+                        currentParagraph.Inlines.Add(nextRun);
+                    }
                 }
+                blocks.Add(currentParagraph);
+                return blocks;
             }
-            blocks.Add(currentParagraph);
-            return blocks;
+            else
+            {
+                return null;
+            }
         }
         private void ConvertAndSet(EditorDocument doc)
         {

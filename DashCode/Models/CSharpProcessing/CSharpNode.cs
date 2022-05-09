@@ -1,9 +1,8 @@
 ﻿using DashCode.Models.Document;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DashCode.Models.CSharpReader
+namespace DashCode.Models.CSharpProcessing
 {
     public enum NodeType
     {

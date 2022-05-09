@@ -3,7 +3,6 @@ using System.Windows.Input;
 using DashCode.Infrastructure.Commands;
 using DashCode.Models;
 using DashCode.Models.Document;
-using DashCode.Models.CSharpReader;
 
 namespace DashCode.ViewModules
 {
@@ -90,7 +89,7 @@ namespace DashCode.ViewModules
             OpenFolderCommand = new LambdaCommand(OnOpenFolderCommandExecuted, CanOpenFolderCommandExecute);
             SaveFileCommand = new LambdaCommand(OnSaveFileCommandExecuted, CanSaveFileCommandExecute);
 
-            Document = new EditorDocument(CurrentFile, new CSharpReader(), new CSharpFormatter());
+            Document = new EditorDocument(CurrentFile);
             Document.ReadAndFormat();
             OnPropertyChanged("CurrentDocument");
         }

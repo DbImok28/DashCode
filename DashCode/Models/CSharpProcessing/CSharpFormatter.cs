@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using DashCode.Models.Document;
 
-namespace DashCode.Models.CSharpReader
+namespace DashCode.Models.CSharpProcessing
 {
     public class CSharpFormatter : DocumentFormatter
     {
@@ -81,8 +81,6 @@ namespace DashCode.Models.CSharpReader
             }
             return result;
         }
-        public static Color NoFormattedTextColor = Color.FromRgb(250, 250, 250);
-        public static Color ErrorTextColor = Color.FromRgb(255, 0, 0);
         public static Dictionary<CSharpTokenType, Color> ColorsDictionary = new Dictionary<CSharpTokenType, Color>(){
             {CSharpTokenType.AccessModifier, Color.FromRgb( 70,123,174)},
             {CSharpTokenType.KeyName, Color.FromRgb(51,153,255)},

@@ -19,7 +19,7 @@ namespace DashCode.Models
         public string Path => _FileInfo.FullName;
         public string Name => _FileInfo?.Name ?? "-";
         public DateTime CreationTime => _FileInfo.CreationTime;
-        public string Extension => _FileInfo.Extension;
+        public string Extension => _FileInfo?.Extension;
         private string _Content;
         public string Content
         {

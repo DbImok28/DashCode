@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DashCode.Models.CSharpReader
+namespace DashCode.Models.CSharpProcessing
 {
     public class CSharpReader : DocumentReader
     {
