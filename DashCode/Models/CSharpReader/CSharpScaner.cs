@@ -1,4 +1,4 @@
-﻿using DashCode.Models.DocumentReaders;
+﻿using DashCode.Models.Document;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;

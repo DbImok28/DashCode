@@ -1,4 +1,5 @@
 ﻿using DashCode.Models;
+using DashCode.Models.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,17 +165,16 @@ namespace DashCode.Infrastructure.Controls
         public void ReadAndUpdate(int offset = 0, int len = 0)
         {
             var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-            App.VMService.MainVM.FormattedDocument.EditorDocument.SetText(range.Text);
+            App.VMService.MainVM.Document.SetText(range.Text);
             Update(offset, len);
         }
         public void Update(int offset = 0, int len = 0)
         {
             EditsCount = 0;
             var mainVM = App.VMService.MainVM;
-            mainVM.FormattedDocument.EditorDocument.Read();
-            mainVM.FormattedDocument.Format();
-            ConvertAndSet(mainVM.FormattedDocument);
-            mainVM.OnPropertyChanged("FormattedDocument");
+            mainVM.Document.ReadAndFormat();
+            ConvertAndSet(mainVM.Document);
+            mainVM.OnPropertyChanged("CurrentDocument");
             try
             {
                 editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
@@ -185,11 +185,11 @@ namespace DashCode.Infrastructure.Controls
                 editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
             }
         }
-        public List<Block> ConvertToBlocks(FormattedEditorDocument formattedDoc)
+        public List<Block> ConvertToBlocks(EditorDocument doc)
         {
             var blocks = new List<Block>();
             Paragraph currentParagraph = new Paragraph();
-            foreach (var str in formattedDoc.Document)
+            foreach (var str in doc.FormattedDocument)
             {
                 var splited = Regex.Split(str.Text, @"\r?\n");
                 var brush = new SolidColorBrush(str.TextColor);
@@ -213,9 +213,9 @@ namespace DashCode.Infrastructure.Controls
             blocks.Add(currentParagraph);
             return blocks;
         }
-        private void ConvertAndSet(FormattedEditorDocument formattedDoc)
+        private void ConvertAndSet(EditorDocument doc)
         {
-            SetBlocks(ConvertToBlocks(formattedDoc));
+            SetBlocks(ConvertToBlocks(doc));
         }
         private ScrollViewer FindScrollViewer(DependencyObject d)
         {
@@ -271,12 +271,6 @@ namespace DashCode.Infrastructure.Controls
             int startRow = (int)(e.VerticalOffset / 24);
             if (startRow + 1 < rowCount - startRow)
                 rowList.ItemsSource = Enumerable.Range(startRow + 1, rowCount - startRow).ToArray();
-
-            //string temp = string.Empty;//создаем перменную, приравниваем ее к пустой строке
-            //for (int i = 0; i < editorRTB.Lines.Length; ++i)//проходим по всем строкам нашего документа
-            //    //в переменную помещаем строку с документа, пр этом добавив в начало строки ее номер
-            //    temp += editorRTB.Lines[i].Insert(0, (i + 1).ToString() + ". ") + Environment.NewLine;
-            //editorRTB.Text = temp;//приравниваем переменную документу
         }
         #endregion
     }

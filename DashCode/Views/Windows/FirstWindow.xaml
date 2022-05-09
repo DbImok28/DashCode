@@ -18,13 +18,13 @@
     <Grid Background="{StaticResource ElementBackgroundColor}" MouseDown="Title_MouseDown">
         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button Margin="4" Click="Minimize_Button_Click">
-                <fa:FontAwesome FontSize="16" Icon="WindowMinimize" ToolTip="Minimize" Foreground="{StaticResource BlueForegroundColor}"/>
+                <fa:FontAwesome FontSize="16" Icon="WindowMinimize" ToolTip="Minimize" Foreground="{StaticResource WhiteElementForegroundColor}"/>
             </Button>
             <Button Margin="4" Click="Restore_Button_Click">
-                <fa:FontAwesome FontSize="16" Icon="WindowRestore" ToolTip="Restore" Foreground="{StaticResource BlueForegroundColor}"/>
+                <fa:FontAwesome FontSize="16" Icon="WindowRestore" ToolTip="Restore" Foreground="{StaticResource WhiteElementForegroundColor}"/>
             </Button>
             <Button Margin="4" Click="Close_Button_Click">
-                <fa:FontAwesome FontSize="16" Icon="WindowClose" ToolTip="Close" Foreground="{StaticResource BlueForegroundColor}"/>
+                <fa:FontAwesome FontSize="16" Icon="WindowClose" ToolTip="Close" Foreground="{StaticResource WhiteElementForegroundColor}"/>
             </Button>
         </StackPanel>
         <DockPanel Margin="40">

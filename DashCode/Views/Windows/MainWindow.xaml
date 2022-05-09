@@ -13,7 +13,7 @@
         Title="{Binding Title}" Height="720" Width="1080" 
         DataContext="{Binding MainVM, Source={StaticResource vmlocator}}" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" 
-        BorderThickness="1" BorderBrush="{StaticResource ElementBorderColor}">
+        BorderThickness="3" BorderBrush="{StaticResource ElementBorderColor}" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,13 +27,13 @@
         <Grid Background="{StaticResource BackgroundColor}" Grid.ColumnSpan="3" MouseDown="Title_MouseDown">
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top">
                 <Button Margin="4" Click="Minimize_Button_Click">
-                    <fa:FontAwesome FontSize="16" Icon="WindowMinimize" ToolTip="Minimize" Foreground="{StaticResource BlueForegroundColor}"/>
+                    <fa:FontAwesome FontSize="16" Icon="WindowMinimize" ToolTip="Minimize" Foreground="{StaticResource WhiteElementForegroundColor}"/>
                 </Button>
                 <Button Margin="4" Click="Restore_Button_Click">
-                    <fa:FontAwesome FontSize="16" Icon="WindowRestore" ToolTip="Restore" Foreground="{StaticResource BlueForegroundColor}"/>
+                    <fa:FontAwesome FontSize="16" Icon="WindowRestore" ToolTip="Restore" Foreground="{StaticResource WhiteElementForegroundColor}"/>
                 </Button>
                 <Button Margin="4" Click="Close_Button_Click">
-                    <fa:FontAwesome FontSize="16" Icon="WindowClose" ToolTip="Close" Foreground="{StaticResource BlueForegroundColor}"/>
+                    <fa:FontAwesome FontSize="16" Icon="WindowClose" ToolTip="Close" Foreground="{StaticResource WhiteElementForegroundColor}"/>
                 </Button>
             </StackPanel>
             <StackPanel Margin="4,0,0,0" Height="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">

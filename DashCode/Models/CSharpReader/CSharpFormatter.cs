@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
+using DashCode.Models.Document;
 
 namespace DashCode.Models.CSharpReader
 {
-    public class CSharpFormattedDocument : FormattedEditorDocument
+    public class CSharpFormatter : DocumentFormatter
     {
-        public CSharpFormattedDocument(EditorDocument editorDocument) : base(editorDocument)
+        public override FormattedStrings Format(EditorDocument document)
         {
-        }
-
-        public override void Format()
-        {
-            var rawDocument = EditorDocument.RawDocument;
+            var rawDocument = document.RawDocument;
             int pos = 0;
             FormattedStrings result = new FormattedStrings(new List<FormattedString>());
-            foreach(CSharpNode node in (EditorDocument.ReadedDocument as CSharpNode).SubNodes)
+            foreach(CSharpNode node in (document.ReadedDocument as CSharpNode).SubNodes)
             {
                 result.Add(Format(rawDocument, ref pos, node));
             }
@@ -26,7 +21,7 @@ namespace DashCode.Models.CSharpReader
                 noFormattedText += rawDocument[pos];
             }
             result.Add(new FormattedString(noFormattedText, NoFormattedTextColor));
-            Document = result;
+            return result;
         }
         public FormattedStrings Format(string doc, ref int pos, CSharpNode node)
         {

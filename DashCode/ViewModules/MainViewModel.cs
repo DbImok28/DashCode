@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using DashCode.Infrastructure.Commands;
 using DashCode.Models;
+using DashCode.Models.Document;
 using DashCode.Models.CSharpReader;
 
 namespace DashCode.ViewModules
@@ -36,12 +33,14 @@ namespace DashCode.ViewModules
             set => Set(ref _LastTextChange, value);
         }
         #endregion
-        #region FormattedDocument
-        private FormattedEditorDocument _FormattedDocument;
-        public FormattedEditorDocument FormattedDocument
+        #region CurrentDocument
+        public FormattedStrings FormattedDocument => Document.FormattedDocument;
+
+        private EditorDocument _Document;
+        public EditorDocument Document
         {
-            get => _FormattedDocument;
-            set => Set(ref _FormattedDocument, value);
+            get => _Document;
+            set => Set(ref _Document, value);
         }
         #endregion
         #region CurrentFile
@@ -74,7 +73,7 @@ namespace DashCode.ViewModules
         public ICommand SaveFileCommand { get; }
         private void OnSaveFileCommandExecuted(object par)
         {
-            FormattedDocument.Save();
+            Document.Save();
             OnPropertyChanged(nameof(CurrentFile));
         }
         private bool CanSaveFileCommandExecute(object par) => true;
@@ -83,20 +82,17 @@ namespace DashCode.ViewModules
         public void TrySelectNewFile(ProjectFile file)
         {
             CurrentFile = file;
-            FormattedDocument.Open(CurrentFile);
+            Document.Open(CurrentFile);
         }
         public MainViewModel()
         {
             OpenFileCommand = new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommandExecute);
             OpenFolderCommand = new LambdaCommand(OnOpenFolderCommandExecuted, CanOpenFolderCommandExecute);
             SaveFileCommand = new LambdaCommand(OnSaveFileCommandExecuted, CanSaveFileCommandExecute);
-            
 
-            EditorDocument Document = new EditorDocument(CurrentFile, new CSharpReader());
-            FormattedDocument = new CSharpFormattedDocument(Document);
-            Document.Read();
-            FormattedDocument.Format();
-            OnPropertyChanged("Document");
+            Document = new EditorDocument(CurrentFile, new CSharpReader(), new CSharpFormatter());
+            Document.ReadAndFormat();
+            OnPropertyChanged("CurrentDocument");
         }
     }
 }

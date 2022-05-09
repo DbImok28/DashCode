@@ -1,4 +1,4 @@
-﻿using DashCode.Models.DocumentReaders;
+﻿using DashCode.Models.Document;
 
 namespace DashCode.Models.CSharpReader
 {

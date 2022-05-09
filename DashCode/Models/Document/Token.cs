@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DashCode.Models.DocumentReaders
+﻿namespace DashCode.Models.Document
 {
     public class Token
     {
