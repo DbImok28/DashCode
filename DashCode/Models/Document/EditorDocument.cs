@@ -28,7 +28,14 @@ namespace DashCode.Models.Document
 
         public EditorDocument(ProjectFile file)
         {
-            Open(file);
+            if (file == null)
+            {
+                Open(new ProjectFile());
+            }
+            else
+            {
+                Open(file);
+            }
         }
         public ProjectFile File { get; private set; }
         public string RawDocument => File.Content;
@@ -38,7 +45,7 @@ namespace DashCode.Models.Document
         public event EventHandler OnFormattedDocumentUpdate;
         private FormattedStrings _FormattedDocument;
         public FormattedStrings FormattedDocument { get => _FormattedDocument; protected set { _FormattedDocument = value; OnFormattedDocumentUpdate?.Invoke(this, null); } }
-
+        public List<string> OutputMessages { get; private set; }
 
         public void Open(ProjectFile file)
         {
@@ -62,6 +69,7 @@ namespace DashCode.Models.Document
             var doc = Reader?.Read(this);
             if (doc != null)
                 ReadedDocument = doc;
+            OutputMessages = Reader?.GetOutputMessages();
         }
         public void Format()
         {

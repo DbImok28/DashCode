@@ -39,6 +39,10 @@ namespace DashCode.Views.Pages
                         MessageBox.Show(e.Message, "Load image error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
+                else
+                {
+                    UserIcon.Source = ImageTools.LoadBitmapFromResource("/Resources/user_no_login.png");
+                }
                 loginBlock.Text = account.Login;
             }
         }

@@ -71,6 +71,7 @@ namespace DashCode.Views.Windows
 
         private void Title_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.LeftButton != MouseButtonState.Pressed) return;
             if (e.ClickCount > 1)
             {
                 App.RestoreWindow();

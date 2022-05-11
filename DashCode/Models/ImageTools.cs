@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 
 namespace DashCode.Models
 {
@@ -33,6 +35,19 @@ namespace DashCode.Models
                 image.EndInit();
                 return image;
             }
+        }
+        public static System.Windows.Media.Imaging.BitmapImage LoadBitmapFromResource(string pathInApplication, Assembly assembly = null)
+        {
+            if (assembly == null)
+            {
+                assembly = Assembly.GetCallingAssembly();
+            }
+
+            if (pathInApplication[0] == '/')
+            {
+                pathInApplication = pathInApplication.Substring(1);
+            }
+            return new System.Windows.Media.Imaging.BitmapImage(new Uri(@"pack://application:,,,/" + assembly.GetName().Name + ";component/" + pathInApplication, UriKind.Absolute));
         }
     }
 }

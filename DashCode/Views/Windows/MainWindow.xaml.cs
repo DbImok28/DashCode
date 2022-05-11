@@ -22,14 +22,14 @@ namespace DashCode.View.Windows
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
             textEditor.ReadAndUpdate();
-            App.VMService.MainVM.SaveFileCommand.Execute(null);
+            App.VMService.MainVM.CurrentDocument.SaveFileCommand.Execute(null);
         }
 
         private void FolderTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (sender is TreeView tree && tree.SelectedItem is ProjectFile file)
             {
-                App.VMService.MainVM.TrySelectNewFile(file);
+                App.VMService.MainVM.CurrentDocument.TrySelectNewFile(file);
                 textEditor.Update();
             }
         }
@@ -51,6 +51,7 @@ namespace DashCode.View.Windows
 
         private void Title_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.LeftButton != MouseButtonState.Pressed) return;
             if (e.ClickCount > 1)
             {
                 App.RestoreWindow();

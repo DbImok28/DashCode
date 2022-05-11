@@ -23,33 +23,17 @@ namespace DashCode.ViewModules
             get => _FontSize;
             set => Set(ref _FontSize, value);
         }
-        #endregion
-        #region LastTextChange
-        private TextChange _LastTextChange;
-        public TextChange LastTextChange
-        {
-            get => _LastTextChange;
-            set => Set(ref _LastTextChange, value);
-        }
-        #endregion
+        #endregion     
+        
         #region CurrentDocument
-        public FormattedStrings FormattedDocument => Document.FormattedDocument;
+        private DocumentViewModel _CurrentDocument = new DocumentViewModel();
+        public DocumentViewModel CurrentDocument
+        {
+            get => _CurrentDocument;
+            set => Set(ref _CurrentDocument, value);
+        }
+        #endregion
 
-        private EditorDocument _Document;
-        public EditorDocument Document
-        {
-            get => _Document;
-            set => Set(ref _Document, value);
-        }
-        #endregion
-        #region CurrentFile
-        private ProjectFile _CurrentFile = new ProjectFile();
-        public ProjectFile CurrentFile
-        {
-            get => _CurrentFile;
-            set => Set(ref _CurrentFile, value);
-        }
-        #endregion
         #region CurrentFolder
         private ProjectFolder _CurrentFolder = new ProjectFolder("C:\\");
         public ProjectFolder CurrentFolder
@@ -63,35 +47,10 @@ namespace DashCode.ViewModules
         private void OnOpenFolderCommandExecuted(object par) => CurrentFolder = par as ProjectFolder;
         private bool CanOpenFolderCommandExecute(object par) => true;
         #endregion
-        #region OpenFile
-        public ICommand OpenFileCommand { get; }
-        private void OnOpenFileCommandExecuted(object par) => TrySelectNewFile(par as ProjectFile);
-        private bool CanOpenFileCommandExecute(object par) => true;
-        #endregion
-        #region SaveFile
-        public ICommand SaveFileCommand { get; }
-        private void OnSaveFileCommandExecuted(object par)
-        {
-            Document.Save();
-            OnPropertyChanged(nameof(CurrentFile));
-        }
-        private bool CanSaveFileCommandExecute(object par) => true;
-        #endregion
-        
-        public void TrySelectNewFile(ProjectFile file)
-        {
-            CurrentFile = file;
-            Document.Open(CurrentFile);
-        }
+
         public MainViewModel()
         {
-            OpenFileCommand = new LambdaCommand(OnOpenFileCommandExecuted, CanOpenFileCommandExecute);
             OpenFolderCommand = new LambdaCommand(OnOpenFolderCommandExecuted, CanOpenFolderCommandExecute);
-            SaveFileCommand = new LambdaCommand(OnSaveFileCommandExecuted, CanSaveFileCommandExecute);
-
-            Document = new EditorDocument(CurrentFile);
-            Document.ReadAndFormat();
-            OnPropertyChanged("CurrentDocument");
         }
     }
 }

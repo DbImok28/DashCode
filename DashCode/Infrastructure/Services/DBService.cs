@@ -35,24 +35,6 @@ namespace DashCode.Infrastructure.Services
             }
             catch (SqlException ex)
             {
-                if (File.Exists("DBConnection.txt"))
-                {
-                    string connectionStr = File.ReadAllText("DBConnection.txt");
-                    if (!string.IsNullOrWhiteSpace(connectionStr))
-                    {
-                        try
-                        {
-                            Connection = new SqlConnection(connectionStr);
-                            Connection.Open();
-                            IsConnected = true;
-                        }
-                        catch (SqlException ex2)
-                        {
-                            MessageBox.Show(ex2.Message, "DBConnection error");
-                        }
-                        return;
-                    }
-                }
                 MessageBox.Show(ex.Message, "DBConnection error");
             }
         }
@@ -172,7 +154,6 @@ namespace DashCode.Infrastructure.Services
             );
             if (result > 0)
             {
-                MessageBox.Show("Успех");
                 return true;
             }
             else
@@ -185,18 +166,19 @@ namespace DashCode.Infrastructure.Services
         {
             if (!IsConnected) return null;
             int chatId = 0;
+            var chatIdParamener = new SqlParameter("@chat_id", chatId)
+            {
+                Direction = ParameterDirection.Output
+            };
             var result = CallStoredProcedure("CREATE_CHAT",
                 new SqlParameter("@name", name),
                 new SqlParameter("@login", user.Login),
                 new SqlParameter("@password", user.Password),
-                new SqlParameter("@chat_id", chatId)
-                {
-                    Direction = ParameterDirection.Output
-                }
+                chatIdParamener
             );
             if (result > 0)
             {
-                return new Chat(chatId, name, new ObservableCollection<User>(), new ObservableCollection<Message>());
+                return new Chat((int)chatIdParamener.Value, name, new ObservableCollection<User>(), new ObservableCollection<Message>());
             }
             return null;
         }

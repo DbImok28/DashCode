@@ -59,14 +59,14 @@
                     </Button>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <fa:ImageAwesome Height="12" Icon="File" Foreground="{StaticResource FileColor}" Margin="0,0,4,0"/>
-                        <TextBlock Text="{Binding CurrentFile}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding CurrentDocument.CurrentFile}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DockPanel>
                 <controls:TextEditor x:Name="textEditor" Margin="0" Padding="0" BorderThickness="0" FontSize="{Binding FontSize}"/>
             </DockPanel>
             <controls:Explorer NameText="Output" Grid.Row="2">
                 <controls:Explorer.Items>
-                    <ListBox ItemsSource="{Binding FormattedDocument.OutputMessages}" Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
+                    <ListBox ItemsSource="{Binding CurrentDocument.Document.OutputMessages}" Background="{x:Null}" BorderThickness="0" BorderBrush="{StaticResource ElementBorderColor}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Foreground="{StaticResource TextColor}" Text="{Binding}"/>

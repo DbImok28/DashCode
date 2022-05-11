@@ -164,28 +164,36 @@ namespace DashCode.Infrastructure.Controls
         public int EditsCount { get; set; } = 0;
         public void ReadAndUpdate(int offset = 0, int len = 0)
         {
+            var mainVM = App.VMService.MainVM;
             var range = new TextRange(editorRTB.Document.ContentStart, editorRTB.Document.ContentEnd);
-            App.VMService.MainVM.Document.SetText(range.Text);
-            Update(offset, len);
+            mainVM.CurrentDocument.UpdateDocumentCommand.Execute(range.Text);
+            ConvertAndSet(mainVM.CurrentDocument.Document);
+            mainVM.OnPropertyChanged("CurrentDocument");
+            try
+            {
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
+            }
+            catch (Exception)
+            {
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
+            }
         }
         public void Update(int offset = 0, int len = 0)
         {
             var mainVM = App.VMService.MainVM;
-            if (mainVM.Document.Formatter != null)
-            {
-                EditsCount = 0;
-                mainVM.Document.ReadAndFormat();
-                ConvertAndSet(mainVM.Document);
-                mainVM.OnPropertyChanged("CurrentDocument");
-                try
-                {
-                    editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
-                }
-                catch (Exception)
-                {
 
-                    editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
-                }
+            EditsCount = 0;
+            //mainVM.Document.ReadAndFormat();
+            mainVM.CurrentDocument.UpdateDocumentCommand.Execute(null);
+            ConvertAndSet(mainVM.CurrentDocument.Document);
+            mainVM.OnPropertyChanged("CurrentDocument");
+            try
+            {
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(offset + len);
+            }
+            catch (Exception)
+            {
+                editorRTB.CaretPosition = editorRTB.Document.ContentStart.GetPositionAtOffset(0);
             }
         }
         public List<Block> ConvertToBlocks(EditorDocument doc)
