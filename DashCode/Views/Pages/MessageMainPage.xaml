@@ -34,6 +34,9 @@
                 <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="EditChatButton_Click">
                     <fa:FontAwesome Icon="EllipsisH" FontSize="16" VerticalAlignment="Center"/>
                 </Button>
+                <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="RefreshButton_Click">
+                    <fa:FontAwesome Icon="Refresh" FontSize="16" VerticalAlignment="Center"/>
+                </Button>
                 <Button Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Center" Click="CreateChatButton_Click">
                     <fa:FontAwesome Icon="Plus" FontSize="16" VerticalAlignment="Center"/>
                 </Button>

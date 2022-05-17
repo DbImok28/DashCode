@@ -1,6 +1,5 @@
 ﻿using DashCode.Models.Document;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DashCode.Models.CSharpProcessing
 {
@@ -33,7 +32,6 @@ namespace DashCode.Models.CSharpProcessing
                 return null;
             }
         }
-
         public override List<string> GetOutputMessages()
         {
             return Parser.OutputLog;

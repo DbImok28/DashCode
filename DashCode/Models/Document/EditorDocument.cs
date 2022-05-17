@@ -9,7 +9,6 @@ namespace DashCode.Models.Document
         public static Dictionary<string, string> DocumentProcessing;
         public static Dictionary<string, DocumentReader> DocumentReaders;
         public static Dictionary<string, DocumentFormatter> DocumentFormatters;
-
         static EditorDocument()
         {
             DocumentProcessing = new Dictionary<string, string>()
@@ -25,7 +24,6 @@ namespace DashCode.Models.Document
                 { "CSharp", new CSharpFormatter() }
             };
         }
-
         public EditorDocument(ProjectFile file)
         {
             if (file == null)
@@ -46,7 +44,6 @@ namespace DashCode.Models.Document
         private FormattedStrings _FormattedDocument;
         public FormattedStrings FormattedDocument { get => _FormattedDocument; protected set { _FormattedDocument = value; OnFormattedDocumentUpdate?.Invoke(this, null); } }
         public List<string> OutputMessages { get; private set; }
-
         public void Open(ProjectFile file)
         {
             File = file;

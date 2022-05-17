@@ -105,26 +105,6 @@ namespace DashCode.Models.CSharpProcessing
                 Invalidate();
                 return ScopeType.None;
             }
-            // none supported
-            //if (scopeType == ScopeType.None)
-            //{
-            //    Invalidate();
-            //    return ScopeType.None;
-            //}
-            //switch (scopeType)
-            //{
-            //    case ScopeType.Event:
-            //        Invalidate("Event none support");
-            //        return ScopeType.None;
-            //    case ScopeType.Property:
-            //        Invalidate("Property none support");
-            //        return ScopeType.None;
-            //    case ScopeType.Method:
-            //        Invalidate("Method none support");
-            //        return ScopeType.None;
-            //    default:
-            //        break;
-            //}
             if (NodeType == NodeType.None)
             {
                 // Before determine

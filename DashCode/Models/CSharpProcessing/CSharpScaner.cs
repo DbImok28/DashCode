@@ -10,12 +10,6 @@ namespace DashCode.Models.CSharpProcessing
     /// </summary>
     public class CSharpScaner : IDocumentScaner
     {
-        /*
-         * [a-zA-Z_]\w* // Name 
-         * [$|@]?\"[\w\s]*\" // strings
-         * [1-9][0-9]* // Number
-         * [1-9]\d*(?:\.\d+)? // Float
-         */
         public List<Token> Scane(string rawDocument)
         {
             List<Token> tokens = new List<Token>();

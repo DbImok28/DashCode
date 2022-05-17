@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,6 +21,7 @@ namespace DashCode.Views.Pages
     /// </summary>
     public partial class MessageMainPage : Page
     {
+        NoConnectionPage _NoConnectionPage = null;
         public MessageMainPage()
         {
             InitializeComponent();
@@ -32,7 +34,26 @@ namespace DashCode.Views.Pages
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            App.VMService.ChatVM.Update();
+            if (App.DBService.IsConnected)
+            {
+                if (_NoConnectionPage != null)
+                {
+                    if (_NoConnectionPage.NavigationService.CanGoBack)
+                    {
+                        _NoConnectionPage.NavigationService.GoBack();
+                    }
+                    _NoConnectionPage = null;
+                }
+                App.VMService.ChatVM.Update();
+            }
+            else
+            {
+                if (_NoConnectionPage == null)
+                {
+                    _NoConnectionPage = new NoConnectionPage();
+                    NavigationService?.Navigate(_NoConnectionPage);
+                }
+            }
         }
 
         private void CreateChatButton_Click(object sender, RoutedEventArgs e)
@@ -43,6 +64,27 @@ namespace DashCode.Views.Pages
         private void EditChatButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri(@"\Views\Pages\EditChatPage.xaml", UriKind.Relative));
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!App.DBService.IsConnected)
+            {
+                var task = Task.Run(
+                    () =>
+                    {
+                        App.DBService.Connect();
+                        if (App.DBService.IsConnected)
+                        {
+                            App.VMService.ChatVM.Update();
+                        }
+                    }
+                );
+            }
+            else
+            {
+                App.VMService.ChatVM.Update();
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Windows;
 using System.Linq;
 using System.Xml;
@@ -17,25 +16,39 @@ namespace DashCode.Infrastructure.Services
     public class DBService
     {
         private SqlConnection Connection;
+        private string ConnectionString;
         public bool IsConnected = false;
+        public bool IsNowConnecting = false;
         public DBService()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
-            Task.Run(() => Connect(connectionString));
-        }
 
+            ConnectionString = ConfigurationManager.ConnectionStrings["DBConnectionString"].ConnectionString;
+            Task.Run(() => Connect(ConnectionString));
+        }
+        public void Connect()
+        {
+            Connect(ConnectionString);
+        }
         public void Connect(string connectionString)
         {
-            Connection = new SqlConnection(connectionString);
-            IsConnected = false;
-            try
+            lock (this)
             {
-                Connection.Open();
-                IsConnected = true;
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show(ex.Message, "DBConnection error");
+                if (!IsNowConnecting)
+                {
+                    IsNowConnecting = true;
+                    Connection = new SqlConnection(connectionString);
+                    IsConnected = false;
+                    try
+                    {
+                        Connection.Open();
+                        IsConnected = true;
+                    }
+                    catch
+                    {
+
+                    }
+                    IsNowConnecting = false;
+                }
             }
         }
         ~DBService()
