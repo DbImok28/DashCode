@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="DashCode.App">
-    <Position X="40.5" Y="14" Width="1.5" />
+    <Position X="19.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAIAAAAAAAAQAAAAAgAAAAAABAAIAAAAAAACAAAAAA=</HashCode>
       <FileName>App.xaml.cs</FileName>
@@ -13,13 +13,13 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Properties.Resources" Collapsed="true">
-    <Position X="49.75" Y="35.5" Width="1.5" />
+    <Position X="28.75" Y="25.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAACAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Commands.BaseCommand">
-    <Position X="47.75" Y="33" Width="1.5" />
+    <Position X="26.75" Y="22.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Commands\BaseCommand.cs</FileName>
@@ -27,14 +27,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DashCode.Infrastructure.Commands.LambdaCommand">
-    <Position X="47.5" Y="35.5" Width="2" />
+    <Position X="26.5" Y="25.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAQCAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Commands\LambdaCommand.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Controls.Explorer" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="49.75" Y="36.75" Width="1.5" />
+    <Position X="28.75" Y="26.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
       <FileName>Infrastructure\Controls\Explorer.xaml.cs</FileName>
@@ -42,14 +42,14 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Infrastructure.Controls.RichTextBoxEx" Collapsed="true">
-    <Position X="51.5" Y="35.5" Width="1.5" />
+    <Position X="30.5" Y="25.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQACACAAAAAAAAAASAAAAAIEAAUAAABSAAAAAEIAQA=</HashCode>
       <FileName>Infrastructure\Controls\RichTextBoxEx.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Controls.TextBoxWithNote" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="49.75" Y="38.75" Width="1.5" />
+    <Position X="28.75" Y="28.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAgAAAAAAAEICAAIAAAACAAQEAAADAAEAAA=</HashCode>
       <FileName>Infrastructure\Controls\TextBoxWithNote.xaml.cs</FileName>
@@ -57,7 +57,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Infrastructure.Controls.TextEditor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="51.5" Y="38.75" Width="1.5" />
+    <Position X="30.5" Y="28.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAACCAAIAAAAYAAEAAAAAAgAAAAAAQQAACIEAAAAA=</HashCode>
       <FileName>Infrastructure\Controls\TextEditor.xaml.cs</FileName>
@@ -65,7 +65,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Infrastructure.Converter.BaseConverter">
-    <Position X="44.75" Y="34" Width="1.5" />
+    <Position X="23.75" Y="23.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Converter\BaseConverter.cs</FileName>
@@ -73,21 +73,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DashCode.Infrastructure.Converter.ImageConverter">
-    <Position X="43.5" Y="36" Width="1.5" />
+    <Position X="22.5" Y="25.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Converter\ImageConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Converter.InverseBoolConverter">
-    <Position X="45.75" Y="36" Width="1.5" />
+    <Position X="24.75" Y="25.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Converter\InvertBool.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Services.AuthenticationService">
-    <Position X="40.5" Y="19" Width="2.5" />
+    <Position X="19.5" Y="8.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAATAgAAQAAAAABAAAAAAIAAABAAUAQAAQBAAEAEI=</HashCode>
       <FileName>Infrastructure\Services\AuthenticationService.cs</FileName>
@@ -101,7 +101,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Infrastructure.Services.AuthenticationServiceLocator">
-    <Position X="37" Y="20.25" Width="2.5" />
+    <Position X="16" Y="10" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAQAAAAAEA=</HashCode>
       <FileName>Infrastructure\Services\AuthenticationServiceLocator.cs</FileName>
@@ -111,14 +111,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Infrastructure.Services.DBService">
-    <Position X="37.25" Y="10.75" Width="2.25" />
+    <Position X="16.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAEgAAIAACEFABCAAAIAAAACBAAAAQCCAQAAAAAA=</HashCode>
+      <HashCode>AABAAEgAAIAACEFABCAAAIAAAACBAAAAQCCAQAAAAAA=</HashCode>
       <FileName>Infrastructure\Services\DBService.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Infrastructure.Services.VMLocator" Collapsed="true">
-    <Position X="39.25" Y="30.75" Width="1.5" />
+    <Position X="18.25" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAIAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Services\VMLocator.cs</FileName>
@@ -130,7 +130,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Infrastructure.Services.VMService">
-    <Position X="42" Y="23.75" Width="1.5" />
+    <Position X="21" Y="13.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAIAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Infrastructure\Services\VMService.cs</FileName>
@@ -142,14 +142,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpFormatter">
-    <Position X="33.25" Y="33" Width="2.25" />
+    <Position X="12.25" Y="22.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpFormatter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpNode" BaseTypeListCollapsed="true">
-    <Position X="23.75" Y="35.25" Width="2.75" />
+    <Position X="2.75" Y="25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>ARACAKEEAACAAAAEEAIAAAQAAgAAABAAAACAAAAJAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpNode.cs</FileName>
@@ -165,14 +165,14 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpParser">
-    <Position X="38.25" Y="41.5" Width="1.5" />
+    <Position X="17.25" Y="31.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpParser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpReader">
-    <Position X="39.25" Y="37" Width="2.25" />
+    <Position X="18.25" Y="26.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAgAIAAAAAAAAAAgAAAAAAgAAAAAACCAAAAAAAAAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpReader.cs</FileName>
@@ -184,7 +184,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpScaner" BaseTypeListCollapsed="true">
-    <Position X="24.75" Y="40.25" Width="2" />
+    <Position X="3.75" Y="30" Width="2" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAAAAAAAgIAAAAAAAAAAAACAAAAAAAAACAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpScaner.cs</FileName>
@@ -195,7 +195,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Models.CSharpProcessing.CSharpToken">
-    <Position X="28" Y="37.25" Width="2.25" />
+    <Position X="7" Y="27" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpTokens.cs</FileName>
@@ -205,35 +205,35 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Models.Document.DefaultFormatter">
-    <Position X="39.75" Y="33.5" Width="1.5" />
+    <Position X="18.75" Y="23.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\DefaultFormatter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Document.DocumentFormatter">
-    <Position X="36.25" Y="33" Width="2.5" />
+    <Position X="15.25" Y="22.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAgABAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\DocumentFormatter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Document.DocumentParser">
-    <Position X="37.75" Y="39.25" Width="2.5" />
+    <Position X="16.75" Y="29" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\DocumentParser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Document.DocumentReader">
-    <Position X="39.5" Y="35.25" Width="1.5" />
+    <Position X="18.5" Y="25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\DocumentReader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Document.EditorDocument">
-    <Position X="34.75" Y="35.25" Width="2.75" />
+    <Position X="13.75" Y="25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>BAAAAIACAAgBIIAgAIAQIIAgAAgEAAAASBAAAAAKAAA=</HashCode>
       <FileName>Models\Document\EditorDocument.cs</FileName>
@@ -247,14 +247,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DashCode.Models.Document.Token">
-    <Position X="28.5" Y="34.75" Width="1.5" />
+    <Position X="7.5" Y="24.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAgAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Models\Document\Token.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Chat">
-    <Position X="44.5" Y="26" Width="2.5" />
+    <Position X="23.5" Y="15.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAQCACAAAAAAAIAEAAAAIAQAABAAAAAAAAAAAQAEAAA=</HashCode>
       <FileName>Models\Chat.cs</FileName>
@@ -265,21 +265,21 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DashCode.Models.FileReader" Collapsed="true">
-    <Position X="51.5" Y="36.75" Width="1.5" />
+    <Position X="30.5" Y="26.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAgAAAAAAAAAAAAAQEAAAAAAAAIAAAAAIA=</HashCode>
       <FileName>Models\FileReader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.FormattedString">
-    <Position X="32.5" Y="40.75" Width="1.75" />
+    <Position X="11.5" Y="30.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIgAAAAAAAAAAAAIAAAAAADAAAAAA=</HashCode>
       <FileName>Models\FormattedString.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.FormattedStrings" BaseTypeListCollapsed="true">
-    <Position X="32.5" Y="38.25" Width="2" />
+    <Position X="11.5" Y="28" Width="2" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAABAAAAAABgAAAAAAAAAEAAAAAAAAACA=</HashCode>
       <FileName>Models\FormattedStrings.cs</FileName>
@@ -290,49 +290,49 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Models.ImageTools" Collapsed="true">
-    <Position X="51.5" Y="34.5" Width="1.5" />
+    <Position X="30.5" Y="24.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAIAAAAAAEAAAAAAAAAEAAAAA=</HashCode>
       <FileName>Models\ImageTools.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.Message">
-    <Position X="32.5" Y="26" Width="1.5" />
+    <Position X="11.5" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAUAAAAAAgAAAAAEAAAAAAEAAAAAAAAAAAAAAAAIAAA=</HashCode>
       <FileName>Models\Message.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.ProjectFile">
-    <Position X="34.75" Y="26" Width="1.5" />
+    <Position X="13.75" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAIAAAgAAAAIEAAAAAAQAAAAEAQAAAAAAgAAAAAA=</HashCode>
       <FileName>Models\ProjectFile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.ProjectFolder">
-    <Position X="37" Y="26" Width="1.5" />
+    <Position X="16" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAIEAAAAAAQAAAAQAAAQAIAAgAAAAIA=</HashCode>
       <FileName>Models\ProjectFolder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.User">
-    <Position X="39.25" Y="26" Width="1.5" />
+    <Position X="18.25" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQCAAAAAAAAAAAEAAAAIAQAAAAAAAAAAAAAAAMEAAA=</HashCode>
       <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Models.UserAccount">
-    <Position X="44.25" Y="18.5" Width="2.25" />
+    <Position X="23.25" Y="8.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAEAAgAAAAAAAAAAAACAAAQAQAABAA=</HashCode>
       <FileName>Models\UserAccount.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.ViewModules.BaseViewModel" Collapsed="true">
-    <Position X="39.5" Y="24.75" Width="1.5" />
+    <Position X="18.5" Y="14.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModules\BaseViewModel.cs</FileName>
@@ -340,7 +340,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DashCode.ViewModules.ChatViewModel">
-    <Position X="41.5" Y="26" Width="2.25" />
+    <Position X="20.5" Y="15.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AQQggUUAIIAAAAQBACAIABAAAACAIAAARAAgAIAAAAA=</HashCode>
       <FileName>ViewModules\ChatViewModel.cs</FileName>
@@ -350,7 +350,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DashCode.ViewModules.FirstViewModel">
-    <Position X="47.75" Y="26" Width="2.5" />
+    <Position X="26.75" Y="15.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AABAACABAIAAAEAAAAAAAAAAAIAAAAMAAAAAAAAABIA=</HashCode>
       <FileName>ViewModules\FirstViewModel.cs</FileName>
@@ -360,14 +360,14 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DashCode.ViewModules.MainViewModel">
-    <Position X="30.25" Y="26" Width="1.5" />
+    <Position X="9.25" Y="15.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAEAEAAAAAAAgAAAIAAAAQAAAADAQAAQAE=</HashCode>
       <FileName>ViewModules\MainViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DashCode.Views.Pages.AutificatedPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="40.5" Y="16.5" Width="1.5" />
+    <Position X="19.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\Pages\AutificatedPage.xaml.cs</FileName>
@@ -375,7 +375,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Views.Pages.CreateChatPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="49.75" Y="33.5" Width="1.5" />
+    <Position X="28.75" Y="23.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Views\Pages\CreateChatPage.xaml.cs</FileName>
@@ -383,7 +383,7 @@
     <Lollipop Orientation="Left" Position="0.1" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Views.Pages.EditChatPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="51.5" Y="33.5" Width="1.5" />
+    <Position X="30.5" Y="23.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Views\Pages\EditChatPage.xaml.cs</FileName>
@@ -391,7 +391,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Views.Pages.LoginPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="43.5" Y="16.5" Width="1.5" />
+    <Position X="22.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\Pages\LoginPage.xaml.cs</FileName>
@@ -399,15 +399,15 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Views.Pages.MessageMainPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="51.5" Y="37.75" Width="1.5" />
+    <Position X="30.5" Y="27.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEQAABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAEQAABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\Pages\MessageMainPage.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DashCode.Views.Pages.RegisterPage" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="37.5" Y="18.5" Width="1.5" />
+    <Position X="16.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\Pages\RegisterPage.xaml.cs</FileName>
@@ -415,7 +415,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.Views.Windows.FirstWindow" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="49.75" Y="34.5" Width="1.5" />
+    <Position X="28.75" Y="24.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAEAAAAAIAAAAAAAIAAAEAAAAAECgAAAAADAAAA=</HashCode>
       <FileName>Views\Windows\FirstWindow.xaml.cs</FileName>
@@ -423,7 +423,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="DashCode.View.Windows.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="49.75" Y="37.75" Width="1.5" />
+    <Position X="28.75" Y="27.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABAAICAAAAAAAAEIgAAAAACAAAA=</HashCode>
       <FileName>Views\Windows\MainWindow.xaml.cs</FileName>
@@ -431,49 +431,49 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Interface Name="DashCode.Models.Document.IConstruction">
-    <Position X="33" Y="35.5" Width="1.5" />
+    <Position X="12" Y="25.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\IConstruction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DashCode.Models.Document.IDocumentScaner">
-    <Position X="40.5" Y="39.25" Width="1.5" />
+    <Position X="19.5" Y="29" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Document\IDocumentScaner.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="DashCode.Infrastructure.Services.AuthenticationState">
-    <Position X="37" Y="16.25" Width="2.5" />
+    <Position X="16" Y="6" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAQAAAEAAA=</HashCode>
       <FileName>Infrastructure\Services\AuthenticationService.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="DashCode.Models.CSharpProcessing.NodeType">
-    <Position X="21.5" Y="35.25" Width="1.5" />
+    <Position X="0.5" Y="25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAACAACAAAAJgAAAAAgAAIAgAAAAAAQEAAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpNode.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="DashCode.Models.CSharpProcessing.AccessModificators">
-    <Position X="24.5" Y="32.75" Width="1.5" />
+    <Position X="3.5" Y="22.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAAIEAAAAAEAAAAAAAAAAACAEAQAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpNode.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="DashCode.Models.CSharpProcessing.ScopeType">
-    <Position X="35" Y="40.5" Width="1.5" />
+    <Position X="14" Y="30.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAACAAAAJgAAAAAgAAIAAAAAAAAQEAAAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpNode.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="DashCode.Models.CSharpProcessing.CSharpTokenType">
-    <Position X="28.25" Y="39.75" Width="1.5" />
+    <Position X="7.25" Y="29.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAACAEAABAAAAQAAAAAABAAAAAAQAEAQAA=</HashCode>
       <FileName>Models\CSharpProcessing\CSharpTokens.cs</FileName>

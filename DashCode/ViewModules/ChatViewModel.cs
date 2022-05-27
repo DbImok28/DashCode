@@ -61,31 +61,45 @@ namespace DashCode.ViewModules
             var chat = App.DBService.CreateChat(App.AuthenticateService.Account, name);
             if (chat != null)
             {
+                if (!Validator.ValidateName(name, out string msg))
+                {
+                    MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 SelectedChat = chat;
                 Chats.Add(chat);
                 Update();
             }
             else
             {
-                MessageBox.Show("Ошибка создания");
+                MessageBox.Show("Creation error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void SendMessage(string msg)
         {
-            if (SelectedChat != null && !App.DBService.SendMessage(App.AuthenticateService.Account, SelectedChat, msg))
+            if (SelectedChat != null)
             {
-                MessageBox.Show("Ошибка отправки сообщения");
-            }
-            else
-            {
-                Update();
-            }
+                if (!Validator.ValidateMSG(msg, out string errMsg))
+                {
+                    MessageBox.Show(errMsg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (!App.DBService.SendMessage(App.AuthenticateService.Account, SelectedChat, msg))
+                {
+                    MessageBox.Show("Message sending error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    Update();
+                }
+
+            }    
         }
         public void DeleteChat()
         {
             if (SelectedChat != null && !App.DBService.DeleteChat(App.AuthenticateService.Account, SelectedChat))
             {
-                MessageBox.Show("Ошибка удаления");
+                MessageBox.Show("Deletion error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -94,20 +108,28 @@ namespace DashCode.ViewModules
         }
         public void RenameChat(string name)
         {
-            if (SelectedChat != null && !App.DBService.RenameChat(App.AuthenticateService.Account, SelectedChat, name))
+            if (SelectedChat != null)
             {
-                MessageBox.Show("Ошибка. Не удалось изменить имя");
-            }
-            else
-            {
-                Update();
+                if (!Validator.ValidateName(name, out string msg))
+                {
+                    MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (!App.DBService.RenameChat(App.AuthenticateService.Account, SelectedChat, name))
+                {
+                    MessageBox.Show("Failed to change name", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    Update();
+                }
             }
         }
         public void AddUserToChat(string userName)
         {
             if (SelectedChat != null && !App.DBService.AddUserToChat(App.AuthenticateService.Account, SelectedChat, userName))
             {
-                MessageBox.Show("Ошибка добавления пользователя");
+                MessageBox.Show("Error adding user", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

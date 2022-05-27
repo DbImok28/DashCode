@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DashCode.Models;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DashCode.Views.Pages
@@ -15,15 +16,20 @@ namespace DashCode.Views.Pages
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text)) return;
+            if (!Validator.ValidateLogin(login.Text, out string msg))
+            {
+                MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (!App.AuthenticateService.TryLogin(login.Text, password.Text))
             {
                 if (App.DBService.IsConnected)
                 {
-                    MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Wrong login or password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    MessageBox.Show("Нет соединения с сервером", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("No connection to server", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

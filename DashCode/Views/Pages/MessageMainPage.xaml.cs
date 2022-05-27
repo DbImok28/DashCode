@@ -29,7 +29,6 @@ namespace DashCode.Views.Pages
             timer.Tick += UpdateTimer_Tick;
             timer.Interval = new TimeSpan(0, 0, 5);
             timer.Start();
-
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)

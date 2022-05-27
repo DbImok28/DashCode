@@ -1,16 +1,6 @@
 ﻿using DashCode.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DashCode.Views.Pages
 {
@@ -27,15 +17,21 @@ namespace DashCode.Views.Pages
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(mail.Text)) return;
+            string msg;
+            if (!Validator.ValidateUserName(login.Text, out msg) || !Validator.ValidateMail(mail.Text, out msg) || !Validator.ValidateRegisterPassword(password.Text, out msg))
+            {
+                MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (!App.AuthenticateService.TryRegister(login.Text, mail.Text, password.Text, photo.Text))
             {
                 if (App.DBService.IsConnected)
                 {
-                    MessageBox.Show("Неверный данные", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Wrong login or password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    MessageBox.Show("Нет соединения с сервером", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("No connection to server", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

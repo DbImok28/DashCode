@@ -13,7 +13,7 @@
         Title="{Binding Title}" Height="720" Width="1080" 
         DataContext="{Binding MainVM, Source={StaticResource vmlocator}}" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" 
-        BorderThickness="3" BorderBrush="{StaticResource ElementBorderColor}" ResizeMode="CanResizeWithGrip">
+        BorderThickness="3" BorderBrush="{StaticResource ElementBorderColor}" ResizeMode="CanResizeWithGrip" Icon="/Resources/icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

@@ -14,7 +14,7 @@
         DataContext="{Binding FirstVM, Source={StaticResource vmlocator}}"
         x:Name="ThisFirsWindow" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" 
-        BorderThickness="1" BorderBrush="{StaticResource ElementBorderColor}">
+        BorderThickness="1" BorderBrush="{StaticResource ElementBorderColor}" Icon="/Resources/icon.png">
     <Grid Background="{StaticResource ElementBackgroundColor}" MouseDown="Title_MouseDown">
         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button Margin="4" Click="Minimize_Button_Click">

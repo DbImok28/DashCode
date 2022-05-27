@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashCode.Models;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,14 +19,18 @@ namespace DashCode.Views.Pages
 
         private void CreateChatButton_Click(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrEmpty(chatName.Text))
+            if (string.IsNullOrEmpty(chatName.Text)) return;
+            string msg;
+            if (!Validator.ValidateName(chatName.Text, out msg))
             {
-                App.VMService.ChatVM.CreateChatCommand.Execute(chatName.Text);
-                //NavigationService.Navigate(new Uri(@"\Views\Pages\MessageMainPage.xaml", UriKind.Relative));
-                if (NavigationService.CanGoBack)
-                {
-                    NavigationService.GoBack();
-                }
+                MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            App.VMService.ChatVM.CreateChatCommand.Execute(chatName.Text);
+
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
             }
         }
 
