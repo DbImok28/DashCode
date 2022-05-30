@@ -133,7 +133,7 @@ namespace DashCode.Models
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                ErrorMessage = "Name should not be empty";
+                ErrorMessage = "Message should not be empty";
                 return false;
             }
             return true;

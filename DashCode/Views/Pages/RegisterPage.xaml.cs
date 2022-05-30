@@ -16,7 +16,22 @@ namespace DashCode.Views.Pages
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text) || string.IsNullOrEmpty(mail.Text)) return;
+            if (string.IsNullOrEmpty(login.Text))
+            {
+                MessageBox.Show("The login field cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(password.Text))
+            {
+                MessageBox.Show("The password field cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(mail.Text))
+            {
+                MessageBox.Show("The mail field cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             string msg;
             if (!Validator.ValidateUserName(login.Text, out msg) || !Validator.ValidateMail(mail.Text, out msg) || !Validator.ValidateRegisterPassword(password.Text, out msg))
             {

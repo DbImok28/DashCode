@@ -15,7 +15,16 @@ namespace DashCode.Views.Pages
         }
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(login.Text) || string.IsNullOrEmpty(password.Text)) return;
+            if (string.IsNullOrEmpty(login.Text))
+            {
+                MessageBox.Show("The login field cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrEmpty(password.Text))
+            {
+                MessageBox.Show("The password field cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (!Validator.ValidateLogin(login.Text, out string msg))
             {
                 MessageBox.Show(msg, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
